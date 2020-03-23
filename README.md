@@ -1,10 +1,26 @@
 # IO2020
+## Wymagania:
+* [MongoDb](https://docs.mongodb.com/manual/installation/)
+* Java 13
+* Node.js
+* (Opcjonalnie) wtyczka `Lombok` do Inetllij [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
 
-Uruchomienie Springa: 
-- otworzyć projekt w IntelliJ
-- utworzyć w projekcie katalog mongo, otworzyć w nim terminal i wpisać   mongod --dbpath=.   (pewnie trzeba będzie coś zainstalować)
-- uruchomić main () w io2020.latwezdanko.Application
-- wejść w przeglądarca na http://localhost:8000/users/all/
-Uruchomienie Reacta: 
-- w folderze front otworzyć terminal i wpisać npm install (musi być zainstalowany Node.js)
-- po pobraniu zależności wpisać npm start i wejść w przeglądarca na localhost:3000
+## Uruchomienie servera: 
+* Z konsoli:
+    * `./gradlew bootRun`
+* Z Intellij:
+    * zakładka gradle po prawej stronie -> `Tasks -> application -> bootRun` 
+
+Server jest dostępny pod adresem: `localhost:8080` (przykładowe zapytanie: `http://localhost:8080/users/all/`).
+
+## Uruchomienie Reacta: 
+### Instalacja:
+* `cd front`
+* `npm install`
+### Uruchomienie:
+* `npm start`
+
+Frontend jest dostępny pod adresem: `localhost:3000`
+
+## Przeglądanie bazy danych
+Dobrym narzędziem jest Robo 3T: [link](https://robomongo.org/download)
