@@ -14,8 +14,8 @@ public class MongoDBConfig {
     CommandLineRunner loadSamples(UsersRepository usersRepository) {
         return args ->
         {
-            usersRepository.save(new User(1, "User 1", "Mail 1"));
-            usersRepository.save(new User(2, "User 2", "Mail 2"));
+            usersRepository.save(new User("User 1", "Mail 1"));
+            usersRepository.save(new User("User 2", "Mail 2"));
         };
     }
 }
