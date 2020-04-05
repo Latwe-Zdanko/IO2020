@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            email: props.email? props.email : '',
-            password: props.password? props.password : '',
+        this.state = {
+            email: props.email ? props.email : '',
+            password: props.password ? props.password : '',
             error: false
         }
         this.login = this.login.bind(this);
@@ -13,15 +13,11 @@ export default class Login extends Component {
     }
 
     handleChange(event) {
-        const target = event.target;
-        if (target.name === "password") {
-            this.setState({password: event.target.value});
-        }else{
-            this.setState({email: event.target.value})
-        }
+        const {name, value} = event.target;
+        this.setState({[name]: value});
     }
 
-    login(event){
+    login(event) {
         alert(this.state.email + "\n"
             + this.state.password
         );
@@ -36,21 +32,23 @@ export default class Login extends Component {
 
                 <div className="form-group">
                     <label>Email address</label>
-                    <input name="email" onChange={this.handleChange} type="email" className="form-control" placeholder="Enter email" />
+                    <input name="email" onChange={this.handleChange} type="email" className="form-control"
+                           placeholder="Enter email"/>
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input name="password" onChange={this.handleChange} type="password" className="form-control" placeholder="Enter password" />
+                    <input name="password" onChange={this.handleChange} type="password" className="form-control"
+                           placeholder="Enter password"/>
                 </div>
 
                 <div className="form-group">
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <input type="checkbox" className="custom-control-input" id="customCheck1"/>
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                    <button className="btn btn-primary btn-block">Submit</button>
+                <button className="btn btn-primary btn-block">Submit</button>
                 <p className="forgot-password text-right">
                     Forgot <a href="#">password?</a>
                 </p>
