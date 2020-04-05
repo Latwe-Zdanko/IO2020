@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 import Login from "./components/login";
 import SignUp from "./components/signup";
+import ViewMockup from "./components/ViewMockup";
+import AddMockup from "./components/AddMockup";
 
 function App() {
     return (<Router>
@@ -31,6 +33,8 @@ function App() {
                             <Route exact path='/' component={Login}/>
                             <Route path="/sign-in" component={Login}/>
                             <Route path="/sign-up" component={SignUp}/>
+                            <Route path="/mockup/add" exact={true} component={AddMockup}/>
+                            <Route path="/mockup/view/:name" component={ViewMockup}/>
                         </Switch>
                     </div>
                 </div>
