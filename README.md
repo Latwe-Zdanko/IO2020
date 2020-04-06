@@ -1,9 +1,9 @@
 # IO2020
 ## Wymagania:
 * [MongoDb](https://docs.mongodb.com/manual/installation/)
-* Java 13
+* Java 11
 * Node.js
-* (Opcjonalnie) wtyczka `Lombok` do Inetllij [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
+* (Opcjonalnie) wtyczka `Lombok` do InetlliJ [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
 
 ## Uruchomienie servera: 
 * Z konsoli:
@@ -12,6 +12,10 @@
     * zakładka gradle po prawej stronie -> `Tasks -> application -> bootRun` 
 
 Server jest dostępny pod adresem: `localhost:8080` (przykładowe zapytanie: `http://localhost:8080/users/all/`).
+
+## Uruchomienie checkstyle:
+* Zainstalować Gradle [link](https://gradle.org)
+* W katalogu projektu: 'gradle check'
 
 ## Uruchomienie Reacta: 
 ### Instalacja:

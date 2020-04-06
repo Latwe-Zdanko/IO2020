@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
-    private UsersRepository usersRepository;
+    private transient UsersRepository usersRepository;
 
     public UsersController(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;

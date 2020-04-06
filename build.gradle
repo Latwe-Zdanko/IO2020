@@ -3,11 +3,12 @@ plugins
   id "org.springframework.boot" version "2.2.5.RELEASE"
   id "io.spring.dependency-management" version "1.0.9.RELEASE"
   id "java"
+  id "pmd"
 }
 
 group = "IO2020"
 version = "1.0.0"
-sourceCompatibility = "13"
+sourceCompatibility = "11"
 
 repositories 
 {
@@ -25,6 +26,13 @@ dependencies
   {
     exclude group: "org.junit.vintage", module: "junit-vintage-engine"
   }
+}
+
+pmd
+{
+  ignoreFailures = false
+  consoleOutput = true
+  ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
 }
 
 test 
