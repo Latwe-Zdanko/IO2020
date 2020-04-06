@@ -12,7 +12,7 @@ function App() {
                 <nav className="navbar navbar-expand-lg navbar-light fixed-top">
                     <div className="container">
                         <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
-                        <div className="collapse navbar-collapse" id="navbar">
+                        <div className="collapse navbar-collapse">
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/sign-in"}>Login</Link>
