@@ -38,7 +38,7 @@ h2 {
     justify-content: center;
     width: 100%;
     min-height: 100%;
-    padding: 150px;
+    padding: 50px;
 }
 
 #formContent {
@@ -195,9 +195,9 @@ input[type=text], input[type=password]:placeholder {
     -moz-animation-fill-mode:forwards;
     animation-fill-mode:forwards;
 
-    -webkit-animation-duration:1s;
-    -moz-animation-duration:1s;
-    animation-duration:1s;
+    -webkit-animation-duration:0.1s;
+    -moz-animation-duration:0.1s;
+    animation-duration:0.1s;
 }
 
 .fadeIn.first {

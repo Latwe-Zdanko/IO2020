@@ -30,13 +30,13 @@ public class AddSurveyController {
             questions.put(i,request.getParameter(String.valueOf(i)));
             i++;
         }
-        surveysRepository.deleteAll();//temporary
-        Survey survey = new Survey(questions);
-        surveysRepository.save(survey);
-
-        List<Survey> surveys = surveysRepository.findAll();
-
-        surveys.forEach(Survey::getQuestions);
+//        surveysRepository.deleteAll();//temporary
+//        Survey survey = new Survey(questions);
+//        surveysRepository.save(survey);
+//
+//        List<Survey> surveys = surveysRepository.findAll();
+//
+//        surveys.forEach(Survey::getQuestions);
 
     }
 
