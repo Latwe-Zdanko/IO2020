@@ -14,8 +14,7 @@
 Server jest dostępny pod adresem: `localhost:8080` (przykładowe zapytanie: `http://localhost:8080/users/all/`).
 
 ## Uruchomienie checkstyle:
-* Zainstalować Gradle [link](https://gradle.org)
-* W katalogu projektu: 'gradle check'
+* W katalogu projektu: `./gradlew check`
 
 ## Uruchomienie Reacta: 
 ### Instalacja:
