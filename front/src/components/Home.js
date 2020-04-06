@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import "../App.css";
-import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {Button} from 'reactstrap';
 import '../styles/survey.css'
-class Home extends Component{
+
+class Home extends Component {
     render() {
-        return(
+        return (
             <div className="wrapper fadeInDown">
                 <div id="formContent">
                     <Link to="/addsurvey">
@@ -13,6 +14,12 @@ class Home extends Component{
                             className="fadeIn homeButton"
                             value="addsurvey"
                         >Add Survey</Button>
+                    </Link>
+                    <Link to="/surveys">
+                        <Button
+                            className="fadeIn homeButton"
+                            value="surveys"
+                        >Surveys</Button>
                     </Link>
                 </div>
             </div>

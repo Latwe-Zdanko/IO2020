@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.util.HashMap;
-
 @Configuration
 @EnableMongoRepositories(basePackageClasses = {UsersRepository.class, SurveysRepository.class})
 public class MongoDBConfig {
@@ -20,7 +18,33 @@ public class MongoDBConfig {
         {
             usersRepository.save(new User("User 1", "Mail 1"));
             usersRepository.save(new User("User 2", "Mail 2"));
-            surveysRepository.save(new Survey("survey1"));
+            String json = "{" +
+                    "questions:[" +
+                    "{" +
+                    "type: \"rating\"," +
+                    "name: \"satisfaction\"," +
+                    "title: \"How satisfied are you with the Product?\"," +
+                    "isRequired: true," +
+                    "mininumRateDescription: \"Not Satisfied\"," +
+                    "maximumRateDescription: \"Completely satisfied\"" +
+                    "}" +
+                    "]}";
+
+            String json2 = "{" +
+                    "questions:[" +
+                    "{" +
+                    "type: \"rating\"," +
+                    "name: \"Happiness\"," +
+                    "title: \"How happy are you?\"," +
+                    "isRequired: true," +
+                    "mininumRateDescription: \"Not Happy\"," +
+                    "maximumRateDescription: \"Completely Happy\"" +
+                    "}" +
+                    "]}";
+            surveysRepository.deleteAll();
+            surveysRepository.save(new Survey("survey1", json));
+            surveysRepository.save(new Survey("survey2", json2));
+
 
         };
     }
