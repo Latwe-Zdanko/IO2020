@@ -27,17 +27,13 @@ function App() {
                     </div>
                 </nav>
 
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <Switch>
-                            <Route exact path='/' component={Login}/>
-                            <Route path="/sign-in" component={Login}/>
-                            <Route path="/sign-up" component={SignUp}/>
-                            <Route path="/mockup/add" exact={true} component={AddMockup}/>
-                            <Route path="/mockup/view/:name" component={ViewMockup}/>
-                        </Switch>
-                    </div>
-                </div>
+                <Switch>
+                    <Route exact path='/' component={Login}/>
+                    <Route path="/sign-in" component={Login}/>
+                    <Route path="/sign-up" component={SignUp}/>
+                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/mockup/view/:name" component={ViewMockup}/>
+                </Switch>
             </div>
         </Router>
     );

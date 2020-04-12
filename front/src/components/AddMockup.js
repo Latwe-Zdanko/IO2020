@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import { Form, Input, Label, Button, FormGroup } from 'reactstrap';
+import {Form, Input, Label, Button, FormGroup} from 'reactstrap';
 import "../App.css";
-import "../styles/home.css"
 
 class AddMockup extends Component {
     constructor(props) {
@@ -25,14 +24,11 @@ class AddMockup extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        console.log(this.state);
-        console.log(this.props);
-        const url = new URL("http://localhost:8080/mockups/add"),
-            params = this.state;
+        const url = new URL("http://localhost:8080/mockups/add");
+        const params = this.state;
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         fetch(url, {method: "POST"})
             .then(r => {
-                console.log(r);
                 if (r.status === 200) {
                     this.handleRedirect();
                 }
@@ -45,28 +41,30 @@ class AddMockup extends Component {
 
     render() {
         return (
-            <div className='wrapper'>
-                <Form onSubmit={this.submitForm}>
-                    <FormGroup>
-                        <Label for="mockupName">Mockup name</Label>
-                        <Input name="mockupName"
-                               type="text"
-                               value={this.state.mockupName}
-                               onChange={this.handleChange}
-                               placeholder="Enter mockup name"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="sourceLink">Link to mockup prototype</Label>
-                        <Input name="sourceLink"
-                               type="text"
-                               value={this.state.sourceLink}
-                               onChange={this.handleChange}
-                               placeholder="Enter link to your mockup"
-                        />
-                    </FormGroup>
-                        <Button>Add Mockup</Button>
-                </Form>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <Form onSubmit={this.submitForm}>
+                        <FormGroup>
+                            <Label for="mockupName">Mockup name</Label>
+                            <Input name="mockupName"
+                                   type="text"
+                                   value={this.state.mockupName}
+                                   onChange={this.handleChange}
+                                   placeholder="Enter mockup name"
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="sourceLink">Link to mockup prototype</Label>
+                            <Input name="sourceLink"
+                                   type="text"
+                                   value={this.state.sourceLink}
+                                   onChange={this.handleChange}
+                                   placeholder="Enter link"
+                            />
+                        </FormGroup>
+                        <Button className="btn btn-primary btn-block">Add Mockup</Button>
+                    </Form>
+                </div>
             </div>
         );
     }
