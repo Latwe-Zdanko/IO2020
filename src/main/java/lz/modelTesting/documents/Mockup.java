@@ -1,46 +1,21 @@
 package lz.modelTesting.documents;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
+@Data
+@RequiredArgsConstructor
 @Document(collection = "mockups")
 public class Mockup {
 
     @Id
     private String id;
+    @NonNull
     private String name;
+    @NonNull
     private String source;
 
-    public Mockup(String name, String source){
-        this.name = name;
-        this.source = source;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +21,7 @@ public class MockupsController {
     private MockupsRepository mockupsRepository;
 
     @GetMapping(value = "/all")
-    public List<Mockup> getAll(){
+    public List<Mockup> getAll() {
         return mockupsRepository.findAll();
     }
 

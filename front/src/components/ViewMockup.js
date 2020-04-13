@@ -32,9 +32,7 @@ class ViewMockup extends Component {
     }
 
     getMockupName() {
-        return this.state.mockup.name;
-    }
-
+        return this.state.mockup.name""
     setFullscreen = () => {
         this.setState({
             isFull: true,
@@ -44,7 +42,7 @@ class ViewMockup extends Component {
         });
     };
 
-    setDefaultSize(){
+    setDefaultSize() {
         this.setState({
             iframeWidth: '110%',
             iframeHeight: window.innerHeight,

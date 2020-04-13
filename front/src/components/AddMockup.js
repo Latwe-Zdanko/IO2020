@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Form, Input, Label, Button, FormGroup} from 'reactstrap';
+import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 
 class AddMockup extends Component {
