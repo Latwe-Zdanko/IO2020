@@ -1,7 +1,8 @@
+[![Build Status](https://travis-ci.com/Latwe-Zdanko/IO2020.svg?branch=master)](https://travis-ci.com/Latwe-Zdanko/IO2020)
 # IO2020
 ## Wymagania:
 * [MongoDb](https://docs.mongodb.com/manual/installation/)
-* Java 11
+* Java 13
 * Node.js
 * (Opcjonalnie) wtyczka `Lombok` do InetlliJ [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
 
