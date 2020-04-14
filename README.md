@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Latwe-Zdanko/IO2020.svg?branch=master)](https://travis-ci.com/Latwe-Zdanko/IO2020)
+[![Build Status](https://travis-ci.com/Latwe-Zdanko/IO2020.svg?branch=develop)](https://travis-ci.com/Latwe-Zdanko/IO2020)
 # IO2020
 ## Wymagania:
 * [MongoDb](https://docs.mongodb.com/manual/installation/)
