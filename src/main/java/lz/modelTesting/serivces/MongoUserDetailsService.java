@@ -1,5 +1,7 @@
 package lz.modelTesting.serivces;
 
+import lombok.Getter;
+import lombok.Setter;
 import lz.modelTesting.documents.User;
 import lz.modelTesting.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,15 @@ import java.util.List;
 
 @Component
 public class MongoUserDetailsService implements UserDetailsService {
+    @Getter
+    @Setter
     @Autowired
     private UsersRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmail(email);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));

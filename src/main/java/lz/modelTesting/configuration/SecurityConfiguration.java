@@ -1,5 +1,7 @@
 package lz.modelTesting.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
 import lz.modelTesting.serivces.MongoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,7 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableConfigurationProperties
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+    @Getter
+    @Setter
     @Autowired
     MongoUserDetailsService userDetailsService;
 
@@ -31,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

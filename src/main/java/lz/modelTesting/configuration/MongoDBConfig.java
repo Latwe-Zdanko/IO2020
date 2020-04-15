@@ -14,6 +14,7 @@ public class MongoDBConfig {
     CommandLineRunner loadSamples(UsersRepository usersRepository) {
         return args ->
         {
+            // passwords are encrypted by BCrypt
             // password: passuser1
             usersRepository.save(new User("User 1", "u1@mail.pl", "$2y$12$CvynPUYvZqt4p3aiuGaGduG5RU5rIsKDJ2BbcYk7d1nTDAZGP2Woe"));
             // password: passuser2
