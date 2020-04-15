@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import AuthenticationService from '../service/AuthenticationService.js';
 
 export default class Login extends Component {
     constructor(props) {
@@ -18,11 +19,18 @@ export default class Login extends Component {
     }
 
     login(event) {
-        alert(this.state.email + "\n"
-            + this.state.password
-        );
-
+        console.log("Trying to log in: " + this.state.email + " : " + this.state.password);
         event.preventDefault();
+        AuthenticationService
+            .executeAuthenticationService(this.state.email, this.state.password)
+            .then(() => {
+                AuthenticationService.registerSuccessfulLogin(this.state.email, this.state.password);
+                alert("Successfully logged in")
+            }).catch(() => {
+                this.setState({ error: true });
+                alert("Something went wrong")
+        });
+
     }
 
     render() {
@@ -32,7 +40,7 @@ export default class Login extends Component {
 
                 <div className="form-group">
                     <label>Email address</label>
-                    <input name="email" onChange={this.handleChange} type="email" className="form-control"
+                    <input name="email" onChange={this.handleChange}  className="form-control"
                            placeholder="Enter email"/>
                 </div>
 
@@ -56,3 +64,4 @@ export default class Login extends Component {
         );
     }
 }
+
