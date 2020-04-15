@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import AuthenticationService from '../service/AuthenticationService.js';
+import {Redirect} from "react-router-dom"
 
 export default class Login extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ export default class Login extends Component {
             email: props.email ? props.email : '',
             password: props.password ? props.password : '',
             error: false
-        }
+        };
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -19,28 +20,30 @@ export default class Login extends Component {
     }
 
     login(event) {
-        console.log("Trying to log in: " + this.state.email + " : " + this.state.password);
         event.preventDefault();
         AuthenticationService
             .executeAuthenticationService(this.state.email, this.state.password)
             .then(() => {
-               AuthenticationService.registerSuccessfulLogin(this.state.email, this.state.password);
-               alert("Successfully logged in")
-            }).catch(() => {
-                this.setState({ error: true });
+                AuthenticationService.registerSuccessfulLogin(this.state.email, this.state.password);
+                this.props.history.push("/");
+            })
+            .catch(() => {
+                this.setState({error: true});
                 alert("Something went wrong")
-        });
+            });
 
     }
 
     render() {
+        if (AuthenticationService.isUserLoggedIn()) {
+            return <Redirect to={"/"}/>
+        }
         return (
             <form onSubmit={this.login}>
                 <h3>Sign In</h3>
-
                 <div className="form-group">
                     <label>Email address</label>
-                    <input name="email" onChange={this.handleChange}  className="form-control"
+                    <input name="email" onChange={this.handleChange} className="form-control"
                            placeholder="Enter email"/>
                 </div>
 

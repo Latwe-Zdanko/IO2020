@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import AuthenticationService from "../service/AuthenticationService";
+import {Redirect} from "react-router-dom";
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -8,7 +10,7 @@ export default class SignUp extends Component {
             lastName: '',
             email: '',
             password: ''
-        }
+        };
         this.signUp = this.signUp.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -29,6 +31,9 @@ export default class SignUp extends Component {
     }
 
     render() {
+        if (AuthenticationService.isUserLoggedIn()) {
+            return <Redirect to={"/"}/>
+        }
         return (
             <form onSubmit={this.signUp}>
                 <h3>Sign Up</h3>
