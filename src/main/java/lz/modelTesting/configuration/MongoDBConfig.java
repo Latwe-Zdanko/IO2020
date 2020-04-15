@@ -14,8 +14,10 @@ public class MongoDBConfig {
     CommandLineRunner loadSamples(UsersRepository usersRepository) {
         return args ->
         {
-            usersRepository.save(new User("User 1", "Mail 1"));
-            usersRepository.save(new User("User 2", "Mail 2"));
+            // password: passuser1
+            usersRepository.save(new User("User 1", "u1@mail.pl", "$2y$12$CvynPUYvZqt4p3aiuGaGduG5RU5rIsKDJ2BbcYk7d1nTDAZGP2Woe"));
+            // password: passuser2
+            usersRepository.save(new User("User 2", "u2@mail.pl", "$2y$12$xswpjLRaupJE8y4CHHIbjeba9BvlV.VLfut8q1Gqj5U2JDHgjNmuG"));
         };
     }
 }

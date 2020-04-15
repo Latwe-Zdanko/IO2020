@@ -12,10 +12,12 @@ public class User {
     @Id
     private String id;
     private String name;
+    private String password;
     private String email;
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 }
