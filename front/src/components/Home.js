@@ -8,7 +8,7 @@ class Home extends Component {
     render() {
         return (
             <div className="wrapper">
-                <div id="">
+                <div>
                     <Link to="/surveys/addsurvey">
                         <Button
                             className="homeButton"

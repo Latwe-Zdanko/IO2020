@@ -5,6 +5,10 @@ import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Login from "./components/login";
 import SignUp from "./components/signup";
+import Home from "./components/Home";
+import Surveys from "./components/Surveys";
+import NewSurvey from "./components/NewSurvey";
+import Survey from "./components/Survey";
 
 function App() {
     return (<Router>
@@ -25,12 +29,15 @@ function App() {
                     </div>
                 </nav>
 
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
+                <div>
+                    <div>
                         <Switch>
-                            <Route exact path='/' component={Login}/>
+                            <Route exact path='/' component={Home}/>
                             <Route path="/sign-in" component={Login}/>
                             <Route path="/sign-up" component={SignUp}/>
+                            <Route exact path="/surveys" component={Surveys}/>
+                            <Route exact path="/surveys/addsurvey" component={NewSurvey}/>
+                            <Route exact path="/surveys/:id" component={Survey}/>
                         </Switch>
                     </div>
                 </div>
