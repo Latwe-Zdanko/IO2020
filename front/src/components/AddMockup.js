@@ -7,36 +7,35 @@ class AddMockup extends Component {
         super(props);
         this.state = {
             mockupName: "",
-            sourceLink: ""
-        }
+            sourceLink: "",
+            serverUrl: "http://localhost:8080"
+        };
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+        const {name, value} = event.target;
+        this.setState({[name]: value});
     }
 
     submitForm = (e) => {
         e.preventDefault();
-        const url = new URL("http://localhost:8080/mockups/add");
+        const url = new URL(this.state.serverUrl + "/mockups/add");
         const params = this.state;
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         fetch(url, {method: "POST"})
             .then(r => {
                 if (r.status === 200) {
-                    this.handleRedirect();
+                    r.body.getReader().read().then(val => {
+                        const id = new TextDecoder("utf-8").decode(val.value);
+                        this.handleRedirect(id);
+                    });
                 }
             });
-    }
+    };
 
-    handleRedirect() {
-        window.location.href = 'http://localhost:3000/mockup/view/' + this.state.mockupName;
+    handleRedirect(id) {
+        window.location.href = '/mockup/view/' + id;
     }
 
     render() {
