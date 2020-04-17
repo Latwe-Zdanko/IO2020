@@ -1,33 +1,40 @@
-plugins 
-{
-  id "org.springframework.boot" version "2.2.5.RELEASE"
-  id "io.spring.dependency-management" version "1.0.9.RELEASE"
-  id "java"
+plugins {
+    id "org.springframework.boot" version "2.2.6.RELEASE"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "java"
+    id "pmd"
 }
 
 group = "IO2020"
 version = "1.0.0"
 sourceCompatibility = "13"
 
-repositories 
-{
-  mavenCentral ()
+repositories {
+    mavenCentral()
 }
 
-dependencies 
-{
-  compileOnly "org.projectlombok:lombok"
-  annotationProcessor "org.projectlombok:lombok"
-  implementation "org.springframework.boot:spring-boot-starter-web"
-  implementation "org.springframework.boot:spring-boot-starter-data-mongodb"
+def springBootVersion = "2.2.6.RELEASE"
+def lombokVersion = "1.18.12"
 
-  testImplementation ("org.springframework.boot:spring-boot-starter-test") 
-  {
-    exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-  }
+dependencies {
+    compile 'org.json:json:20171018'
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion"
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
 }
 
-test 
-{
-  useJUnitPlatform ()
+pmd {
+    ignoreFailures = false
+    consoleOutput = true
+    ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
+}
+
+test {
+    useJUnitPlatform()
 }

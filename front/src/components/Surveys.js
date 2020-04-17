@@ -35,13 +35,10 @@ class Surveys extends Component {
 
         if (!surveys.length) return;
 
-        return surveys.map((survey, index) => (
-            <div key={index}>
-                <li>
-                    <a href={"/surveys/"+survey.id}>{survey.name}</a>
-                </li>
-            </div>
-        ))
+        return (
+            surveys.map((survey) => (
+                <a className="list-group-item" href={"/surveys/" + survey.id}>{survey.name}</a>
+            )))
     };
 
     render() {
@@ -49,11 +46,11 @@ class Surveys extends Component {
         console.log(this.state.surveys);
 
         return (
-            <div className="wrapper fadeInDown">
-                <div className="surveys">
-                    <ul>
-                        {this.displaySurveys(this.state.surveys)}
-                    </ul>
+            <div className="container">
+                <h1>Surveys</h1>
+                <br/>
+                <div className="list-group">
+                    {this.displaySurveys(this.state.surveys)}
                 </div>
             </div>
         );

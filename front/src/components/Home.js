@@ -7,18 +7,16 @@ import '../styles/survey.css'
 class Home extends Component {
     render() {
         return (
-            <div className="wrapper fadeInDown">
-                <div id="formContent">
-                    <Link to="/addsurvey">
+            <div className="wrapper">
+                <div id="">
+                    <Link to="/surveys/addsurvey">
                         <Button
-                            className="fadeIn homeButton"
-                            value="addsurvey"
+                            className="homeButton"
                         >Add Survey</Button>
                     </Link>
                     <Link to="/surveys">
                         <Button
-                            className="fadeIn homeButton"
-                            value="surveys"
+                            className="homeButton"
                         >Surveys</Button>
                     </Link>
                 </div>

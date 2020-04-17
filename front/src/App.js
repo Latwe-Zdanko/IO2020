@@ -1,24 +1,42 @@
-import React, {Component} from "react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
-import "./App.css";
-import Home from "./components/Home"
-import NewSurvey from "./components/NewSurvey";
-import Surveys from "./components/Surveys";
-import Survey from "./components/Survey";
+import React from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
-class App extends Component {
-    render() {
-        return (
-            <Router>
-                <Switch>
-                    <Route path="/" exact={true} component={Home}/>
-                    <Route path="/addsurvey" exact={true} component={NewSurvey}/>
-                    <Route path="/surveys/" exact={true} component={Surveys}/>
-                    <Route path="/surveys/:id" exact={true} component={Survey}/>
-                </Switch>
-            </Router>
-        )
-    }
+import Login from "./components/login";
+import SignUp from "./components/signup";
+
+function App() {
+    return (<Router>
+            <div className="App">
+                <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+                    <div className="container">
+                        <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/sign-in"}>Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div className="auth-wrapper">
+                    <div className="auth-inner">
+                        <Switch>
+                            <Route exact path='/' component={Login}/>
+                            <Route path="/sign-in" component={Login}/>
+                            <Route path="/sign-up" component={SignUp}/>
+                        </Switch>
+                    </div>
+                </div>
+            </div>
+        </Router>
+    );
 }
 
 export default App;

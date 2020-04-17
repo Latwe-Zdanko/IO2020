@@ -12,6 +12,7 @@ class NewSurvey extends Component {
 
         this.state = {
             msg: "halo",
+            surveyName: "survey3",
             current_survey: {
                 questions: [
                     {
@@ -119,10 +120,6 @@ class NewSurvey extends Component {
         })
     };
 
-    save = () => {
-
-    };
-
     componentDidMount() {
         this.getSurveys();
     }
@@ -132,16 +129,26 @@ class NewSurvey extends Component {
         axios.get('http://localhost:8080/surveys/all')
             .then((response) => {
                 const data = response.data;
-                // this.state.current_survey = data;
             })
             .catch(() => {
                 console.log("Error");
             });
     };
 
-    addSurvey = () => {
+    addSurvey = (event) => {
+        event.preventDefault();
 
-    }
+        axios.post('http://localhost:8080/surveys/addsurvey', {
+            name: this.state.surveyName,
+            body: this.state.current_survey
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     addMatrix = () => {
 
         var currSurvey = this.state.current_survey;
@@ -191,16 +198,7 @@ class NewSurvey extends Component {
     };
 
     render() {
-
-        var temporaryQuestion = !this.state.isCompleted ? (
-            <Survey.Survey
-                json={this.state.tmpQuestion}
-                showCompletedPage={true}
-                onComplete={this.onCompleteComponenet}
-            />
-        ) : null
-        console.log(this.state.current_survey, this.state.tmpQuestion)
-        var surveyRender = !this.state.isCompleted ? (
+        const surveyRender = !this.state.isCompleted ? (
             <Survey.Survey
                 json={this.state.current_survey}
                 showCompletedPage={false}
@@ -208,7 +206,7 @@ class NewSurvey extends Component {
             />
         ) : null;
 
-        var onSurveyCompletion = this.state.isCompleted ? (
+        const onSurveyCompletion = this.state.isCompleted ? (
             <div>
                 Thanks
             </div>
@@ -216,8 +214,10 @@ class NewSurvey extends Component {
 
         return (
 
-            <div className="wrapper fadeInDown">
+            <div className="wrapper">
                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addSurvey}>ADD SURVEY
+                    </button>
                     <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addMatrix}>ADD
                         MATRIX
                     </button>
@@ -229,7 +229,6 @@ class NewSurvey extends Component {
                 </div>
                 <br></br>
                 <div>
-                    {temporaryQuestion}
                     {surveyRender}
                     {onSurveyCompletion}
                 </div>

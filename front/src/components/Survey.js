@@ -12,42 +12,27 @@ class Surveys extends Component {
         super(props);
 
         this.state = {
-            survey: {questions:{}}
-        }
+            id: "",
+            survey: {questions: {}}
+        };
     }
 
     componentDidMount() {
         this.getSurveys();
     }
 
-    onCompleteComponenet = () => {
-        this.setState({
-            isCompleted: true
-        })
-    };
-
     getSurveys = () => {
 
         axios.get('http://localhost:8080/surveys/all')
             .then((response) => {
                 const data = response.data;
-                const { id } = this.props.match.params;
+                const {id} = this.props.match.params;
                 fetch(`http://localhost:3000/surveys/${id}`)
                     .then(() => {
-                        data.map((surv)=>{
-                            if (surv.id === id){
-
-                                // var survey = JSON.parse(surv.body);
-                                var json ={questions:[ {
-                                    type: "rating",
-                                    name: "satisfaction",
-                                    title: "How satisfied are you with the Product?",
-                                    isRequired: true,
-                                    mininumRateDescription: "Not Satisfied",
-                                    maximumRateDescription: "Completely satisfied"
-                                }]};
-
-                                this.setState( {survey:json})
+                        data.map((surv) => {
+                            if (surv.id === id) {
+                                const survey = JSON.parse(surv.body);
+                                this.setState({id: surv.id, survey: survey})
                             }
                         })
                     })
@@ -58,25 +43,31 @@ class Surveys extends Component {
             });
     };
 
-    displaySurvey = (survey) => {
-
-        return (
-            <Survey.Survey
-                json={survey}
-                showCompletedPage={false}
-                onComplete={this.onCompleteComponenet}
-            />
-        )
-    };
-
     render() {
 
-        console.log(this.state.survey);
+        const survey = new Survey.Model(this.state.survey);
+        const surveyId = this.state.id;
+
+        survey.onComplete.add(function (results) {
+            axios.post('http://localhost:8080/surveys/addanswers', {
+                id: surveyId,
+                answers: results.data
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+        survey.showCompletedPage = true;
 
         return (
-            <div className="wrapper fadeInDown">
+            <div className="wrapper">
                 <div className="surveys">
-                    {this.displaySurvey(this.state.survey)}
+                    <Survey.Survey
+                        model={survey}
+                    />
                 </div>
             </div>
         );
