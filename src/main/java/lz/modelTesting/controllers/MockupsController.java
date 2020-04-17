@@ -1,5 +1,6 @@
 package lz.modelTesting.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lz.modelTesting.documents.Mockup;
 import lz.modelTesting.repositories.MockupsRepository;
@@ -8,9 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/mockups")
@@ -19,8 +19,8 @@ public class MockupsController {
 
     private transient MockupsRepository mockupsRepository;
     private transient ObjectMapper objectMapper;
-    private final static String mockupName = "mockupName";
-    private final static String mockupSource = "sourceLink";
+    private final static String MOCKUP_NAME = "mockupName";
+    private final static String SOURCE_LINK = "sourceLink";
 
     @Autowired
     public MockupsController(MockupsRepository mockupsRepository, ObjectMapper objectMapper) {
@@ -36,28 +36,40 @@ public class MockupsController {
     @GetMapping(value = "/id/{id}")
     public ResponseEntity<String> getById(@PathVariable String id) {
         try {
-            Mockup mockup = mockupsRepository.findById(id).get();
-            String mockupAsString = objectMapper.writeValueAsString(mockup);
+            Optional<Mockup> mockup = mockupsRepository.findById(id);
 
-            return ResponseEntity.ok().body(mockupAsString);
+            return mockup.map(this::wrapMockupToString)
+                    .orElseThrow()
+                    .map(mockupString -> ResponseEntity.ok().body(mockupString))
+                    .orElse(ResponseEntity.notFound().build());
 
-        } catch (NoSuchElementException ex) {
-            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
 
+    private Optional<String> wrapMockupToString(Mockup mockup) {
+        try {
+            return Optional.of(objectMapper.writeValueAsString(mockup));
+        } catch (JsonProcessingException e) {
+            return Optional.empty();
+        }
+    }
+
 
     @PostMapping(value = "/add")
-    public ResponseEntity<String> addMockup(HttpServletRequest request) throws IOException {
-        String name = request.getParameter(mockupName);
-        String src = request.getParameter(mockupSource);
+    public ResponseEntity<String> addMockup(HttpServletRequest request) {
+        Mockup mockup = createMockupFromRequest(request);
+        String id = mockup.getId();
+        return ResponseEntity.ok().body(id);
+    }
+
+    private Mockup createMockupFromRequest(HttpServletRequest request) {
+        String name = request.getParameter(MOCKUP_NAME);
+        String src = request.getParameter(SOURCE_LINK);
         Mockup mockup = new Mockup(name, src);
         mockupsRepository.save(mockup);
-        String id = mockup.getId();
-
-        return ResponseEntity.ok().body(id);
+        return mockup;
     }
 
 }
