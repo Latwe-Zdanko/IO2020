@@ -17,8 +17,8 @@ import java.util.NoSuchElementException;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MockupsController {
 
-    private final MockupsRepository mockupsRepository;
-    private final ObjectMapper objectMapper;
+    private transient MockupsRepository mockupsRepository;
+    private transient ObjectMapper objectMapper;
     private final static String mockupName = "mockupName";
     private final static String mockupSource = "sourceLink";
 
