@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/surveys")
 public class SurveysController {
 
-    private SurveysRepository surveysRepository;
+    private transient SurveysRepository surveysRepository;
 
     public SurveysController(SurveysRepository surveysRepository) {
         this.surveysRepository = surveysRepository;
