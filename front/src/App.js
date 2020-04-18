@@ -1,10 +1,12 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Login from "./components/login";
 import SignUp from "./components/signup";
+import ViewMockup from "./components/ViewMockup";
+import AddMockup from "./components/AddMockup";
 
 function App() {
     return (<Router>
@@ -25,15 +27,13 @@ function App() {
                     </div>
                 </nav>
 
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <Switch>
-                            <Route exact path='/' component={Login}/>
-                            <Route path="/sign-in" component={Login}/>
-                            <Route path="/sign-up" component={SignUp}/>
-                        </Switch>
-                    </div>
-                </div>
+                <Switch>
+                    <Route exact path='/' component={Login}/>
+                    <Route path="/sign-in" component={Login}/>
+                    <Route path="/sign-up" component={SignUp}/>
+                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/mockup/view/:id" component={ViewMockup}/>
+                </Switch>
             </div>
         </Router>
     );
