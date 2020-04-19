@@ -7,6 +7,7 @@ import Login from "./components/login";
 import SignUp from "./components/signup";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
+import Mockups from "./components/Mockups";
 
 function App() {
     return (<Router>
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/mockup/add" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/mockup" component={Mockups}/>
                 </Switch>
             </div>
         </Router>
