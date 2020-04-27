@@ -53,8 +53,6 @@ public class SurveysController {
         Survey survey = new Survey(name, body);
 
         if (surveysRepository.findByName(name).isEmpty()) surveysRepository.save(survey);
-        ;
-        surveysRepository.save(survey);
     }
 
     @PostMapping(value = "/addResponse", consumes = MediaType.APPLICATION_JSON_VALUE)
