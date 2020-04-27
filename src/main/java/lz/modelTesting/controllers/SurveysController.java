@@ -52,7 +52,9 @@ public class SurveysController {
         String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body);
 
-        if (surveysRepository.findByName(name).isEmpty()) surveysRepository.save(survey);
+        Optional<Survey> exists = surveysRepository.findByName(name);
+        if (exists.isEmpty()) surveysRepository.save(survey);
+
     }
 
     @PostMapping(value = "/addResponse", consumes = MediaType.APPLICATION_JSON_VALUE)
