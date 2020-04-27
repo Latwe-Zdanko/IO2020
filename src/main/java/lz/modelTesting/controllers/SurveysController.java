@@ -21,6 +21,8 @@ public class SurveysController {
     private static final String ANSWERS = "answers";
     private static final String TEMPLATE = "template";
 
+    private static Boolean template = true;
+
     private transient SurveysRepository surveysRepository;
 
     public SurveysController(SurveysRepository surveysRepository) {
@@ -52,7 +54,10 @@ public class SurveysController {
         String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body);
 
-        surveysRepository.save(survey);
+        if (!name.equals("template") || template) {
+            template = false;
+            surveysRepository.save(survey);
+        }
 
     }
 
