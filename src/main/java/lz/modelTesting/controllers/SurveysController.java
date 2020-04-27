@@ -52,8 +52,7 @@ public class SurveysController {
         String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body);
 
-        Optional<Survey> exists = surveysRepository.findByName(name);
-        if (exists.isEmpty()) surveysRepository.save(survey);
+        surveysRepository.save(survey);
 
     }
 
