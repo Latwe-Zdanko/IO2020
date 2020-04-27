@@ -4,14 +4,15 @@ import '../styles/survey.css';
 import "survey-react/survey.css";
 import axios from 'axios';
 
-
 class Surveys extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            surveys: []
+            surveys: [],
+            frontUrl: "http://localhost:3000",
+            serverUrl: "http://localhost:8080"
         }
     }
 
@@ -21,7 +22,7 @@ class Surveys extends Component {
 
     getSurveys = () => {
 
-        axios.get('http://localhost:8080/surveys/all')
+        axios.get(this.state.serverUrl + '/surveys/all')
             .then((response) => {
                 const data = response.data;
                 this.setState({surveys: data});
@@ -37,7 +38,7 @@ class Surveys extends Component {
 
         return (
             surveys.map((survey) => (
-                <a className="list-group-item" href={"/surveys/" + survey.id}>{survey.name}</a>
+                <a className="list-group-item" href={"/surveys/" + survey.id + "/addResponse"}>{survey.name}</a>
             )))
     };
 

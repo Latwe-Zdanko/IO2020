@@ -5,12 +5,13 @@ import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
 import Login from "./components/login";
 import SignUp from "./components/signup";
-import Home from "./components/Home";
-import Surveys from "./components/Surveys";
-import NewSurvey from "./components/NewSurvey";
-import Survey from "./components/Survey";
+import Home from "./components/home";
+import Surveys from "./components/surveys";
+import AddSurvey from "./components/addSurvey";
+import Survey from "./components/addResponse";
 
 function App() {
+
     return (<Router>
             <div className="App">
                 <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -28,16 +29,15 @@ function App() {
                         </div>
                     </div>
                 </nav>
-
                 <div>
                     <div>
                         <Switch>
                             <Route exact path='/' component={Home}/>
+                            <Route exact path="/surveys/" component={Surveys}/>
+                            <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
+                            <Route exact path="/surveys/:id/addResponse" component={Survey}/>
                             <Route path="/sign-in" component={Login}/>
                             <Route path="/sign-up" component={SignUp}/>
-                            <Route exact path="/surveys" component={Surveys}/>
-                            <Route exact path="/surveys/addsurvey" component={NewSurvey}/>
-                            <Route exact path="/surveys/:id" component={Survey}/>
                         </Switch>
                     </div>
                 </div>

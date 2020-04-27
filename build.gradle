@@ -17,7 +17,7 @@ def springBootVersion = "2.2.6.RELEASE"
 def lombokVersion = "1.18.12"
 
 dependencies {
-    compile 'org.json:json:20171018'
+    compile 'org.json:json:20190722'
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 

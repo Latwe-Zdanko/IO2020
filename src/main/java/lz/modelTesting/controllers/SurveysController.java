@@ -14,6 +14,13 @@ import java.util.Optional;
 @RequestMapping("/surveys")
 public class SurveysController {
 
+
+    private static final String NAME = "name";
+    private static final String BODY = "body";
+    private static final String ID = "id";
+    private static final String ANSWERS = "answers";
+    private static final String TEMPLATE = "template";
+
     private transient SurveysRepository surveysRepository;
 
     public SurveysController(SurveysRepository surveysRepository) {
@@ -25,21 +32,35 @@ public class SurveysController {
         return surveysRepository.findAll();
     }
 
-    @RequestMapping(value = "/addsurvey", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
+    public Survey getSurvey(@PathVariable String id) {
+        Optional<Survey> survey = surveysRepository.findByName(id);
+        return survey.orElse(null);
+    }
+
+    @GetMapping("/getTemplate")
+    public Survey getSurveyTemplate() {
+        Optional<Survey> survey = surveysRepository.findByName(TEMPLATE);
+        return survey.orElse(null);
+    }
+
+    @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addSurvey(@RequestBody String postPayload) {
 
         JSONObject jsonObject = new JSONObject(postPayload);
-        String name = jsonObject.getString("name");
-        String body = jsonObject.getJSONObject("body").toString();
+        String name = jsonObject.getString(NAME);
+        String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body);
+
+        if (surveysRepository.findByName(name).isPresent()) return;
         surveysRepository.save(survey);
     }
 
-    @RequestMapping(value = "/addanswers", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/addResponse", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addAnswersToSurvey(@RequestBody String postPayload) {
         JSONObject jsonObject = new JSONObject(postPayload);
-        String id = jsonObject.getString("id");
-        String answers = jsonObject.getJSONObject("answers").toString();
+        String id = jsonObject.getString(ID);
+        String answers = jsonObject.getJSONObject(ANSWERS).toString();
         Optional<Survey> survey = surveysRepository.findById(id);
         survey.ifPresent(survey1 -> {
                     survey1.addAnswers(answers);

@@ -5,11 +5,12 @@ import {Button} from 'reactstrap';
 import '../styles/survey.css'
 
 class Home extends Component {
+
     render() {
         return (
             <div className="wrapper">
                 <div>
-                    <Link to="/surveys/addsurvey">
+                    <Link to="/surveys/addSurvey">
                         <Button
                             className="homeButton"
                         >Add Survey</Button>
