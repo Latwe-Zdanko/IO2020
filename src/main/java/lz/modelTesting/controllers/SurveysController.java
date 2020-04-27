@@ -46,6 +46,19 @@ public class SurveysController {
         return survey.orElse(null);
     }
 
+    @PostMapping(value = "/addTemplate", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void addTemplate(@RequestBody String postPayload) {
+
+        if (template) {
+            JSONObject jsonObject = new JSONObject(postPayload);
+            String name = jsonObject.getString(NAME);
+            String body = jsonObject.getJSONObject(BODY).toString();
+            Survey survey = new Survey(name, body);
+            surveysRepository.save(survey);
+        }
+        template = false;
+    }
+
     @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addSurvey(@RequestBody String postPayload) {
 
@@ -54,10 +67,7 @@ public class SurveysController {
         String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body);
 
-        if (!name.equals("template") || template) {
-            template = false;
-            surveysRepository.save(survey);
-        }
+        surveysRepository.save(survey);
 
     }
 
