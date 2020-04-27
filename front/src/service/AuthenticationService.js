@@ -4,10 +4,17 @@ const API_URL = 'http://localhost:8080';
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser';
 
 class AuthenticationService {
-
     executeAuthenticationService(username, password) {
-        return axios.get(`${API_URL}/auth`,
-            {headers: {authorization: this.createBasicAuthToken(username, password)}});
+        return axios.get(`${API_URL}/auth`, {headers: {authorization: this.createBasicAuthToken(username, password)}});
+
+    }
+
+    handleLoginError(error) {
+        if (error.response.status === 401) {
+            alert("Invalid email or password");
+        } else {
+            alert("Something went wrong, try again later");
+        }
     }
 
     createBasicAuthToken(username, password) {
@@ -17,10 +24,9 @@ class AuthenticationService {
     registerSuccessfulLogin(username, password) {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username);
         this.setupAxiosInterceptors(this.createBasicAuthToken(username, password));
+        document.getElementById("logout").hidden = false;
         document.getElementById("sign-in").hidden = true;
-        let loginLink = document.getElementById("login");
-        loginLink.innerHTML = "Log Out";
-        loginLink.addEventListener("click", this.logout)
+        document.getElementById("login").hidden = true;
     }
 
     isUserLoggedIn() {
@@ -29,11 +35,10 @@ class AuthenticationService {
     }
 
     logout() {
-        let loginLink = document.getElementById("login");
-        loginLink.innerHTML = "Log in";
-        loginLink.removeEventListener("click", this.logout);
-        document.getElementById("sign-in").hidden = false;
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        document.getElementById("logout").hidden = true;
+        document.getElementById("sign-in").hidden = false;
+        document.getElementById("login").hidden = false;
     }
 
     setupAxiosInterceptors(token) {
@@ -46,6 +51,8 @@ class AuthenticationService {
             }
         )
     }
+
 }
+
 
 export default new AuthenticationService()

@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Optional;
+
 @Configuration
 @EnableMongoRepositories(basePackageClasses = UsersRepository.class)
 public class MongoDBConfig {
@@ -14,11 +16,17 @@ public class MongoDBConfig {
     CommandLineRunner loadSamples(UsersRepository usersRepository) {
         return args ->
         {
-            // passwords are encrypted by BCrypt
-            // password: passuser1
-            usersRepository.save(new User("User 1", "u1@mail.pl", "$2y$12$CvynPUYvZqt4p3aiuGaGduG5RU5rIsKDJ2BbcYk7d1nTDAZGP2Woe"));
-            // password: passuser2
-            usersRepository.save(new User("User 2", "u2@mail.pl", "$2y$12$xswpjLRaupJE8y4CHHIbjeba9BvlV.VLfut8q1Gqj5U2JDHgjNmuG"));
+//          passwords are encrypted by BCrypt
+            Optional<User> userOptional = usersRepository.findByEmail("u1@mail.pl");
+            if (userOptional.isEmpty()) {
+                // password: passuser1
+                usersRepository.save(new User("u1", "u1@mail.pl", "$2y$12$CvynPUYvZqt4p3aiuGaGduG5RU5rIsKDJ2BbcYk7d1nTDAZGP2Woe"));
+            }
+            userOptional = usersRepository.findByEmail("u2@mail.pl");
+            if (userOptional.isEmpty()) {
+                // password: passuser2
+                usersRepository.save(new User("User 2", "u2@mail.pl", "$2y$12$xswpjLRaupJE8y4CHHIbjeba9BvlV.VLfut8q1Gqj5U2JDHgjNmuG"));
+            }
         };
     }
 }

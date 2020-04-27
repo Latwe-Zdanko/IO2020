@@ -27,11 +27,10 @@ export default class Login extends Component {
                 AuthenticationService.registerSuccessfulLogin(this.state.email, this.state.password);
                 this.props.history.push("/");
             })
-            .catch(() => {
+            .catch(error => {
                 this.setState({error: true});
-                alert("Something went wrong")
+                AuthenticationService.handleLoginError(error)
             });
-
     }
 
     render() {
@@ -43,7 +42,7 @@ export default class Login extends Component {
                 <h3>Sign In</h3>
                 <div className="form-group">
                     <label>Email address</label>
-                    <input name="email" onChange={this.handleChange} className="form-control"
+                    <input name="email" type="email" onChange={this.handleChange} className="form-control"
                            placeholder="Enter email"/>
                 </div>
 

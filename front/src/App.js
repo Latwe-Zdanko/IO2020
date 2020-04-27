@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import Login from "./components/login";
 import SignUp from "./components/signup";
 import Home from "./components/home"
+import AuthenticationService from "./service/AuthenticationService";
 
 function App() {
     return (<Router>
@@ -20,6 +21,10 @@ function App() {
                                 </li>
                                 <li className="nav-item">
                                     <Link id="login" className="nav-link" to={"/sign-in"}>Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link hidden id="logout" className="nav-link" onClick={AuthenticationService.logout}
+                                          to={"/"}>Log out</Link>
                                 </li>
                             </ul>
                         </div>
