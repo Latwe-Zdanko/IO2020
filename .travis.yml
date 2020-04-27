@@ -1,7 +1,6 @@
 language: java
 jdk: openjdk13
 dist: bionic
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -13,3 +12,17 @@ cache:
 
 script:
   - ./gradlew build
+
+deploy:
+  - provider: heroku
+    app: lz-model-testing
+    api_key:
+      secure: ON9w5GBzpl9A0g5Qtldy44M5UacfJ3md9/2PEVfiCXMjVw4ZbPSZ9LeDm70ToSz0SWWmzC8IMRD+kBGAe8qLIeGn9QMprqclV3aGPGeQTJ3Gh5cLxPwyfYwYUTNNFkB1w3qGdnVM89qUAx6uFvFZW1Pl4E2ANP1GaLyThuow1JAm6TFO1+TvaYKo7AjjCV/0yh2fkJVjL5tvYhtmzQuKTSsxkDO48oebMwAe3kMInlD4+H3FFmgYmOI0YRPYwl+sLCop7GUZms2BcDtmrF+ExeyIOg0g4GCmf/NTlsZp0W8nViDo+YCU4m5aeFgt1/5CLlLiejTCinPpxMRYq3akYgai6R4ZWPo3e3q5JL+IjX/k+Sl1A70iqi2i6XTIwXbHuKRIhYUMfhbf1hV/HGqCn49ia0cfUop96UK9Htyl53EM7OyfzgXlpNyv2UUpKvO69smwRDt3IS2ksxzIQUV/RBJSAnNagzlwt2P+FPYhM/LQTWf5NxYoie7SjlpOe00i9wKYPKq8RdGnx0kBJnclwzcN0IQ51/Zb+4zRE9XUEwd6wLl0WN2GSYYSHYzapdR2ZaNwjHn9gSGjGRyzg5zMDKZta0cwCIZ9weeGpw6oONFIdnQ9BBYCDYi8OrJ6sDJRxS1yfyD8wSWO0CETRPmfrlK6Z7WdsYA7ylUtZ/7aRx4=
+    on:
+      all_branches: true
+  - provider: heroku
+    app: lz-frontend
+    api_key:
+      secure: ON9w5GBzpl9A0g5Qtldy44M5UacfJ3md9/2PEVfiCXMjVw4ZbPSZ9LeDm70ToSz0SWWmzC8IMRD+kBGAe8qLIeGn9QMprqclV3aGPGeQTJ3Gh5cLxPwyfYwYUTNNFkB1w3qGdnVM89qUAx6uFvFZW1Pl4E2ANP1GaLyThuow1JAm6TFO1+TvaYKo7AjjCV/0yh2fkJVjL5tvYhtmzQuKTSsxkDO48oebMwAe3kMInlD4+H3FFmgYmOI0YRPYwl+sLCop7GUZms2BcDtmrF+ExeyIOg0g4GCmf/NTlsZp0W8nViDo+YCU4m5aeFgt1/5CLlLiejTCinPpxMRYq3akYgai6R4ZWPo3e3q5JL+IjX/k+Sl1A70iqi2i6XTIwXbHuKRIhYUMfhbf1hV/HGqCn49ia0cfUop96UK9Htyl53EM7OyfzgXlpNyv2UUpKvO69smwRDt3IS2ksxzIQUV/RBJSAnNagzlwt2P+FPYhM/LQTWf5NxYoie7SjlpOe00i9wKYPKq8RdGnx0kBJnclwzcN0IQ51/Zb+4zRE9XUEwd6wLl0WN2GSYYSHYzapdR2ZaNwjHn9gSGjGRyzg5zMDKZta0cwCIZ9weeGpw6oONFIdnQ9BBYCDYi8OrJ6sDJRxS1yfyD8wSWO0CETRPmfrlK6Z7WdsYA7ylUtZ/7aRx4=
+    on:
+      all_branches: true

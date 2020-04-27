@@ -1,0 +1,26 @@
+{
+  "name": "heroku-cra-node",
+  "version": "3.0.0",
+  "engines": {
+    "node": "10.x"
+  },
+  "scripts": {
+    "start": "node server",
+    "build": "cd front/ && npm install && npm run build"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "front/node_modules"
+  ],
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "license": "MIT",
+  "devDependencies": {}
+}

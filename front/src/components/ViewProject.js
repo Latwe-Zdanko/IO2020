@@ -12,7 +12,7 @@ class ViewProject extends Component {
         this.state = {
             projectId: this.props.match.params.id,
             mockups: [],
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         }
     }
 

@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/*.jar --spring.profiles.active=prod --server.port=$PORT --spring.data.mongodb.uri=$MONGODB_URI?retryWrites=false

@@ -15,7 +15,7 @@ class Surveys extends Component {
             id: "",
             survey: {questions: {}},
             redirect: false,
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
     }
 

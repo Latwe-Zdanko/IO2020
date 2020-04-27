@@ -1,6 +1,8 @@
 import React, {Component} from "react";
-import {Button, ButtonDropdown, Card, CardBody, CardFooter, CardHeader, Col, DropdownItem, DropdownMenu,
-    DropdownToggle, Form, FormGroup, Input, Label, Row} from 'reactstrap';
+import {
+    Button, ButtonDropdown, Card, CardBody, CardFooter, CardHeader, Col, DropdownItem, DropdownMenu,
+    DropdownToggle, Form, FormGroup, Input, Label, Row
+} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
@@ -12,7 +14,7 @@ class AddMockupSurvey extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             mockupId: this.props.match.params.id,
             mockup: "",
             surveyName: "",
