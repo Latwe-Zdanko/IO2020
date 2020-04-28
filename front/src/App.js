@@ -9,9 +9,10 @@ import Home from "./components/home";
 import Surveys from "./components/surveys";
 import AddSurvey from "./components/addSurvey";
 import Survey from "./components/addResponse";
+import ViewMockup from "./components/ViewMockup";
+import AddMockup from "./components/AddMockup";
 
 function App() {
-
     return (<Router>
             <div className="App">
                 <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -38,6 +39,8 @@ function App() {
                             <Route exact path="/surveys/:id/addResponse" component={Survey}/>
                             <Route path="/sign-in" component={Login}/>
                             <Route path="/sign-up" component={SignUp}/>
+                            <Route path="/mockup/add" component={AddMockup}/>
+                            <Route path="/mockup/view/:id" component={ViewMockup}/>
                         </Switch>
                     </div>
                 </div>
