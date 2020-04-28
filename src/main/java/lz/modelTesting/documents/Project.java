@@ -8,18 +8,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @RequiredArgsConstructor
-@Document(collection = "mockups")
-public class Mockup {
+@Document(collection = "projects")
+public class Project {
 
     @Id
     private String id;
     @NonNull
     private String name;
-    @NonNull
-    private String source;
-    @NonNull
-    private String projectId;
 
+    public Project() {
+    }
 
-
+    public Project(String id, String name){
+        this.name = name;
+        this.id = id;
+    }
 }

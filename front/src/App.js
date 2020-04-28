@@ -8,6 +8,9 @@ import SignUp from "./components/signup";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
 import Mockups from "./components/Mockups";
+import AddProject from "./components/AddProject";
+import Projects from "./components/Projects";
+import ViewProject from "./components/ViewProject";
 
 function App() {
     return (<Router>
@@ -17,6 +20,9 @@ function App() {
                         <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
                         <div className="collapse navbar-collapse">
                             <ul className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/project"}>Projects</Link>
+                                </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/sign-in"}>Login</Link>
                                 </li>
@@ -32,9 +38,12 @@ function App() {
                     <Route exact path='/' component={Login}/>
                     <Route path="/sign-in" component={Login}/>
                     <Route path="/sign-up" component={SignUp}/>
-                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/project/add" component={AddProject}/>
+                    <Route path="/project/view/:id" component={ViewProject}/>
+                    <Route path="/mockup/add/:id" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
                     <Route path="/mockup" component={Mockups}/>
+                    <Route path="/project" component={Projects}/>
                 </Switch>
             </div>
         </Router>

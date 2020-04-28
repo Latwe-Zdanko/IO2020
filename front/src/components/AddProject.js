@@ -2,13 +2,11 @@ import React, {Component} from "react";
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 
-class AddMockup extends Component {
+class AddProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mockupName: "",
-            sourceLink: "",
-            projectLink: this.props.match.params.id,
+            projectName: "",
             serverUrl: "http://localhost:8080"
         };
         this.handleChange = this.handleChange.bind(this);
@@ -22,7 +20,7 @@ class AddMockup extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        const url = new URL(this.state.serverUrl + "/mockups/add");
+        const url = new URL(this.state.serverUrl + "/projects/add");
         const params = this.state;
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         fetch(url, {method: "POST"})
@@ -37,7 +35,7 @@ class AddMockup extends Component {
     };
 
     handleRedirect(id) {
-        window.location.href = '/mockup/view/' + id;
+        window.location.href = '/project/view/' + id;
     }
 
     render() {
@@ -46,24 +44,15 @@ class AddMockup extends Component {
                 <div className="auth-inner">
                     <Form onSubmit={this.submitForm}>
                         <FormGroup>
-                            <Label for="mockupName">Mockup name</Label>
-                            <Input name="mockupName"
+                            <Label for="projectName">Project name</Label>
+                            <Input name="projectName"
                                    type="text"
-                                   value={this.state.mockupName}
+                                   value={this.state.projectName}
                                    onChange={this.handleChange}
-                                   placeholder="Enter mockup name"
+                                   placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <Label for="sourceLink">Link to mockup prototype</Label>
-                            <Input name="sourceLink"
-                                   type="text"
-                                   value={this.state.sourceLink}
-                                   onChange={this.handleChange}
-                                   placeholder="Enter link"
-                            />
-                        </FormGroup>
-                        <Button className="btn btn-primary btn-block">Add Mockup</Button>
+                        <Button className="btn btn-primary btn-block">Add Project</Button>
                     </Form>
                 </div>
             </div>
@@ -71,4 +60,4 @@ class AddMockup extends Component {
     }
 }
 
-export default AddMockup;
+export default AddProject;
