@@ -38,25 +38,29 @@ export default class Login extends Component {
             return <Redirect to={"/"}/>
         }
         return (
-            <form onSubmit={this.login}>
-                <h3>Sign In</h3>
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input name="email" type="email" onChange={this.handleChange} className="form-control"
-                           placeholder="Enter email"/>
-                </div>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <form onSubmit={this.login}>
+                        <h3>Sign In</h3>
+                        <div className="form-group">
+                            <label>Email address</label>
+                            <input name="email" type="email" onChange={this.handleChange} className="form-control"
+                                   placeholder="Enter email"/>
+                        </div>
 
-                <div className="form-group">
-                    <label>Password</label>
-                    <input name="password" onChange={this.handleChange} type="password" className="form-control"
-                           placeholder="Enter password"/>
-                </div>
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input name="password" onChange={this.handleChange} type="password" className="form-control"
+                                   placeholder="Enter password"/>
+                        </div>
 
-                <button className="btn btn-primary btn-block">Submit</button>
-                <p className="forgot-password text-right">
-                    Forgot <a href="#">password?</a>
-                </p>
-            </form>
+                        <button className="btn btn-primary btn-block">Submit</button>
+                        <p className="forgot-password text-right">
+                            Forgot <a href="#">password?</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
         );
     }
 }

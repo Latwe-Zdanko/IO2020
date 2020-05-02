@@ -7,6 +7,9 @@ import Login from "./components/login";
 import SignUp from "./components/signup";
 import Home from "./components/home"
 import AuthenticationService from "./service/AuthenticationService";
+import ViewMockup from "./components/ViewMockup";
+import AddMockup from "./components/AddMockup";
+
 
 function App() {
     return (<Router>
@@ -15,31 +18,35 @@ function App() {
                     <div className="container">
                         <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
                         <div className="collapse navbar-collapse">
-                            <ul className="navbar-nav ml-auto">
+                            <ul id="logged-out" hidden={AuthenticationService.isUserLoggedIn()}
+                                className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <Link id="sign-in" className="nav-link" to={"/sign-up"}>Sign up</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link id="login" className="nav-link" to={"/sign-in"}>Login</Link>
                                 </li>
+                            </ul>
+                            <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
+                                className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link hidden id="logout" className="nav-link" onClick={AuthenticationService.logout}
-                                          to={"/"}>Log out</Link>
+                                    <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" onClick={AuthenticationService.logout} to={"/"}>Log
+                                        out</Link>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
-
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route path="/sign-in" component={Login}/>
-                            <Route path="/sign-up" component={SignUp}/>
-                        </Switch>
-                    </div>
-                </div>
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/sign-in" component={Login}/>
+                    <Route path="/sign-up" component={SignUp}/>
+                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/mockup/view/:id" component={ViewMockup}/>
+                </Switch>
             </div>
         </Router>
     );

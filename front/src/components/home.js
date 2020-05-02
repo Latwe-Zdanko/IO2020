@@ -8,6 +8,12 @@ export default class Home extends Component {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to="/sign-in"/>
         }
-        return <h1>Home page</h1>;
+        return (
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <h1>Home page</h1>
+                </div>
+            </div>
+        );
     }
 }
