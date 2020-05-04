@@ -1,28 +1,19 @@
 import React, {Component} from "react";
-import "../App.css";
-import {Link} from 'react-router-dom';
-import {Button} from 'reactstrap';
+import AuthenticationService from "../service/AuthenticationService";
+import {Redirect} from "react-router-dom";
 
-class Home extends Component {
+export default class Home extends Component {
 
     render() {
+        if (!AuthenticationService.isUserLoggedIn()) {
+            return <Redirect to="/sign-in"/>
+        }
         return (
-            <div className="wrapper">
-                <div>
-                    <Link to="/surveys/addSurvey">
-                        <Button
-                            className="homeButton"
-                        >Add Survey</Button>
-                    </Link>
-                    <Link to="/surveys">
-                        <Button
-                            className="homeButton"
-                        >Surveys</Button>
-                    </Link>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <h1>Home page</h1>
                 </div>
             </div>
         );
     }
 }
-
-export default Home;

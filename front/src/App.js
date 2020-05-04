@@ -9,6 +9,7 @@ import Home from "./components/home";
 import Surveys from "./components/surveys";
 import AddSurvey from "./components/addSurvey";
 import Survey from "./components/addResponse";
+import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
 
@@ -19,12 +20,23 @@ function App() {
                     <div className="container">
                         <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
                         <div className="collapse navbar-collapse">
-                            <ul className="navbar-nav ml-auto">
+                            <ul id="logged-out" hidden={AuthenticationService.isUserLoggedIn()}
+                                className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/sign-in"}>Login</Link>
+                                    <Link id="sign-in" className="nav-link" to={"/sign-up"}>Sign up</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+                                    <Link id="login" className="nav-link" to={"/sign-in"}>Login</Link>
+                                </li>
+                            </ul>
+                            <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
+                                className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" onClick={AuthenticationService.logout} to={"/"}>Log
+                                        out</Link>
                                 </li>
                             </ul>
                         </div>
