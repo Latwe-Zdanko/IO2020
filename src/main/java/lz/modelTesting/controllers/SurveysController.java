@@ -50,10 +50,7 @@ public class SurveysController {
     public void addTemplate(@RequestBody String postPayload) {
 
         if (template) {
-            JSONObject jsonObject = new JSONObject(postPayload);
-            String name = jsonObject.getString(NAME);
-            String body = jsonObject.getJSONObject(BODY).toString();
-            Survey survey = new Survey(name, body);
+            Survey survey = getSurveyFromJson(postPayload);
             surveysRepository.save(survey);
         }
         template = false;
@@ -62,11 +59,7 @@ public class SurveysController {
     @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addSurvey(@RequestBody String postPayload) {
 
-        JSONObject jsonObject = new JSONObject(postPayload);
-        String name = jsonObject.getString(NAME);
-        String body = jsonObject.getJSONObject(BODY).toString();
-        Survey survey = new Survey(name, body);
-
+        Survey survey = getSurveyFromJson(postPayload);
         surveysRepository.save(survey);
 
     }
@@ -77,6 +70,7 @@ public class SurveysController {
         String id = jsonObject.getString(ID);
         String answers = jsonObject.getJSONObject(ANSWERS).toString();
         Optional<Survey> survey = surveysRepository.findById(id);
+
         survey.ifPresent(survey1 -> {
                     survey1.addAnswers(answers);
                     surveysRepository.save(survey1);
@@ -84,4 +78,10 @@ public class SurveysController {
         );
     }
 
+    private Survey getSurveyFromJson(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+        String name = jsonObject.getString(NAME);
+        String body = jsonObject.getJSONObject(BODY).toString();
+        return new Survey(name, body);
+    }
 }

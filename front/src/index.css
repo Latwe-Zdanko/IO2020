@@ -56,6 +56,29 @@ body, html, .App, #root, .auth-wrapper {
     padding-bottom: 20px;
 }
 
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 100px;
+}
+
+.wrapper2 {
+    display: inline-block;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 100px;
+}
+
+.btn-primary {
+    color: #212529;
+    background-color: #7cc;
+    border-color: #5bc2c2;
+    margin: 10px;
+}
+
 .custom-control-label {
     font-weight: 400;
 }

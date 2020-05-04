@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import "../App.css";
-import '../styles/survey.css';
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 import axios from 'axios';
@@ -20,94 +19,9 @@ class AddSurvey extends Component {
             inputValue5: '',
             isRequired: false,
             tmpQuestion: {"questions": []},
-            frontUrl: "http://localhost:3000",
             serverUrl: "http://localhost:8080",
             templateId: "",
             current_survey: {"questions": []},
-            testSurvey: {
-                questions: [
-                    {
-                        type: "matrix",
-                        name: "Quality",
-                        title: "Please indicate if you agree or disagree with the following statements",
-                        columns: [
-                            {
-                                value: 1,
-                                text: "Strongly Disagree"
-                            }, {
-                                value: 2,
-                                text: "Disagree"
-                            }, {
-                                value: 3,
-                                text: "Neutral"
-                            }, {
-                                value: 4,
-                                text: "Agree"
-                            }, {
-                                value: 5,
-                                text: "Strongly Agree"
-                            }
-                        ],
-                        rows: [
-                            {
-                                value: "affordable",
-                                text: "Product is affordable"
-                            }, {
-                                value: "does what it claims",
-                                text: "Product does what it claims"
-                            }, {
-                                value: "better then others",
-                                text: "Product is better than other products on the market"
-                            }, {
-                                value: "easy to use",
-                                text: "Product is easy to use"
-                            }
-                        ]
-                    }, {
-                        type: "rating",
-                        name: "satisfaction",
-                        title: "How satisfied are you with the Product?",
-                        isRequired: true,
-                        mininumRateDescription: "Not Satisfied",
-                        maximumRateDescription: "Completely satisfied"
-                    }, {
-                        type: "rating",
-                        name: "recommend friends",
-                        visibleIf: "{satisfaction} > 3",
-                        title: "How likely are you to recommend the Product to a friend or co-worker?",
-                        mininumRateDescription: "Will not recommend",
-                        maximumRateDescription: "I will recommend"
-                    }, {
-                        type: "comment",
-                        name: "suggestions",
-                        title: "What would make you more satisfied with the Product?"
-                    },
-                    {
-                        type: "radiogroup",
-                        name: "price to competitors",
-                        title: "Compared to our competitors, do you feel the Product is",
-                        choices: ["Less expensive", "Priced about the same", "More expensive", "Not sure"]
-                    }, {
-                        type: "radiogroup",
-                        name: "price",
-                        title: "Do you feel our current price is merited by our product?",
-                        choices: ["correct|Yes, the price is about right", "low|No, the price is too low for your product", "high|No, the price is too high for your product"]
-                    }, {
-                        type: "multipletext",
-                        name: "pricelimit",
-                        title: "What is the... ",
-                        items: [
-                            {
-                                name: "mostamount",
-                                title: "Most amount you would every pay for a product like ours"
-                            }, {
-                                name: "leastamount",
-                                title: "The least amount you would feel comfortable paying"
-                            }
-                        ]
-                    }
-                ]
-            },
             tmpSurvey: <p></p>
         };
         this.onCompleteComponenet = this.onCompleteComponenet.bind(this);
@@ -126,14 +40,9 @@ class AddSurvey extends Component {
         this.getTemplate();
     }
 
-    updateIsRequired(evt) {
-        this.setState({
-            isRequired: evt.target.checked
-        })
-    }
+    updateInputValue(evt, inputId, questionId) {
 
-    updateInputValue(evt, id) {
-        switch (id) {
+        switch (inputId) {
             case 1:
                 this.setState({
                     inputValue1: evt.target.value
@@ -159,8 +68,17 @@ class AddSurvey extends Component {
                     inputValue5: evt.target.value
                 });
                 break;
+            case 6:
+                this.setState({
+                    isRequired: evt.target.checked
+                });
 
         }
+
+        const ref = this.refresh;
+        setTimeout(function () {
+            ref(evt, questionId);
+        }, 100);
     };
 
     refresh = (evt, id) => {
@@ -187,14 +105,14 @@ class AddSurvey extends Component {
                 const data = response.data;
                 this.setState({templateId: data.id, current_survey: JSON.parse(data.body)})
             })
-            .catch(() => {
-                console.log("Error");
+            .catch(function (error) {
+                console.log(error);
             });
     };
 
     addTemplate = () => {
 
-        axios.post(this.state.serverUrl + '/surveys/addSurvey', {
+        axios.post(this.state.serverUrl + '/surveys/addTemplate', {
             name: "template",
             body: {questions: []}
         })
@@ -205,57 +123,46 @@ class AddSurvey extends Component {
                 console.log(error);
             });
     };
-    addSurvey = () => {
-
-        axios.post(this.state.serverUrl + '/surveys/addSurvey', {
-            name: "test",
-            body: this.state.testSurvey
-        })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-
 
     addQuestionField = () => {
 
-
+        console.log("halo")
         const commentField = {
             questions: [
                 {
                     type: "comment",
-                    name: "name" + this.state.id,
+                    name: this.state.inputValue1,
                     title: this.state.inputValue1,
-                    isRequired: this.state.isRequired
+                    isRequired: this.state.isRequired,
+                    enableIf: "false"
                 }
             ]
         };
 
         const tmpSurvey = (
-            <div className="wrapper">
-                <button type="button" className="btn btn-lg btn-primary btn-sm"
-                        onClick={evt => this.refresh(evt, 1)}>Refresh
-                </button>
+            <div>
+                <div className="input-group">
+                    <div className="input-group-prepend">
+                        <div className="input-group-text">
+                            <div className="custom-control custom-checkbox">
+                                <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
+                                       onChange={evt => this.updateInputValue(evt, 6, 1)}/>
+                                <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Question"
+                           aria-label="Text input with radio button"
+                           onChange={evt => this.updateInputValue(evt, 1, 1)}/>
+                </div>
                 <Survey.Survey
                     json={commentField}
                     showCompletedPage={false}
                 />
-                <div>
-                    <input placeholder="Question" onChange={evt => this.updateInputValue(evt, 1)}/><br/>
-
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" onChange={evt => this.updateIsRequired(evt)}/>
-                    <label className="form-check-label">isRequired</label>
-                </div>
-                <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.submit}>Submit</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
             </div>
 
         );
-        this.state.id++;
         this.setState({tmpSurvey: tmpSurvey, tmpQuestion: commentField});
     };
 
@@ -264,9 +171,10 @@ class AddSurvey extends Component {
             questions: [
                 {
                     type: "matrix",
-                    name: "name" + this.state.id,
+                    name: "Please indicate if you agree or disagree with the following statements",
                     title: "Please indicate if you agree or disagree with the following statements",
                     isRequired: this.state.isRequired,
+                    enableIf: "false",
                     columns: [
                         {
                             value: 1,
@@ -301,31 +209,32 @@ class AddSurvey extends Component {
         };
 
         const tmpSurvey = (
-            <div className="wrapper">
-                <button type="button" className="btn btn-lg btn-primary btn-sm"
-                        onClick={evt => this.refresh(evt, 2)}>Refresh
-                </button>
+            <div>
+                <div>
+                    <input placeholder="Statement 1" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 1, 2)}/><br/>
+                    <input placeholder="Statement 2" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 2, 2)}/><br/>
+                    <input placeholder="Statement 3" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 3, 2)}/><br/>
+                    <input placeholder="Statement 4" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 4, 2)}/><br/>
+                    <div className="input-group-text">
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
+                                   onChange={evt => this.updateInputValue(evt, 6, 2)}/>
+                            <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
+                        </div>
+                    </div>
+                </div>
                 <Survey.Survey
                     json={matrixField}
                     showCompletedPage={false}
                 />
-                <div>
-                    <input placeholder="Statement 1" onChange={evt => this.updateInputValue(evt, 1)}/><br/>
-                    <input placeholder="Statement 2" onChange={evt => this.updateInputValue(evt, 2)}/><br/>
-                    <input placeholder="Statement 3" onChange={evt => this.updateInputValue(evt, 3)}/><br/>
-                    <input placeholder="Statement 4" onChange={evt => this.updateInputValue(evt, 4)}/><br/>
-
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" onChange={evt => this.updateIsRequired(evt)}/>
-                    <label className="form-check-label">isRequired</label>
-                </div>
-                <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.submit}>Submit</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
             </div>
 
         );
-
-        this.state.id++;
         this.setState({tmpSurvey: tmpSurvey, tmpQuestion: matrixField});
     };
 
@@ -336,38 +245,41 @@ class AddSurvey extends Component {
             questions: [
                 {
                     type: "radiogroup",
-                    name: "name" + this.state.id,
+                    name: this.state.inputValue1,
                     title: this.state.inputValue1,
                     isRequired: this.state.isRequired,
+                    enableIf: "false",
                     choices: [this.state.inputValue2, this.state.inputValue3, this.state.inputValue4]
                 }
             ]
         };
 
         const tmpSurvey = (
-            <div className="wrapper">
-                <button type="button" className="btn btn-lg btn-primary btn-sm"
-                        onClick={evt => this.refresh(evt, 4)}>Refresh
-                </button>
+            <div>
+
+                <div>
+                    <input placeholder="Question" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 1, 3)}/><br/>
+                    <input placeholder="Option 1" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 2, 3)}/><br/>
+                    <input placeholder="Option 2" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 3, 3)}/><br/>
+                    <input placeholder="Option 3" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 4, 3)}/><br/>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox"
+                           onChange={evt => this.updateInputValue(evt, 6, 3)}/>
+                    <label className="form-check-label">isRequired</label>
+                </div>
                 <Survey.Survey
                     json={ratingField}
                     showCompletedPage={false}
                 />
-                <div>
-                    <input placeholder="Question" onChange={evt => this.updateInputValue(evt, 1)}/><br/>
-                    <input placeholder="Option 1" onChange={evt => this.updateInputValue(evt, 2)}/><br/>
-                    <input placeholder="Option 2" onChange={evt => this.updateInputValue(evt, 3)}/><br/>
-                    <input placeholder="Option 3" onChange={evt => this.updateInputValue(evt, 4)}/><br/>
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" onChange={evt => this.updateIsRequired(evt)}/>
-                    <label className="form-check-label">isRequired</label>
-                </div>
-                <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.submit}>Submit</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
             </div>
 
         );
-        this.state.id++;
         this.setState({tmpSurvey: tmpSurvey, tmpQuestion: ratingField});
     };
 
@@ -377,9 +289,10 @@ class AddSurvey extends Component {
             questions: [
                 {
                     type: "rating",
-                    name: "name" + this.state.id,
+                    name: this.state.inputValue1,
                     title: this.state.inputValue1,
                     isRequired: this.state.isRequired,
+                    enableIf: "false",
                     mininumRateDescription: this.state.inputValue2,
                     maximumRateDescription: this.state.inputValue3
                 }
@@ -388,40 +301,37 @@ class AddSurvey extends Component {
 
         const tmpSurvey = (
             <div className="wrapper">
-                <button type="button" className="btn btn-lg btn-primary btn-sm"
-                        onClick={evt => this.refresh(evt, 3)}>Refresh
-                </button>
                 <Survey.Survey
                     json={ratingField}
                     showCompletedPage={false}
                 />
                 <div>
-                    <input placeholder="Rating" onChange={evt => this.updateInputValue(evt, 1)}/><br/>
-                    <input placeholder="Minimum Rate Description" onChange={evt => this.updateInputValue(evt, 2)}/><br/>
-                    <input placeholder="Maximum Rate Description" onChange={evt => this.updateInputValue(evt, 3)}/><br/>
+                    <input placeholder="Rating" onChange={evt => this.updateInputValue(evt, 1, 4)}/><br/>
+                    <input placeholder="Minimum Rate Description"
+                           onChange={evt => this.updateInputValue(evt, 2, 4)}/><br/>
+                    <input placeholder="Maximum Rate Description"
+                           onChange={evt => this.updateInputValue(evt, 3, 4)}/><br/>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" onChange={evt => this.updateIsRequired(evt)}/>
+                    <input className="form-check-input" type="checkbox"
+                           onChange={evt => this.updateInputValue(evt, 6, 4)}/>
                     <label className="form-check-label">isRequired</label>
                 </div>
-                <button value="Submit" type="button" className="btn btn-lg btn-primary btn-sm"
-                        onClick={this.submit}>Submit
-                </button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
             </div>
 
         );
-        this.state.id++;
         this.setState({tmpSurvey: tmpSurvey, tmpQuestion: ratingField});
     };
 
 
     submit = () => {
 
-        const test = this.state.current_survey;
-        test.questions.push(this.state.tmpQuestion.questions[0]);
 
-        this.state.id++;
-        this.setState({current_survey: test})
+        const test = this.state.current_survey;
+        this.state.tmpQuestion.questions[0].enableIf = true;
+        test.questions.push(this.state.tmpQuestion.questions[0]);
+        this.setState({current_survey: test});
 
         console.log(this.state.current_survey)
     };
@@ -461,32 +371,30 @@ class AddSurvey extends Component {
         return (
 
             <div className="wrapper2">
+                <nav className="navbar navbar-dark bg-blue">
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
+                        matrix field
+                    </button>
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addRatingField}>Add
+                        rating field
+                    </button>
+                    <button type="button" className="btn btn-lg btn-primary btn-dark"
+                            onClick={this.addQuestionField}>Add question field
+                    </button>
+                    <button type="button" className="btn btn-lg btn-primary btn-dark"
+                            onClick={this.addRadiogroupField}>Add radiogroup field
+                    </button>
+                </nav>
                 <div>
                     {tmpSurv}
                 </div>
-                <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addSurvey}>ADD
-                        SURVEY
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addMatrixSurvey}>ADD
-                        MATRIX FIELD
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addRatingField}>ADD
-                        RATING FIELD
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.addQuestionField}>ADD
-                        QUESTION FIELD
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-sm"
-                            onClick={this.addRadiogroupField}>ADD RADIOGROUP FIELD
-                    </button>
-                </div>
+
                 <br/>
                 <div>
                     <input placeholder="Survey Name" onChange={evt => this.updateInputValue(evt, 5)}/><br/>
                     {surveyRender}
                     {onSurveyCompletion}
-                    <button type="button" className="btn btn-lg btn-primary btn-sm" onClick={this.submitSurvey}>SUBMIT
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>SUBMIT
                     </button>
                 </div>
 

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import "../App.css";
-import '../styles/survey.css';
 import "survey-react/survey.css";
 import axios from 'axios';
 import * as Survey from "survey-react";
@@ -15,7 +14,6 @@ class Surveys extends Component {
             id: "",
             survey: {questions: {}},
             redirect: false,
-            frontUrl: "http://localhost:3000",
             serverUrl: "http://localhost:8080"
         };
     }
@@ -43,15 +41,15 @@ class Surveys extends Component {
                 const data = response.data;
                 const {id} = this.props.match.params;
 
-                data.map((surv) => {
-                    if (surv.id === id) {
-                        const survey = JSON.parse(surv.body);
-                        this.setState({id: surv.id, survey: survey})
+                data.map((survey) => {
+                    if (survey.id === id) {
+                        const tmp = JSON.parse(survey.body);
+                        this.setState({id: survey.id, survey: tmp})
                     }
                 })
             })
-            .catch(() => {
-                console.log("Error");
+            .catch(function (error) {
+                console.log(error);
             });
     };
 

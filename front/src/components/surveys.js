@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import "../App.css";
-import '../styles/survey.css';
 import "survey-react/survey.css";
 import axios from 'axios';
 
