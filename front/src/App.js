@@ -9,7 +9,7 @@ import Home from "./components/home"
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
-
+import Chat from "./components/Chat";
 
 function App() {
     return (<Router>
@@ -33,6 +33,9 @@ function App() {
                                     <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link" to={"/chat"}>Chat</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className="nav-link" onClick={AuthenticationService.logout} to={"/"}>Log
                                         out</Link>
                                 </li>
@@ -46,6 +49,7 @@ function App() {
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/mockup/add" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/chat" component={Chat}/>
                 </Switch>
             </div>
         </Router>
