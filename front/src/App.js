@@ -9,6 +9,7 @@ import Home from "./components/home"
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
+import MockupSurvey from "./components/MockupSurvey";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/mockup/add" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/mockup_survey/:id" component={MockupSurvey}/>
                 </Switch>
             </div>
         </Router>
