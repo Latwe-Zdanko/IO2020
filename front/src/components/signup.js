@@ -4,6 +4,7 @@ import {Redirect} from "react-router-dom";
 import axios from 'axios';
 import bcryptjs from 'bcryptjs'
 import ReactDOM from "react-dom"
+
 const API_URL = 'http://localhost:8080';
 
 export default class SignUp extends Component {
@@ -25,7 +26,7 @@ export default class SignUp extends Component {
     handleChange(event) {
         const {name, value} = event.target;
         this.setState({[name]: value});
-        if(name === "password"){
+        if (name === "password") {
             this.state.hashed = false;
         }
     }
@@ -33,7 +34,7 @@ export default class SignUp extends Component {
     signUp(event) {
         event.preventDefault();
         const url = API_URL + "/add-user";
-        if(this.checkFields()){
+        if (this.checkFields()) {
             this.hashPassword();
             axios.get(url, {params: this.state})
                 .then(() => this.redirectIn(4))
@@ -41,12 +42,12 @@ export default class SignUp extends Component {
         }
     }
 
-    redirectIn(time){
+    redirectIn(time) {
         const element = <h2><p>Successful register!</p><p>Redirect in {time}!</p></h2>;
         ReactDOM.render(element, document.getElementById('main-cont'));
         time--;
-        let x = setInterval(() =>{
-            if(time <= 0){
+        let x = setInterval(() => {
+            if (time <= 0) {
                 this.props.history.push("/");
                 clearInterval(x);
                 return;
@@ -54,10 +55,10 @@ export default class SignUp extends Component {
             const element = <h2><p>Successful register!</p><p>Redirect in {time}!</p></h2>;
             ReactDOM.render(element, document.getElementById('main-cont'));
             time--;
-        },1000);
+        }, 1000);
     }
 
-    alreadyRegistered(){
+    alreadyRegistered() {
         document.getElementById("email").style.borderColor = "red";
         let label = document.getElementById("email-label");
         label.style.color = "red";
@@ -66,14 +67,14 @@ export default class SignUp extends Component {
     }
 
     hashPassword() {
-        if(!this.state.hashed) {
+        if (!this.state.hashed) {
             this.state.password = bcryptjs.hashSync(this.state.password, 10);
             this.state.hashed = true;
         }
     }
 
     checkFields() {
-        if(this.state.password.length < 8){
+        if (this.state.password.length < 8) {
             document.getElementById("password").style.borderColor = "red";
             let label = document.getElementById("password-label");
             label.style.color = "red";
@@ -106,13 +107,15 @@ export default class SignUp extends Component {
 
                         <div className="form-group">
                             <label id="email-label"> Email address</label>
-                            <input id="email" name="email" onChange={this.handleChange} type="email" className="form-control"
+                            <input id="email" name="email" onChange={this.handleChange} type="email"
+                                   className="form-control"
                                    placeholder="Enter email" required="required"/>
                         </div>
 
                         <div className="form-group">
                             <label id="password-label">Password</label>
-                            <input id="password" name="password" onChange={this.handleChange} type="password" className="form-control"
+                            <input id="password" name="password" onChange={this.handleChange} type="password"
+                                   className="form-control"
                                    placeholder="Enter password" required="required"/>
                         </div>
                         <button type="submit" className="btn btn-primary btn-block">Sign Up</button>

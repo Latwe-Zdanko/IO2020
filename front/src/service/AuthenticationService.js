@@ -35,7 +35,7 @@ class AuthenticationService {
         return user !== null;
     }
 
-    getUserName () {
+    getUserName() {
         return localStorage.getItem(USER_NAME);
     }
 
