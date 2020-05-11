@@ -13,6 +13,8 @@ import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
 
+import Chat from "./components/Chat";
+
 function App() {
     return (<Router>
             <div className="App">
@@ -53,6 +55,7 @@ function App() {
                             <Route path="/sign-up" component={SignUp}/>
                             <Route path="/mockup/add" component={AddMockup}/>
                             <Route path="/mockup/view/:id" component={ViewMockup}/>
+                            <Route path="/chat" component={Chat}/>
                         </Switch>
                     </div>
                 </div>
