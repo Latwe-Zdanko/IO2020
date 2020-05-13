@@ -11,9 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Configuration
 @EnableMongoRepositories(basePackageClasses = {UsersRepository.class, MockupsRepository.class, MockupSurveysRepository.class})
@@ -40,11 +38,11 @@ public class MongoDBConfig {
             mockupsRepository.save(new Mockup("AdobeXD", "https://xd.adobe.com/embed/e6a0d97b-6bfc-4f07-653f-70a6a2eae5a7-9091/"));
             mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width"));
 
-            Map<String, String> map = new HashMap<>();
-            map.put("1", "First question?");
-            map.put("2", "Second question?");
-            map.put("3", "Third question?");
-            MockupSurvey mockupSurvey1 = new MockupSurvey("Mockup Survey 1", map);
+            List<String> questions = new LinkedList<>();
+            questions.add("First question?");
+            questions.add("Second question?");
+            questions.add("Third question?");
+            MockupSurvey mockupSurvey1 = new MockupSurvey("MS1", questions);
             mockupSurvey1.setMockupId(mockup1.getId());
             mockupSurveysRepository.save(mockupSurvey1);
 

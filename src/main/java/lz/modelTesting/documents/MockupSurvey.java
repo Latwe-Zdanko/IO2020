@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -22,6 +24,11 @@ public class MockupSurvey {
     @NotNull
     private String mockupId;
     @NonNull
-    private Map<String, String> questions;
+    private List<String> questions;
+    private List<List<String>> answers = new LinkedList<>();
+
+    public void addAnswer(List<String> answer){
+        this.answers.add(answer);
+    }
 
 }

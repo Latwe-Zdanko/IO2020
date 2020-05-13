@@ -6,12 +6,12 @@ import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 
-class MockupSurvey extends Component {
+class AddMockupSurvey extends Component {
     constructor(props) {
         super(props);
         this.state = {
             serverUrl: "http://localhost:8080",
-            mockupId: "",
+            mockupId: this.props.match.params.id,
             mockup: "",
             surveyName: "",
             questions: [],
@@ -19,32 +19,14 @@ class MockupSurvey extends Component {
             iframeHeight: window.innerHeight,
             scale: 'scale(0.9)',
             panelVisible: true,
-            isFull: false,
-            answers: []
+            isFull: false
         };
         this.iframe = React.createRef();
-
-        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-
-        axios.get(this.state.serverUrl + '/mockupsurvey/id/' + this.props.match.params.id, headers)
-            .then(response => {
-                this.setState({
-                    mockupId: response.data.mockupId,
-                    surveyName: response.data.name,
-                });
-                this.setState({questions: response.data.questions});
-                for (let i = 0; i < response.data.questions.length; i++) {
-                    this.state.answers.push('');
-                }
-                console.log(this.state.questions);
-                this.setMockup();
-            }).catch(response =>
-            console.log(response)
-        );
+        this.setMockup();
     }
 
     setMockup = () => {
-        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken(), authentication: AuthenticationService.getAuthToken()}};
         axios.get(this.state.serverUrl + '/mockups/id/' + this.state.mockupId, headers)
             .then(response => {
                 console.log(response.data);
@@ -78,18 +60,28 @@ class MockupSurvey extends Component {
         if (!isFull) this.setDefaultSize()
     };
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const url = this.state.serverUrl + "/mockupsurvey/addAnswer";
-        let configuration = {params:{surveyId: this.props.match.params.id, answers: this.state.answers.toString()},
-            headers: {authentication: AuthenticationService.getAuthToken(), authorization: AuthenticationService.getAuthToken()}};
-        axios.post(url, {surveyId: this.props.match.params.id, answers: this.state.answers.toString()}, configuration).then(r => console.log(r.statusText));
+    handleChange = (event) => {
+        const {name, value} = event.target;
+        this.setState({[name]: value});
     };
 
-    handleAnswerChange(e, index) {
-        this.state.answers[index] = e.target.value;
-        this.setState({answers: this.state.answers});
-    }
+    handleQuestionChange = (event, index) => {
+        const questions = this.state.questions;
+        questions[index] = event.target.value;
+        this.setState({questions: questions});
+    };
+
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        //TODO
+    };
+
+    addQuestion = () => {
+        this.setState((previousState) => ({
+            questions: [...previousState.questions, ""]
+        }))
+    };
+
 
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
@@ -118,18 +110,35 @@ class MockupSurvey extends Component {
                     <Card>
                         <CardBody>
                             <Form onSubmit={this.handleSubmit}>
-                                {this.state.answers.map((value, index) => (
-                                    <FormGroup>
-                                        <Label for="question">{this.state.questions[index]}</Label>
-                                        <Input name="question"
-                                               type="text"
-                                               key={index}
-                                               value={value}
-                                               onChange={(e) => this.handleAnswerChange(e, index)}
-                                        />
-                                    </FormGroup>
-                                ))}
-                                <Button>Submit</Button>
+                                <FormGroup>
+                                    <Label for="surveyName">Survey name: </Label>
+                                    <Input name="surveyName"
+                                           type="text"
+                                           value={this.state.surveyName}
+                                           onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                {this.state.questions.map((value, index) => {
+                                    return(
+                                        <FormGroup>
+                                            <Label for="question">Question {index+1}.</Label>
+                                            <Input name="question"
+                                                   type="text"
+                                                   key={index}
+                                                   value={value}
+                                                   onChange={(e) => this.handleQuestionChange(e, index)}
+                                            />
+
+                                        </FormGroup>
+                                    )
+                                })}
+
+                                <FormGroup>
+                                    <button className="btn btn-primary" onClick={this.addQuestion}>Add question</button>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button onClick={this.handleSubmit}>Submit</Button>
+                                </FormGroup>
                             </Form>
                         </CardBody>
                     </Card>
@@ -139,4 +148,4 @@ class MockupSurvey extends Component {
     }
 }
 
-export default MockupSurvey;
+export default AddMockupSurvey;

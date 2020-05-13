@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/mockupsurvey")
@@ -25,6 +22,8 @@ public class MockupSurveysController {
     private final static String SURVEY_NAME = "surveyName";
     private final static String QUESTIONS = "questions";
     private final static String MOCKUP_ID = "mockupId";
+    private final static String SURVEY_ID = "surveyId";
+    private final static String ANSWERS = "answers";
 
     private transient MockupSurveysRepository mockupSurveysRepository;
     private transient ObjectMapper objectMapper;
@@ -44,7 +43,6 @@ public class MockupSurveysController {
     public ResponseEntity<String> getById(@PathVariable String id) {
         try {
             Optional<MockupSurvey> mockupSurvey = mockupSurveysRepository.findById(id);
-
             return mockupSurvey.map(this::wrapMockupSurveyToString)
                     .orElseThrow()
                     .map(mockupSurveyString -> ResponseEntity.ok().body(mockupSurveyString))
@@ -74,16 +72,32 @@ public class MockupSurveysController {
         String name = request.getParameter(SURVEY_NAME);
         String questionsString = request.getParameter(QUESTIONS);
         String mockupId = request.getParameter(MOCKUP_ID);
-        // json: [ "question1", "question2", ..]
-        List<String> questionsList = objectMapper.readValue(questionsString, new TypeReference<List<String>>(){});
-        Map<String, String> questions = new HashMap<>();
-        for(int i=0; i<questionsList.size(); i++){
-            questions.put(String.valueOf(i), questionsList.get(i));
-        }
+
+        List<String> questions = objectMapper.readValue(questionsString, new TypeReference<List<String>>() {
+        });
         MockupSurvey mockupSurvey = new MockupSurvey(name, questions);
         mockupSurvey.setMockupId(mockupId);
         mockupSurveysRepository.save(mockupSurvey);
         return mockupSurvey;
+    }
+
+    @PostMapping(value = "/addAnswer")
+    private ResponseEntity<String> addAnswer(HttpServletRequest request) throws JsonProcessingException {
+        String id = request.getParameter(SURVEY_ID);
+        String answersString = request.getParameter(ANSWERS);
+        System.out.println(answersString);
+        List<String> answers = Arrays.asList(answersString.split(","));
+        System.out.println(answers);
+        Optional<MockupSurvey> mockupSurvey = mockupSurveysRepository.findById(id);
+
+        if (mockupSurvey.isPresent()) {
+            MockupSurvey mockup = mockupSurvey.get();
+            mockup.addAnswer(answers);
+            mockupSurveysRepository.save(mockup);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
