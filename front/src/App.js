@@ -34,6 +34,9 @@ function App() {
                             <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
                                 className="navbar-nav ml-auto">
                                 <li className="nav-item">
+                                    <Link className="nav-link" to={"/surveys/addSurvey"}>Add survey</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
                                 </li>
                                 <li className="nav-item">

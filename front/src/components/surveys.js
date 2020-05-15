@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "../App.css";
 import "survey-react/survey.css";
 import axios from 'axios';
+import AuthenticationService from "../service/AuthenticationService";
 
 class Surveys extends Component {
 
@@ -21,7 +22,7 @@ class Surveys extends Component {
 
     getSurveys = () => {
 
-        axios.get(this.state.serverUrl + '/surveys/all')
+        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authentication: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 const data = response.data;
                 this.setState({surveys: data});

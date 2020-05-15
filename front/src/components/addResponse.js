@@ -4,6 +4,7 @@ import "survey-react/survey.css";
 import axios from 'axios';
 import * as Survey from "survey-react";
 import {Redirect} from "react-router-dom"
+import AuthenticationService from "../service/AuthenticationService";
 
 class Surveys extends Component {
 
@@ -36,7 +37,7 @@ class Surveys extends Component {
 
     getSurveys = () => {
 
-        axios.get(this.state.serverUrl + '/surveys/all')
+        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authentication: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 const data = response.data;
                 const {id} = this.props.match.params;
@@ -65,7 +66,7 @@ class Surveys extends Component {
             axios.post(url + '/surveys/addResponse', {
                 id: surveyId,
                 answers: results.data
-            })
+            }, {headers: {authentication: AuthenticationService.getAuthToken()}})
                 .then(function (response) {
                     console.log(response);
                     redirect();

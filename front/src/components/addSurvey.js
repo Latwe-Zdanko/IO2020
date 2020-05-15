@@ -3,6 +3,7 @@ import "../App.css";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 import axios from 'axios';
+import AuthenticationService from "../service/AuthenticationService";
 
 class AddSurvey extends Component {
 
@@ -24,9 +25,10 @@ class AddSurvey extends Component {
             current_survey: {"questions": []},
             tmpSurvey: <p></p>
         };
+
         this.onCompleteComponenet = this.onCompleteComponenet.bind(this);
         this.updateInputValue = this.updateInputValue.bind(this)
-        this.addTemplate();
+        // this.addTemplate();
     }
 
 
@@ -37,30 +39,34 @@ class AddSurvey extends Component {
     };
 
     componentDidMount() {
-        this.getTemplate();
+        // this.getTemplate();
     }
 
-    updateInputValue(evt, inputId, questionId) {
+    updateInputValue = (evt, inputId, questionId) => {
 
         switch (inputId) {
             case 1:
                 this.setState({
-                    inputValue1: evt.target.value
+                    inputValue1: evt.target.value,
+                    id: 1
                 });
                 break;
             case 2:
                 this.setState({
-                    inputValue2: evt.target.value
+                    inputValue2: evt.target.value,
+                    id: 2
                 });
                 break;
             case 3:
                 this.setState({
-                    inputValue3: evt.target.value
+                    inputValue3: evt.target.value,
+                    id: 3
                 });
                 break;
             case 4:
                 this.setState({
-                    inputValue4: evt.target.value
+                    inputValue4: evt.target.value,
+                    id: 4
                 });
                 break;
             case 5:
@@ -90,17 +96,17 @@ class AddSurvey extends Component {
                 this.addMatrixSurvey();
                 break;
             case 3:
-                this.addRatingField();
+                this.addRadiogroupField();
                 break;
             case 4:
-                this.addRadiogroupField();
+                this.addRatingField();
                 break;
         }
     };
 
     getTemplate = () => {
 
-        axios.get(this.state.serverUrl + '/surveys/getTemplate')
+        axios.get(this.state.serverUrl + '/surveys/getTemplate', {headers: {authentication: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 const data = response.data;
                 this.setState({templateId: data.id, current_survey: JSON.parse(data.body)})
@@ -115,7 +121,7 @@ class AddSurvey extends Component {
         axios.post(this.state.serverUrl + '/surveys/addTemplate', {
             name: "template",
             body: {questions: []}
-        })
+        }, {headers: {authentication: AuthenticationService.getAuthToken()}})
             .then(function (response) {
                 console.log(response);
             })
@@ -126,7 +132,7 @@ class AddSurvey extends Component {
 
     addQuestionField = () => {
 
-        console.log("halo")
+        const id = 1;
         const commentField = {
             questions: [
                 {
@@ -146,20 +152,21 @@ class AddSurvey extends Component {
                         <div className="input-group-text">
                             <div className="custom-control custom-checkbox">
                                 <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                       onChange={evt => this.updateInputValue(evt, 6, 1)}/>
+                                       onChange={evt => this.updateInputValue(evt, 6, id)}/>
                                 <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                             </div>
                         </div>
                     </div>
                     <input type="text" className="form-control" placeholder="Question"
                            aria-label="Text input with radio button"
-                           onChange={evt => this.updateInputValue(evt, 1, 1)}/>
+                           onChange={evt => this.updateInputValue(evt, 1, id)}/>
                 </div>
                 <Survey.Survey
                     json={commentField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                </button>
             </div>
 
         );
@@ -167,6 +174,8 @@ class AddSurvey extends Component {
     };
 
     addMatrixSurvey = () => {
+
+        const id = 2;
         const matrixField = {
             questions: [
                 {
@@ -212,17 +221,17 @@ class AddSurvey extends Component {
             <div>
                 <div>
                     <input placeholder="Statement 1" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 1, 2)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
                     <input placeholder="Statement 2" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 2, 2)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
                     <input placeholder="Statement 3" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 3, 2)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
                     <input placeholder="Statement 4" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 4, 2)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 4, id)}/><br/>
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={evt => this.updateInputValue(evt, 6, 2)}/>
+                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -231,7 +240,8 @@ class AddSurvey extends Component {
                     json={matrixField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                </button>
             </div>
 
         );
@@ -241,7 +251,8 @@ class AddSurvey extends Component {
 
     addRadiogroupField = () => {
 
-        const ratingField = {
+        const id = 3;
+        const radioGroupField = {
             questions: [
                 {
                     type: "radiogroup",
@@ -256,35 +267,38 @@ class AddSurvey extends Component {
 
         const tmpSurvey = (
             <div>
-
                 <div>
                     <input placeholder="Question" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 1, 3)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
                     <input placeholder="Option 1" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 2, 3)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
                     <input placeholder="Option 2" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 3, 3)}/><br/>
+                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
                     <input placeholder="Option 3" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 4, 3)}/><br/>
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox"
-                           onChange={evt => this.updateInputValue(evt, 6, 3)}/>
-                    <label className="form-check-label">isRequired</label>
+                           onChange={evt => this.updateInputValue(evt, 4, id)}/><br/>
+                    <div className="input-group-text">
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
+                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                            <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
+                        </div>
+                    </div>
                 </div>
                 <Survey.Survey
-                    json={ratingField}
+                    json={radioGroupField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                </button>
             </div>
 
         );
-        this.setState({tmpSurvey: tmpSurvey, tmpQuestion: ratingField});
+        this.setState({tmpSurvey: tmpSurvey, tmpQuestion: radioGroupField});
     };
 
     addRatingField = () => {
 
+        const id = 4;
         const ratingField = {
             questions: [
                 {
@@ -300,24 +314,28 @@ class AddSurvey extends Component {
         };
 
         const tmpSurvey = (
-            <div className="wrapper">
+            <div>
+                <div>
+                    <input placeholder="Rating" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
+                    <input placeholder="Minimum Rate Description" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
+                    <input placeholder="Maximum Rate Description" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
+                    <div className="input-group-text">
+                        <div className="custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
+                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                            <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
+                        </div>
+                    </div>
+                </div>
                 <Survey.Survey
                     json={ratingField}
                     showCompletedPage={false}
                 />
-                <div>
-                    <input placeholder="Rating" onChange={evt => this.updateInputValue(evt, 1, 4)}/><br/>
-                    <input placeholder="Minimum Rate Description"
-                           onChange={evt => this.updateInputValue(evt, 2, 4)}/><br/>
-                    <input placeholder="Maximum Rate Description"
-                           onChange={evt => this.updateInputValue(evt, 3, 4)}/><br/>
-                </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox"
-                           onChange={evt => this.updateInputValue(evt, 6, 4)}/>
-                    <label className="form-check-label">isRequired</label>
-                </div>
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submit}>Add Field</button>
+                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                </button>
             </div>
 
         );
@@ -325,8 +343,7 @@ class AddSurvey extends Component {
     };
 
 
-    submit = () => {
-
+    submitQuestion = () => {
 
         const test = this.state.current_survey;
         this.state.tmpQuestion.questions[0].enableIf = true;
@@ -340,7 +357,7 @@ class AddSurvey extends Component {
         axios.post(this.state.serverUrl + '/surveys/addSurvey', {
             name: this.state.inputValue5,
             body: this.state.current_survey
-        })
+        }, {headers: {authentication: AuthenticationService.getAuthToken()}})
             .then(function (response) {
                 console.log(response);
             })
@@ -360,12 +377,6 @@ class AddSurvey extends Component {
                 showCompletedPage={false}
                 onComplete={this.onCompleteComponenet}
             />
-        ) : null;
-
-        const onSurveyCompletion = this.state.isCompleted ? (
-            <div>
-                Thanks
-            </div>
         ) : null;
 
         return (
@@ -391,9 +402,9 @@ class AddSurvey extends Component {
 
                 <br/>
                 <div>
-                    <input placeholder="Survey Name" onChange={evt => this.updateInputValue(evt, 5)}/><br/>
+                    <input placeholder="Survey Name" className="form-control"
+                           onChange={evt => this.updateInputValue(evt, 5, this.state.id)}/><br/>
                     {surveyRender}
-                    {onSurveyCompletion}
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>SUBMIT
                     </button>
                 </div>
