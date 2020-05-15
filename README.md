@@ -4,7 +4,7 @@
 * [MongoDb](https://docs.mongodb.com/manual/installation/)
 * Java 13
 * Node.js
-* (Opcjonalnie) wtyczka `Lombok` do InetlliJ [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
+* (Opcjonalnie) wtyczka `Lombok` do IntelliJ [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
 
 ## Uruchomienie servera: 
 * Z konsoli:
@@ -23,6 +23,9 @@ Server jest dostępny pod adresem: `localhost:8080` (przykładowe zapytanie: `ht
 * `npm install`
 ### Uruchomienie:
 * `npm start`
+### Serwer (potrzebuje go tylko chat):
+* `cd front/src/server`
+* `node Server.js`
 
 Frontend jest dostępny pod adresem: `localhost:3000`
 

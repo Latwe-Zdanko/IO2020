@@ -13,24 +13,18 @@ class Surveys extends Component {
             surveys: [],
             frontUrl: "http://localhost:3000",
             serverUrl: "http://localhost:8080"
-        }
-    }
+        };
 
-    componentDidMount() {
-        this.getSurveys();
-    }
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
 
-    getSurveys = () => {
-
-        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authentication: AuthenticationService.getAuthToken()}})
+        axios.get(this.state.serverUrl + '/surveys/all', headers)
             .then((response) => {
-                const data = response.data;
-                this.setState({surveys: data});
+                this.setState({surveys: response.data});
             })
-            .catch(() => {
-                console.log("Error");
+            .catch((error) => {
+                console.log(error);
             });
-    };
+    }
 
     displaySurveys = (surveys) => {
 

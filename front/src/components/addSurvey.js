@@ -10,7 +10,6 @@ class AddSurvey extends Component {
     constructor(props) {
         super(props);
 
-
         this.state = {
             id: 0,
             inputValue1: '',
@@ -21,26 +20,20 @@ class AddSurvey extends Component {
             isRequired: false,
             tmpQuestion: {"questions": []},
             serverUrl: "http://localhost:8080",
-            templateId: "",
             current_survey: {"questions": []},
+            currentSurvey: <p></p>,
             tmpSurvey: <p></p>
         };
 
         this.onCompleteComponenet = this.onCompleteComponenet.bind(this);
-        this.updateInputValue = this.updateInputValue.bind(this)
-        // this.addTemplate();
+        this.updateInputValue = this.updateInputValue.bind(this);
     }
-
 
     onCompleteComponenet = () => {
         this.setState({
             isCompleted: true
         })
     };
-
-    componentDidMount() {
-        // this.getTemplate();
-    }
 
     updateInputValue = (evt, inputId, questionId) => {
 
@@ -102,32 +95,6 @@ class AddSurvey extends Component {
                 this.addRatingField();
                 break;
         }
-    };
-
-    getTemplate = () => {
-
-        axios.get(this.state.serverUrl + '/surveys/getTemplate', {headers: {authentication: AuthenticationService.getAuthToken()}})
-            .then((response) => {
-                const data = response.data;
-                this.setState({templateId: data.id, current_survey: JSON.parse(data.body)})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-
-    addTemplate = () => {
-
-        axios.post(this.state.serverUrl + '/surveys/addTemplate', {
-            name: "template",
-            body: {questions: []}
-        }, {headers: {authentication: AuthenticationService.getAuthToken()}})
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     };
 
     addQuestionField = () => {
@@ -345,15 +312,18 @@ class AddSurvey extends Component {
 
     submitQuestion = () => {
 
-        const test = this.state.current_survey;
+        const tmp = this.state.current_survey;
         this.state.tmpQuestion.questions[0].enableIf = true;
-        test.questions.push(this.state.tmpQuestion.questions[0]);
-        this.setState({current_survey: test});
+        tmp.questions.push(this.state.tmpQuestion.questions[0]);
+        this.setState({
+            current_survey: tmp
+        });
 
-        console.log(this.state.current_survey)
+
     };
 
-    submitSurvey = () => {
+    submitSurvey = (e) => {
+        e.preventDefault();
         axios.post(this.state.serverUrl + '/surveys/addSurvey', {
             name: this.state.inputValue5,
             body: this.state.current_survey
@@ -367,16 +337,9 @@ class AddSurvey extends Component {
     };
 
     render() {
-        const tmpSurv = !this.state.isCompleted ? (
-            this.state.tmpSurvey
-        ) : null;
 
-        const surveyRender = !this.state.isCompleted ? (
-            <Survey.Survey
-                json={this.state.current_survey}
-                showCompletedPage={false}
-                onComplete={this.onCompleteComponenet}
-            />
+        const tmpSurvey = !this.state.isCompleted ? (
+            this.state.tmpSurvey
         ) : null;
 
         return (
@@ -397,21 +360,20 @@ class AddSurvey extends Component {
                     </button>
                 </nav>
                 <div>
-                    {tmpSurv}
+                    {tmpSurvey}
                 </div>
 
                 <br/>
                 <div>
                     <input placeholder="Survey Name" className="form-control"
                            onChange={evt => this.updateInputValue(evt, 5, this.state.id)}/><br/>
-                    {surveyRender}
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>SUBMIT
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
                     </button>
                 </div>
 
             </div>
         );
     }
-};
+}
 
 export default AddSurvey;
