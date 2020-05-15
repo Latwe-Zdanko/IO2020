@@ -18,9 +18,6 @@ public class SurveysController {
     private static final String BODY = "body";
     private static final String ID = "id";
     private static final String ANSWERS = "answers";
-    private static final String TEMPLATE = "template";
-
-    private static Boolean template = true;
 
     private transient SurveysRepository surveysRepository;
 
@@ -37,22 +34,6 @@ public class SurveysController {
     public Survey getSurvey(@PathVariable String id) {
         Optional<Survey> survey = surveysRepository.findByName(id);
         return survey.orElse(null);
-    }
-
-    @GetMapping("/getTemplate")
-    public Survey getSurveyTemplate() {
-        Optional<Survey> survey = surveysRepository.findByName(TEMPLATE);
-        return survey.orElse(null);
-    }
-
-    @PostMapping(value = "/addTemplate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addTemplate(@RequestBody String postPayload) {
-
-        if (template) {
-            Survey survey = getSurveyFromJson(postPayload);
-            surveysRepository.save(survey);
-        }
-        template = false;
     }
 
     @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)

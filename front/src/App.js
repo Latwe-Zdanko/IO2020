@@ -40,6 +40,12 @@ function App() {
                                     <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link" to={"/surveys/"}>Surveys</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/chat"}>Chat</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className="nav-link" onClick={AuthenticationService.logout} to={"/"}>Log
                                         out</Link>
                                 </li>
@@ -47,21 +53,17 @@ function App() {
                         </div>
                     </div>
                 </nav>
-                <div>
-                    <div>
-                        <Switch>
-                            <Route exact path='/' component={Home}/>
-                            <Route exact path="/surveys/" component={Surveys}/>
-                            <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
-                            <Route exact path="/surveys/:id/addResponse" component={Survey}/>
-                            <Route path="/sign-in" component={Login}/>
-                            <Route path="/sign-up" component={SignUp}/>
-                            <Route path="/mockup/add" component={AddMockup}/>
-                            <Route path="/mockup/view/:id" component={ViewMockup}/>
-                            <Route path="/chat" component={Chat}/>
-                        </Switch>
-                    </div>
-                </div>
+                <Switch>
+                    <Route exact path='/' component={Home}/>
+                    <Route exact path="/surveys/" component={Surveys}/>
+                    <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
+                    <Route exact path="/surveys/:id/addResponse" component={Survey}/>
+                    <Route path="/sign-in" component={Login}/>
+                    <Route path="/sign-up" component={SignUp}/>
+                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/chat" component={Chat}/>
+                </Switch>
             </div>
         </Router>
     );

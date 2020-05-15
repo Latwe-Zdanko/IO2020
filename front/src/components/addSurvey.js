@@ -171,12 +171,16 @@ class AddSurvey extends Component {
                     ],
                     rows: [
                         {
+                            value: this.state.inputValue1,
                             text: this.state.inputValue1
                         }, {
+                            value: this.state.inputValue2,
                             text: this.state.inputValue2
                         }, {
+                            value: this.state.inputValue3,
                             text: this.state.inputValue3
                         }, {
+                            value: this.state.inputValue4,
                             text: this.state.inputValue4
                         }
                     ]
@@ -300,6 +304,7 @@ class AddSurvey extends Component {
                 <Survey.Survey
                     json={ratingField}
                     showCompletedPage={false}
+                    theme="modern"
                 />
                 <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
                 </button>
@@ -362,7 +367,6 @@ class AddSurvey extends Component {
                 <div>
                     {tmpSurvey}
                 </div>
-
                 <br/>
                 <div>
                     <input placeholder="Survey Name" className="form-control"
