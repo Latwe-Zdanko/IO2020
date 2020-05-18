@@ -9,6 +9,7 @@ import Home from "./components/home";
 import Surveys from "./components/surveys";
 import AddSurvey from "./components/addSurvey";
 import Survey from "./components/addResponse";
+import SurveyExport from "./components/surveyExport"
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
@@ -40,7 +41,10 @@ function App() {
                                     <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/surveys/"}>Surveys</Link>
+                                    <Link className="nav-link" to={"/surveys"}>Surveys</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/surveyexport"}>Export</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/chat"}>Chat</Link>
@@ -55,9 +59,11 @@ function App() {
                 </nav>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route exact path="/surveys/" component={Surveys}/>
+                    <Route exact path="/surveys" component={Surveys}/>
                     <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
                     <Route exact path="/surveys/:id/addResponse" component={Survey}/>
+                    <Route exact path="/surveyexport" component={Surveys}/>
+                    <Route exact path="/surveyexport/:id" component={SurveyExport}/>
                     <Route path="/sign-in" component={Login}/>
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/mockup/add" component={AddMockup}/>

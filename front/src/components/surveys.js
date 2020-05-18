@@ -11,6 +11,7 @@ class Surveys extends Component {
 
         this.state = {
             surveys: [],
+            frontUrl: "http://localhost:3000",
             serverUrl: "http://localhost:8080"
         };
 
@@ -28,11 +29,20 @@ class Surveys extends Component {
     displaySurveys = (surveys) => {
 
         if (!surveys.length) return;
+        console.log(window.location.href)
+        console.log(this.state.frontUrl + "/surveys")
+        if (window.location.href === this.state.frontUrl + "/surveys") {
+            return (
+                surveys.map((survey) => (
+                    <a className="list-group-item" href={"/surveys/" + survey.id + "/addResponse"}>{survey.name}</a>
+                )))
+        } else {
+            return (
+                surveys.map((survey) => (
+                    <a className="list-group-item" href={"/surveyexport/" + survey.id}>{survey.name}</a>
+                )))
+        }
 
-        return (
-            surveys.map((survey) => (
-                <a className="list-group-item" href={"/surveys/" + survey.id + "/addResponse"}>{survey.name}</a>
-            )))
     };
 
     render() {
@@ -41,6 +51,9 @@ class Surveys extends Component {
 
         return (
             <div className="container">
+                <br/>
+                <br/>
+                <br/> {/*TODO: To nie powinno być w ten sposób, ale póki co działa - poprawię później*/}
                 <h1>Surveys</h1>
                 <br/>
                 <div className="list-group">
