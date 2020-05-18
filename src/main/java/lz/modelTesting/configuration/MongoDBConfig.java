@@ -3,6 +3,7 @@ package lz.modelTesting.configuration;
 import lz.modelTesting.documents.Mockup;
 import lz.modelTesting.documents.User;
 import lz.modelTesting.repositories.MockupsRepository;
+import lz.modelTesting.repositories.SurveysRepository;
 import lz.modelTesting.repositories.UsersRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +13,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import java.util.Optional;
 
 @Configuration
-@EnableMongoRepositories(basePackageClasses = {UsersRepository.class, MockupsRepository.class})
+@EnableMongoRepositories(basePackageClasses = {UsersRepository.class, MockupsRepository.class, SurveysRepository.class})
 public class MongoDBConfig {
     @Bean
-    CommandLineRunner loadSamples(UsersRepository usersRepository, MockupsRepository mockupsRepository) {
+    CommandLineRunner loadSamples(UsersRepository usersRepository, MockupsRepository mockupsRepository, SurveysRepository surveysRepository) {
         return args ->
         {
             // passwords are encrypted by BCrypt
@@ -33,7 +34,6 @@ public class MongoDBConfig {
             mockupsRepository.save(new Mockup("Axure", "https://2usnmc.axshare.com/"));
             mockupsRepository.save(new Mockup("AdobeXD", "https://xd.adobe.com/embed/e6a0d97b-6bfc-4f07-653f-70a6a2eae5a7-9091/"));
             mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width"));
-
         };
     }
 }
