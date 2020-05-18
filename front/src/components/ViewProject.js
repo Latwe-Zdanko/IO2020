@@ -10,12 +10,13 @@ class ViewProject extends Component {
 
         this.state = {
             projectId: this.props.match.params.id,
-            mockups: []
+            mockups: [],
+            serverUrl: "http://localhost:8080"
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/mockups/projectid/' + this.state.projectId)
+        axios.get(this.state.serverUrl + '/mockups/projectid/' + this.state.projectId)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});

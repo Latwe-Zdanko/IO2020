@@ -9,18 +9,19 @@ class Mockups extends Component {
         super(props);
 
         this.state = {
-            mockups: []
+            mockups: [],
+            serverUrl: "http://localhost:8080"
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/mockups/all')
+        axios.get(this.state.serverUrl + '/mockups/all')
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
             })
             .catch(() => {
-                console.log("Error");
+                console.log("Error while loading mockups by axios");
             });
     }
 

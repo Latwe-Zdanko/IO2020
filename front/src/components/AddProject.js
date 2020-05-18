@@ -32,6 +32,7 @@ class AddProject extends Component {
                     });
                 }
             });
+
     };
 
     handleRedirect(id) {

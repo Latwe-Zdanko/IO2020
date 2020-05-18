@@ -9,12 +9,13 @@ class Projects extends Component {
         super(props);
 
         this.state = {
-            projects: []
+            projects: [],
+            serverUrl: "http://localhost:8080"
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/projects/all')
+        axios.get(this.state.serverUrl + '/projects/all')
             .then((response) => {
                 const data = response.data;
                 this.setState({projects: data});
