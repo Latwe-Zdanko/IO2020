@@ -34,9 +34,9 @@ public class MongoDBConfig {
             }
             Project project = new Project("project 1");
             projectsRepository.save(project);
-            mockupsRepository.save(new Mockup("Axure", "https://2usnmc.axshare.com/"));
-            mockupsRepository.save(new Mockup("AdobeXD", "https://xd.adobe.com/embed/e6a0d97b-6bfc-4f07-653f-70a6a2eae5a7-9091/"));
-            mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width"));
+            mockupsRepository.save(new Mockup("Axure", "https://2usnmc.axshare.com/",project.getId()));
+            mockupsRepository.save(new Mockup("AdobeXD", "https://xd.adobe.com/embed/e6a0d97b-6bfc-4f07-653f-70a6a2eae5a7-9091/",project.getId()));
+            mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width",project.getId()));
         };
     }
 }

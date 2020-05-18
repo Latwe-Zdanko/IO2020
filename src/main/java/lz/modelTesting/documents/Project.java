@@ -16,11 +16,4 @@ public class Project {
     @NonNull
     private String name;
 
-    public Project() {
-    }
-
-    public Project(String id, String name){
-        this.name = name;
-        this.id = id;
-    }
 }

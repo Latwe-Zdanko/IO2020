@@ -3,6 +3,7 @@ package lz.modelTesting.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lz.modelTesting.documents.Mockup;
+import lz.modelTesting.documents.Project;
 import lz.modelTesting.repositories.MockupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class MockupsController {
 
     private final static String MOCKUP_NAME = "mockupName";
     private final static String SOURCE_LINK = "sourceLink";
-    private final static String PROJECT_LINK = "projectLink";
+    private final static String PROJECT_ID = "projectId";
     private transient MockupsRepository mockupsRepository;
     private transient ObjectMapper objectMapper;
 
@@ -74,7 +75,7 @@ public class MockupsController {
     private Mockup createMockupFromRequest(HttpServletRequest request) {
         String name = request.getParameter(MOCKUP_NAME);
         String src = request.getParameter(SOURCE_LINK);
-        String projectId = request.getParameter(PROJECT_LINK);
+        String projectId = request.getParameter(PROJECT_ID);
         Mockup mockup = new Mockup(name, src, projectId);
         mockupsRepository.save(mockup);
         return mockup;

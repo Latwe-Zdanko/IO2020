@@ -9,4 +9,6 @@ public interface MockupsRepository extends MongoRepository<Mockup, String> {
 
     List<Mockup> findByProjectId(String projectId);
 
+    List<Mockup> findAll();
+
 }

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
 import {Button, Container} from 'reactstrap';
+import AuthenticationService from "../service/AuthenticationService";
 
 class ViewProject extends Component {
 
@@ -16,19 +17,18 @@ class ViewProject extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.state.serverUrl + '/mockups/projectid/' + this.state.projectId)
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/mockups/projectid/' + this.state.projectId,headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
             })
-            .catch(() => {
-                console.log("Error");
+            .catch(response => {
+                console.log("Error: " + response);
             });
     }
 
     render() {
-
-        console.log(this.state.mockups);
 
         return (
             <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
@@ -40,6 +40,7 @@ class ViewProject extends Component {
                                 return <a href={"/mockup/view/" + item.id}>{item.name}</a>
                             })}
                         </div>
+                        <br/>
                         <Button href={"/mockup/add/" + this.state.projectId}>Add Mockup</Button>
                     </div>
                 </div>

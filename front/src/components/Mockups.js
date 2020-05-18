@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Container} from 'reactstrap';
+import {Button, Container} from 'reactstrap';
+import AuthenticationService from "../service/AuthenticationService";
 
 class Mockups extends Component {
 
@@ -15,21 +16,21 @@ class Mockups extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.state.serverUrl + '/mockups/all')
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/mockups/all',headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
             })
-            .catch(() => {
-                console.log("Error while loading mockups by axios");
+            .catch(response => {
+                console.log("Error: " + response);
             });
     }
 
 
 
-    render() {
 
-        console.log(this.state.mockups);
+    render() {
 
         return (
             <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
@@ -44,8 +45,9 @@ class Mockups extends Component {
                     </div>
                 </div>
             </Container>
-    );
+        );
     }
 }
+
 
 export default Mockups;

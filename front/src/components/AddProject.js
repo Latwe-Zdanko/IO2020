@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
+import AuthenticationService from "../service/AuthenticationService";
+import axios from 'axios';
+
 
 class AddProject extends Component {
     constructor(props) {
@@ -20,19 +23,10 @@ class AddProject extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        const url = new URL(this.state.serverUrl + "/projects/add");
-        const params = this.state;
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-        fetch(url, {method: "POST"})
-            .then(r => {
-                if (r.status === 200) {
-                    r.body.getReader().read().then(val => {
-                        const id = new TextDecoder("utf-8").decode(val.value);
-                        this.handleRedirect(id);
-                    });
-                }
-            });
-
+        const url = this.state.serverUrl + "/projects/add";
+        axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
+            .then(r => this.handleRedirect(r.data))
+            .catch(r => alert(r))
     };
 
     handleRedirect(id) {

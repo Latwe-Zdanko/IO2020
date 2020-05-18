@@ -32,7 +32,6 @@ function App() {
                                     <Link className="nav-link" to={"/project"}>Projects</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/sign-in"}>Login</Link>
                                     <Link id="sign-in" className="nav-link" to={"/sign-up"}>Sign up</Link>
                                 </li>
                                 <li className="nav-item">
@@ -45,7 +44,10 @@ function App() {
                                     <Link className="nav-link" to={"/surveys/addSurvey"}>Add survey</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
+                                    <Link className="nav-link" to={"/project/add"}>Add project</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/project/"}>Projects</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/surveys/"}>Surveys</Link>

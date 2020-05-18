@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Container} from 'reactstrap';
+import {Button,Container} from 'reactstrap';
+import AuthenticationService from "../service/AuthenticationService";
 
 class Projects extends Component {
 
@@ -15,21 +16,20 @@ class Projects extends Component {
     }
 
     componentDidMount() {
-        axios.get(this.state.serverUrl + '/projects/all')
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/projects/all',headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({projects: data});
             })
-            .catch(() => {
-                console.log("Error");
+            .catch(response => {
+                console.log("Error: " + response);
             });
     }
 
 
 
     render() {
-
-        console.log(this.state.projects);
 
         return (
             <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
@@ -41,6 +41,8 @@ class Projects extends Component {
                                 return <a href={"/project/view/" + item.id}>{item.name}</a>
                             })}
                         </div>
+                        <br/>
+                        <Button href={"/project/add"}>Add Project</Button>
                     </div>
                 </div>
             </Container>
