@@ -17,12 +17,13 @@ def springBootVersion = "2.2.6.RELEASE"
 def lombokVersion = "1.18.12"
 
 dependencies {
+    compile 'org.json:json:20190722'
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion"
-
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }

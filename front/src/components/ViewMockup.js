@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import {Container} from 'reactstrap';
 import "../App.css";
+import AuthenticationService from "../service/AuthenticationService";
+import {Redirect} from "react-router-dom";
+import axios from 'axios'
 
 class ViewMockup extends Component {
     constructor(props) {
@@ -14,20 +17,15 @@ class ViewMockup extends Component {
         };
         this.iframe = React.createRef();
 
-        fetch(this.state.serverUrl + '/mockups/id/' + this.props.match.params.id)
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/mockups/id/' + this.props.match.params.id, headers)
             .then(response => {
-                if (response.status === 200) {
-                    response.body.getReader().read().then(val => {
-                        const mockupString = new TextDecoder("utf-8").decode(val.value);
-                        const mockupObject = JSON.parse(mockupString);
-                        this.setState({
-                            mockup: mockupObject
-                        });
-                    });
-                } else {
-                    alert("Error: " + response.status);
-                }
-            });
+                this.setState({
+                    mockup: response.data
+                });
+            }).catch(response =>
+            alert("Error: " + response)
+        );
     }
 
     getSourceLink() {
@@ -35,6 +33,9 @@ class ViewMockup extends Component {
     }
 
     render() {
+        if (!AuthenticationService.isUserLoggedIn()) {
+            return <Redirect to={"/"}/>
+        }
         return (
             <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
                 <iframe ref={this.iframe} title="content" frameBorder={0}

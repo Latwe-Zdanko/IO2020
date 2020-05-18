@@ -17,11 +17,12 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MockupsController {
 
-    private transient MockupsRepository mockupsRepository;
-    private transient ObjectMapper objectMapper;
     private final static String MOCKUP_NAME = "mockupName";
     private final static String SOURCE_LINK = "sourceLink";
     private final static String PROJECT_LINK = "projectLink";
+    private transient MockupsRepository mockupsRepository;
+    private transient ObjectMapper objectMapper;
+
 
     @Autowired
     public MockupsController(MockupsRepository mockupsRepository, ObjectMapper objectMapper) {
