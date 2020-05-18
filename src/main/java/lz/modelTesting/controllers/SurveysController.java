@@ -32,16 +32,14 @@ public class SurveysController {
 
     @GetMapping("/{id}")
     public Survey getSurvey(@PathVariable String id) {
-        Optional<Survey> survey = surveysRepository.findByName(id);
+        Optional<Survey> survey = surveysRepository.findById(id);
         return survey.orElse(null);
     }
 
     @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addSurvey(@RequestBody String postPayload) {
-
         Survey survey = getSurveyFromJson(postPayload);
         surveysRepository.save(survey);
-
     }
 
     @PostMapping(value = "/addResponse", consumes = MediaType.APPLICATION_JSON_VALUE)

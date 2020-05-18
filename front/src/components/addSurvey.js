@@ -35,52 +35,52 @@ class AddSurvey extends Component {
         })
     };
 
-    updateInputValue = (evt, inputId, questionId) => {
+    updateInputValue = (event, inputId, questionId) => {
 
         switch (inputId) {
             case 1:
                 this.setState({
-                    inputValue1: evt.target.value,
+                    inputValue1: event.target.value,
                     id: 1
                 });
                 break;
             case 2:
                 this.setState({
-                    inputValue2: evt.target.value,
+                    inputValue2: event.target.value,
                     id: 2
                 });
                 break;
             case 3:
                 this.setState({
-                    inputValue3: evt.target.value,
+                    inputValue3: event.target.value,
                     id: 3
                 });
                 break;
             case 4:
                 this.setState({
-                    inputValue4: evt.target.value,
+                    inputValue4: event.target.value,
                     id: 4
                 });
                 break;
             case 5:
                 this.setState({
-                    inputValue5: evt.target.value
+                    inputValue5: event.target.value
                 });
                 break;
             case 6:
                 this.setState({
-                    isRequired: evt.target.checked
+                    isRequired: event.target.checked
                 });
 
         }
 
         const ref = this.refresh;
         setTimeout(function () {
-            ref(evt, questionId);
+            ref(event, questionId);
         }, 100);
     };
 
-    refresh = (evt, id) => {
+    refresh = (event, id) => {
         switch (id) {
             case 1:
                 this.addQuestionField();
@@ -119,14 +119,14 @@ class AddSurvey extends Component {
                         <div className="input-group-text">
                             <div className="custom-control custom-checkbox">
                                 <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                       onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                                       onChange={event => this.updateInputValue(event, 6, id)}/>
                                 <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                             </div>
                         </div>
                     </div>
                     <input type="text" className="form-control" placeholder="Question"
                            aria-label="Text input with radio button"
-                           onChange={evt => this.updateInputValue(evt, 1, id)}/>
+                           onChange={event => this.updateInputValue(event, 1, id)}/>
                 </div>
                 <Survey.Survey
                     json={commentField}
@@ -192,17 +192,17 @@ class AddSurvey extends Component {
             <div>
                 <div>
                     <input placeholder="Statement 1" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 1, id)}/><br/>
                     <input placeholder="Statement 2" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 2, id)}/><br/>
                     <input placeholder="Statement 3" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 3, id)}/><br/>
                     <input placeholder="Statement 4" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 4, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 4, id)}/><br/>
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, 6, id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -240,17 +240,17 @@ class AddSurvey extends Component {
             <div>
                 <div>
                     <input placeholder="Question" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 1, id)}/><br/>
                     <input placeholder="Option 1" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 2, id)}/><br/>
                     <input placeholder="Option 2" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 3, id)}/><br/>
                     <input placeholder="Option 3" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 4, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 4, id)}/><br/>
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, 6, id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -288,15 +288,15 @@ class AddSurvey extends Component {
             <div>
                 <div>
                     <input placeholder="Rating" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 1, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 1, id)}/><br/>
                     <input placeholder="Minimum Rate Description" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 2, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 2, id)}/><br/>
                     <input placeholder="Maximum Rate Description" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 3, id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 3, id)}/><br/>
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={evt => this.updateInputValue(evt, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, 6, id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -343,12 +343,7 @@ class AddSurvey extends Component {
 
     render() {
 
-        const tmpSurvey = !this.state.isCompleted ? (
-            this.state.tmpSurvey
-        ) : null;
-
         return (
-
             <div className="wrapper2">
                 <nav className="navbar navbar-dark bg-blue">
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
@@ -365,12 +360,12 @@ class AddSurvey extends Component {
                     </button>
                 </nav>
                 <div>
-                    {tmpSurvey}
+                    {this.state.tmpSurvey}
                 </div>
                 <br/>
                 <div>
                     <input placeholder="Survey Name" className="form-control"
-                           onChange={evt => this.updateInputValue(evt, 5, this.state.id)}/><br/>
+                           onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
                     </button>
                 </div>
