@@ -2,16 +2,14 @@ import React, {Component} from "react";
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
-import {Redirect} from "react-router-dom";
 import axios from 'axios';
 
-class AddMockup extends Component {
+
+class AddProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mockupName: "",
-            sourceLink: "",
-            projectId: this.props.match.params.id,
+            projectName: "",
             serverUrl: "http://localhost:8080"
         };
         this.handleChange = this.handleChange.bind(this);
@@ -25,43 +23,31 @@ class AddMockup extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        const url = this.state.serverUrl + "/mockups/add";
+        const url = this.state.serverUrl + "/projects/add";
         axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
             .then(r => this.handleRedirect(r.data))
             .catch(r => alert(r))
     };
 
     handleRedirect(id) {
-        window.location.href = '/mockup/view/' + id;
+        window.location.href = '/project/view/' + id;
     }
 
     render() {
-        if (!AuthenticationService.isUserLoggedIn()) {
-            return <Redirect to="/sign-in"/>
-        }
         return (
             <div className="auth-wrapper">
                 <div className="auth-inner">
                     <Form onSubmit={this.submitForm}>
                         <FormGroup>
-                            <Label for="mockupName">Mockup name</Label>
-                            <Input name="mockupName"
+                            <Label for="projectName">Project name</Label>
+                            <Input name="projectName"
                                    type="text"
-                                   value={this.state.mockupName}
+                                   value={this.state.projectName}
                                    onChange={this.handleChange}
-                                   placeholder="Enter mockup name"
+                                   placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <Label for="sourceLink">Link to mockup prototype</Label>
-                            <Input name="sourceLink"
-                                   type="text"
-                                   value={this.state.sourceLink}
-                                   onChange={this.handleChange}
-                                   placeholder="Enter link"
-                            />
-                        </FormGroup>
-                        <Button className="btn btn-primary btn-block">Add Mockup</Button>
+                        <Button className="btn btn-primary btn-block">Add Project</Button>
                     </Form>
                 </div>
             </div>
@@ -69,4 +55,4 @@ class AddMockup extends Component {
     }
 }
 
-export default AddMockup;
+export default AddProject;
