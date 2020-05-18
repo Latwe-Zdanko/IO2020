@@ -13,6 +13,10 @@ import SurveyExport from "./components/surveyExport"
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
+import Mockups from "./components/Mockups";
+import AddProject from "./components/AddProject";
+import Projects from "./components/Projects";
+import ViewProject from "./components/ViewProject";
 
 import Chat from "./components/Chat";
 
@@ -26,6 +30,9 @@ function App() {
                             <ul id="logged-out" hidden={AuthenticationService.isUserLoggedIn()}
                                 className="navbar-nav ml-auto">
                                 <li className="nav-item">
+                                    <Link className="nav-link" to={"/project"}>Projects</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link id="sign-in" className="nav-link" to={"/sign-up"}>Sign up</Link>
                                 </li>
                                 <li className="nav-item">
@@ -38,7 +45,10 @@ function App() {
                                     <Link className="nav-link" to={"/surveys/addSurvey"}>Add survey</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/mockup/add"}>Add mockup</Link>
+                                    <Link className="nav-link" to={"/project/add"}>Add project</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/project/"}>Projects</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/surveys"}>Surveys</Link>
@@ -66,9 +76,14 @@ function App() {
                     <Route exact path="/surveyexport/:id" component={SurveyExport}/>
                     <Route path="/sign-in" component={Login}/>
                     <Route path="/sign-up" component={SignUp}/>
-                    <Route path="/mockup/add" component={AddMockup}/>
+                    <Route path="/project/add" component={AddProject}/>
+                    <Route path="/project/view/:id" component={ViewProject}/>
+                    <Route path="/mockup/add/:id" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/mockup" component={Mockups}/>
+                    <Route path="/project" component={Projects}/>
                     <Route path="/chat" component={Chat}/>
+
                 </Switch>
             </div>
         </Router>

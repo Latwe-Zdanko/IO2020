@@ -1,14 +1,12 @@
 package lz.modelTesting.repositories;
 
 import lz.modelTesting.documents.Mockup;
+import lz.modelTesting.documents.Project;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface MockupsRepository extends MongoRepository<Mockup, String> {
+public interface ProjectsRepository  extends MongoRepository<Project, String> {
 
-    List<Mockup> findByProjectId(String projectId);
-
-    List<Mockup> findAll();
-
+    List<Project> findAll();
 }
