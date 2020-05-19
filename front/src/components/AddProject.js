@@ -24,7 +24,7 @@ class AddProject extends Component {
     submitForm = (e) => {
         e.preventDefault();
         const url = this.state.serverUrl + "/projects/add";
-        axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
+        axios.post(url, null, {params: this.state, headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(r => this.handleRedirect(r.data))
             .catch(r => alert(r))
     };

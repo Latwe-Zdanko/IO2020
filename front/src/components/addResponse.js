@@ -37,7 +37,7 @@ class Surveys extends Component {
 
     getSurveys = () => {
 
-        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authentication: AuthenticationService.getAuthToken()}})
+        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 const data = response.data;
                 const {id} = this.props.match.params;
@@ -66,7 +66,7 @@ class Surveys extends Component {
             axios.post(url + '/surveys/addResponse', {
                 id: surveyId,
                 answers: results.data
-            }, {headers: {authentication: AuthenticationService.getAuthToken()}})
+            }, {headers: {authorization: AuthenticationService.getAuthToken()}})
                 .then(function (response) {
                     console.log(response);
                     redirect();
