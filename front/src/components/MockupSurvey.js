@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Card, CardBody, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
@@ -15,9 +15,9 @@ class MockupSurvey extends Component {
             mockup: "",
             surveyName: "",
             questions: [],
-            iframeWidth: '110%',
+            iframeWidth: '125%',
             iframeHeight: window.innerHeight,
-            scale: 'scale(0.9)',
+            scale: 'scale(0.8)',
             panelVisible: true,
             isFull: false,
             answers: []
@@ -28,6 +28,7 @@ class MockupSurvey extends Component {
 
         axios.get(this.state.serverUrl + '/mockupsurvey/id/' + this.props.match.params.id, headers)
             .then(response => {
+                console.log(response)
                 this.setState({
                     mockupId: response.data.mockupId,
                     surveyName: response.data.name,
@@ -36,7 +37,6 @@ class MockupSurvey extends Component {
                 for (let i = 0; i < response.data.questions.length; i++) {
                     this.state.answers.push('');
                 }
-                console.log(this.state.questions);
                 this.setMockup();
             }).catch(response =>
             console.log(response)
@@ -44,10 +44,14 @@ class MockupSurvey extends Component {
     }
 
     setMockup = () => {
-        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        let headers = {
+            headers: {
+                authorization: AuthenticationService.getAuthToken(),
+                authentication: AuthenticationService.getAuthToken()
+            }
+        };
         axios.get(this.state.serverUrl + '/mockups/id/' + this.state.mockupId, headers)
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     mockup: response.data
                 });
@@ -67,9 +71,9 @@ class MockupSurvey extends Component {
 
     setDefaultSize() {
         this.setState({
-            iframeWidth: '110%',
+            iframeWidth: '125%',
             iframeHeight: window.innerHeight,
-            scale: 'scale(0.9)'
+            scale: 'scale(0.8)'
         })
     }
 
@@ -81,9 +85,17 @@ class MockupSurvey extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const url = this.state.serverUrl + "/mockupsurvey/addAnswer";
-        let configuration = {params:{surveyId: this.props.match.params.id, answers: this.state.answers.toString()},
-            headers: {authentication: AuthenticationService.getAuthToken(), authorization: AuthenticationService.getAuthToken()}};
-        axios.post(url, {surveyId: this.props.match.params.id, answers: this.state.answers.toString()}, configuration).then(r => console.log(r.statusText));
+        let configuration = {
+            params: {surveyId: this.props.match.params.id, answers: this.state.answers.toString()},
+            headers: {
+                authentication: AuthenticationService.getAuthToken(),
+                authorization: AuthenticationService.getAuthToken()
+            }
+        };
+        axios.post(url, {
+            surveyId: this.props.match.params.id,
+            answers: this.state.answers.toString()
+        }, configuration).then(r => console.log(r.statusText));
     };
 
     handleAnswerChange(e, index) {
@@ -97,43 +109,46 @@ class MockupSurvey extends Component {
         }
 
         return (
-            <div>
+            <div style={{background: "rgb(205,205,205)", overflowX: "hidden"}}>
                 <nav className="navbar navbar-expand-lg navbar-light"
                      style={{position: "float-top", marginTop: "55px", marginBottom: "10px", height: "50px"}}>
                     <div className="float-left container">{this.state.surveyName}</div>
-
-                    <Button style={{marginLeft: "5px"}} onClick={this.setFullscreen}>FullScreen</Button>
-
+                    <Button className="btn-secondary" style={{marginLeft: "5px"}}
+                            onClick={this.setFullscreen}>FullScreen</Button>
                 </nav>
-                <div className="container float-left" style={{width: window.screen.availWidth * 0.7}}>
-                    <Fullscreen enabled={this.state.isFull} onChange={this.handleFullscreenChange}>
-                        <iframe ref={this.iframe} title="content" frameBorder={0}
-                                width={this.state.iframeWidth} height={this.state.iframeHeight}
-                                style={{transform: this.state.scale, transformOrigin: '0 0'}}
-                                src={this.state.mockup.source} allowFullScreen={true}
-                        />
-                    </Fullscreen>
-                </div>
-                <div className="container float-right" style={{width: window.screen.availWidth * 0.28}}>
-                    <Card>
-                        <CardBody>
-                            <Form onSubmit={this.handleSubmit}>
-                                {this.state.answers.map((value, index) => (
-                                    <FormGroup>
-                                        <Label for="question">{this.state.questions[index]}</Label>
-                                        <Input name="question"
-                                               type="text"
-                                               key={index}
-                                               value={value}
-                                               onChange={(e) => this.handleAnswerChange(e, index)}
-                                        />
-                                    </FormGroup>
-                                ))}
-                                <Button>Submit</Button>
-                            </Form>
-                        </CardBody>
-                    </Card>
-                </div>
+                <Row>
+                    <Col>
+                        <div style={{width: "100%", padding: "5px"}}>
+                            <Fullscreen enabled={this.state.isFull} onChange={this.handleFullscreenChange}>
+                                <iframe ref={this.iframe} title="content" frameBorder={0}
+                                        width={this.state.iframeWidth} height={this.state.iframeHeight}
+                                        style={{transform: this.state.scale, transformOrigin: '0 0'}}
+                                        src={this.state.mockup.source} allowFullScreen={true}
+                                />
+                            </Fullscreen>
+                        </div>
+                    </Col>
+                    <Col xs="12" md="4">
+                        <Card style={{marginRight: "10px"}}>
+                            <CardBody>
+                                <Form onSubmit={this.handleSubmit}>
+                                    {this.state.answers.map((value, index) => (
+                                        <FormGroup>
+                                            <Label for="question">{this.state.questions[index]}</Label>
+                                            <Input name="question"
+                                                   type="text"
+                                                   key={index}
+                                                   value={value}
+                                                   onChange={(e) => this.handleAnswerChange(e, index)}
+                                            />
+                                        </FormGroup>
+                                    ))}
+                                    <Button>Submit</Button>
+                                </Form>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
             </div>
         );
     }

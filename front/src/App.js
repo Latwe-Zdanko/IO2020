@@ -12,7 +12,6 @@ import AddMockup from "./components/AddMockup";
 import MockupSurvey from "./components/MockupSurvey";
 import AddMockupSurvey from "./components/AddMockupSurvey";
 
-
 function App() {
     return (<Router>
             <div className="App">

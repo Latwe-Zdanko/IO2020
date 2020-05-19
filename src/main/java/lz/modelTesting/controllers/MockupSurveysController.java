@@ -1,18 +1,17 @@
 package lz.modelTesting.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lz.modelTesting.documents.Mockup;
 import lz.modelTesting.documents.MockupSurvey;
 import lz.modelTesting.repositories.MockupSurveysRepository;
-import lz.modelTesting.repositories.MockupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/mockupsurvey")
@@ -72,9 +71,8 @@ public class MockupSurveysController {
         String name = request.getParameter(SURVEY_NAME);
         String questionsString = request.getParameter(QUESTIONS);
         String mockupId = request.getParameter(MOCKUP_ID);
+        List<String> questions = Arrays.asList(questionsString.split(","));
 
-        List<String> questions = objectMapper.readValue(questionsString, new TypeReference<List<String>>() {
-        });
         MockupSurvey mockupSurvey = new MockupSurvey(name, questions);
         mockupSurvey.setMockupId(mockupId);
         mockupSurveysRepository.save(mockupSurvey);
@@ -85,9 +83,7 @@ public class MockupSurveysController {
     private ResponseEntity<String> addAnswer(HttpServletRequest request) throws JsonProcessingException {
         String id = request.getParameter(SURVEY_ID);
         String answersString = request.getParameter(ANSWERS);
-        System.out.println(answersString);
         List<String> answers = Arrays.asList(answersString.split(","));
-        System.out.println(answers);
         Optional<MockupSurvey> mockupSurvey = mockupSurveysRepository.findById(id);
 
         if (mockupSurvey.isPresent()) {
