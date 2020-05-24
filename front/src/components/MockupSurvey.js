@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-import {Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row} from 'reactstrap';
+import {Button, Card, CardBody, Col, Row} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
+import * as Survey from "survey-react";
 
 class MockupSurvey extends Component {
     constructor(props) {
@@ -18,36 +19,62 @@ class MockupSurvey extends Component {
             iframeWidth: '125%',
             iframeHeight: window.innerHeight,
             scale: 'scale(0.8)',
-            panelVisible: true,
             isFull: false,
-            answers: []
+            answers: [],
+            id: "",
+            survey: {questions: {}},
+            redirect: false
         };
         this.iframe = React.createRef();
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-
-        axios.get(this.state.serverUrl + '/mockupsurvey/id/' + this.props.match.params.id, headers)
+        axios.get(this.state.serverUrl + '/surveys/' + this.props.match.params.id, headers)
             .then(response => {
-                console.log(response)
                 this.setState({
                     mockupId: response.data.mockupId,
                     surveyName: response.data.name,
                 });
                 this.setState({questions: response.data.questions});
-                for (let i = 0; i < response.data.questions.length; i++) {
-                    this.state.answers.push('');
-                }
                 this.setMockup();
-            }).catch(response =>
-            console.log(response)
-        );
+            }).catch(error => alert("Error occurred: " + error.message));
     }
+
+    componentDidMount() {
+        this.getSurveys();
+    }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    };
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to="/surveys"/>
+        }
+    };
+
+    getSurveys = () => {
+        axios.get(this.state.serverUrl + '/surveys/all', {headers: {authorization: AuthenticationService.getAuthToken()}})
+            .then((response) => {
+                const data = response.data;
+                const {id} = this.props.match.params;
+
+                data.map((survey) => {
+                    if (survey.id === id) {
+                        const tmp = JSON.parse(survey.body);
+                        this.setState({id: survey.id, survey: tmp})
+                    }
+                })
+            })
+            .catch(error => alert("Error occurred: " + error.message));
+    };
 
     setMockup = () => {
         let headers = {
             headers: {
-                authorization: AuthenticationService.getAuthToken(),
-                authentication: AuthenticationService.getAuthToken()
+                authorization: AuthenticationService.getAuthToken()
             }
         };
         axios.get(this.state.serverUrl + '/mockups/id/' + this.state.mockupId, headers)
@@ -55,9 +82,7 @@ class MockupSurvey extends Component {
                 this.setState({
                     mockup: response.data
                 });
-            }).catch(response =>
-            console.log(response)
-        );
+            }).catch(error => alert("Error occurred: " + error.message));
     };
 
     setFullscreen = () => {
@@ -82,31 +107,29 @@ class MockupSurvey extends Component {
         if (!isFull) this.setDefaultSize()
     };
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const url = this.state.serverUrl + "/mockupsurvey/addAnswer";
-        let configuration = {
-            params: {surveyId: this.props.match.params.id, answers: this.state.answers.toString()},
-            headers: {
-                authentication: AuthenticationService.getAuthToken(),
-                authorization: AuthenticationService.getAuthToken()
-            }
-        };
-        axios.post(url, {
-            surveyId: this.props.match.params.id,
-            answers: this.state.answers.toString()
-        }, configuration).then(r => console.log(r.statusText));
-    };
-
-    handleAnswerChange(e, index) {
-        this.state.answers[index] = e.target.value;
-        this.setState({answers: this.state.answers});
-    }
 
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to={"/"}/>
         }
+
+        const survey = new Survey.Model(this.state.survey);
+        const surveyId = this.state.id;
+        const url = this.state.serverUrl;
+
+        const redirect = this.setRedirect;
+
+        survey.onComplete.add(function (results) {
+            axios.post(url + '/surveys/addResponse', {
+                id: surveyId,
+                answers: results.data
+            }, {headers: {authorization: AuthenticationService.getAuthToken()}})
+                .then(function (response) {
+                    redirect();
+                })
+                .catch(error => alert("Error occurred: " + error.message + "\nSurvey could not be subbmited"));
+        });
+        survey.showCompletedPage = false;
 
         return (
             <div style={{background: "rgb(205,205,205)", overflowX: "hidden"}}>
@@ -131,20 +154,12 @@ class MockupSurvey extends Component {
                     <Col xs="12" md="4">
                         <Card style={{marginRight: "10px"}}>
                             <CardBody>
-                                <Form onSubmit={this.handleSubmit}>
-                                    {this.state.answers.map((value, index) => (
-                                        <FormGroup>
-                                            <Label for="question">{this.state.questions[index]}</Label>
-                                            <Input name="question"
-                                                   type="text"
-                                                   key={index}
-                                                   value={value}
-                                                   onChange={(e) => this.handleAnswerChange(e, index)}
-                                            />
-                                        </FormGroup>
-                                    ))}
-                                    <Button>Submit</Button>
-                                </Form>
+                                <div>
+                                    {this.renderRedirect()}
+                                    <Survey.Survey
+                                        model={survey}
+                                    />
+                                </div>
                             </CardBody>
                         </Card>
                     </Col>

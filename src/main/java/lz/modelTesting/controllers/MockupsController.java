@@ -19,8 +19,10 @@ public class MockupsController {
 
     private final static String MOCKUP_NAME = "mockupName";
     private final static String SOURCE_LINK = "sourceLink";
+    private final static String PROJECT_ID = "projectId";
     private transient MockupsRepository mockupsRepository;
     private transient ObjectMapper objectMapper;
+
 
     @Autowired
     public MockupsController(MockupsRepository mockupsRepository, ObjectMapper objectMapper) {
@@ -31,6 +33,11 @@ public class MockupsController {
     @GetMapping(value = "/all")
     public List<Mockup> getAll() {
         return mockupsRepository.findAll();
+    }
+
+    @GetMapping(value = "/projectid/{projectid}")
+    public List<Mockup> getByProjectId(@PathVariable String projectid) {
+        return mockupsRepository.findByProjectId(projectid);
     }
 
     @GetMapping(value = "/id/{id}")
@@ -67,7 +74,8 @@ public class MockupsController {
     private Mockup createMockupFromRequest(HttpServletRequest request) {
         String name = request.getParameter(MOCKUP_NAME);
         String src = request.getParameter(SOURCE_LINK);
-        Mockup mockup = new Mockup(name, src);
+        String projectId = request.getParameter(PROJECT_ID);
+        Mockup mockup = new Mockup(name, src, projectId);
         mockupsRepository.save(mockup);
         return mockup;
     }
