@@ -2,7 +2,6 @@ package lz.modelTesting.controllers;
 
 import lz.modelTesting.documents.Survey;
 import lz.modelTesting.repositories.SurveysRepository;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class SurveysController {
         String mockupId = jsonObject.getString(MOCKUP_ID);
         String body = "{\"questions\":" + jsonObject.getJSONArray(BODY).toString() + '}';
         Survey survey = new Survey(name, body);
-        survey.setMockupId(new JSONObject(postPayload).getString(MOCKUP_ID));
+        survey.setMockupId(mockupId);
         surveysRepository.save(survey);
         return ResponseEntity.ok().body(survey.getId());
     }
