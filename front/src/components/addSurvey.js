@@ -332,7 +332,7 @@ class AddSurvey extends Component {
         axios.post(this.state.serverUrl + '/surveys/addSurvey', {
             name: this.state.inputValue5,
             body: this.state.current_survey
-        }, {headers: {authentication: AuthenticationService.getAuthToken()}})
+        }, {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(function (response) {
                 console.log(response);
             })

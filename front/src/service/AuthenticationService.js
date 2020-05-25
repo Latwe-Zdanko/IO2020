@@ -24,7 +24,6 @@ class AuthenticationService {
 
     registerSuccessfulLogin(username, password) {
         localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, window.btoa(username + ":" + password));
-        localStorage.setItem(USER_NAME, username);
         this.setupAxiosInterceptors(this.createBasicAuthToken(username, password));
         document.getElementById("logged-in").hidden = false;
         document.getElementById("logged-out").hidden = true;
