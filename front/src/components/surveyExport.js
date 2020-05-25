@@ -36,6 +36,7 @@ class SurveyExport extends Component {
                 </Link>
                 <h1>Survey {this.getSurveyName()}</h1>
                 <Button onClick={this.downloadJSON}>Download in JSON</Button>
+                <Button onClick={this.downloadCSV}>Download in CSV</Button>
             </div>
         )
     }
@@ -54,6 +55,61 @@ class SurveyExport extends Component {
                 let a = document.createElement('a');
                 a.href = url;
                 a.download = 'export.json';
+                a.click();
+            })
+    }
+
+    downloadCSV() {
+        axios.get("http://localhost:8080/surveys/" + document.getElementById("survey_id").innerText)
+            .then((response) => {
+                let answers = response.data.answers
+                let questions = response.data.body
+                let result = ""
+                questions = JSON.parse(questions)
+                questions = questions.questions
+                let questionsArray = []
+                for (let i = 0; i < questions.length; i++) {
+                    if (questions[i].type === "matrix") {
+                        for (let j = 0; j < questions[i].rows.length; j++) {
+                            questionsArray.push(questions[i].rows[j].value)
+                        }
+                    } else {
+                        questionsArray.push(questions[i].name)
+                    }
+                }
+                for (let i = questionsArray.length - 1; i >= 0; i--) {
+                    if (questionsArray[i] === "") {
+                        questionsArray.splice(i, 1)
+                    }
+                }
+                for (let i = 0; i < questionsArray.length; i++) {
+                    result += questionsArray[i] + ','
+                }
+                result = result.slice(0, -1) + '\n'
+                for (let i = 0; i < answers.length; i++) {
+                    let answer = JSON.parse(answers[i])
+                    for (let j = 0; j < questionsArray.length; j++) {
+                        let question = questionsArray[j]
+                        let questionAnswer = answer[question]
+                        if (typeof questionAnswer === 'undefined') {
+                            for (let key in answer) {
+                                if (typeof questionAnswer === 'undefined' && answer.hasOwnProperty(key)) {
+                                    questionAnswer = answer[key][question]
+                                }
+                            }
+                        }
+                        if (typeof questionAnswer === 'undefined') {
+                            questionAnswer = ""
+                        }
+                        result += questionAnswer + ','
+                    }
+                    result = result.slice(0, -1) + '\n'
+                }
+                let blob = new Blob([result])
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = 'export.csv';
                 a.click();
             })
     }
