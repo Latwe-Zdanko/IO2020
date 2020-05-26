@@ -19,7 +19,7 @@ class MockupSurvey extends Component {
             iframeWidth: '125%',
             iframeHeight: window.innerHeight,
             scale: 'scale(0.8)',
-            isFull: false,
+            isFullscreen: false,
             answers: [],
             id: "",
             survey: {questions: {}},
@@ -87,7 +87,7 @@ class MockupSurvey extends Component {
 
     setFullscreen = () => {
         this.setState({
-            isFull: true,
+            isFullscreen: true,
             iframeWidth: window.screen.availWidth,
             iframeHeight: window.screen.availHeight,
             scale: 'scale(1)'
@@ -102,9 +102,9 @@ class MockupSurvey extends Component {
         })
     }
 
-    handleFullscreenChange = (isFull) => {
-        this.setState({isFull});
-        if (!isFull) this.setDefaultSize()
+    handleFullscreenChange = (isFullscreen) => {
+        this.setState({isFullscreen});
+        if (!isFullscreen) this.setDefaultSize()
     };
 
 
@@ -142,7 +142,7 @@ class MockupSurvey extends Component {
                 <Row>
                     <Col>
                         <div style={{width: "100%", padding: "5px"}}>
-                            <Fullscreen enabled={this.state.isFull} onChange={this.handleFullscreenChange}>
+                            <Fullscreen enabled={this.state.isFullscreen} onChange={this.handleFullscreenChange}>
                                 <iframe ref={this.iframe} title="content" frameBorder={0}
                                         width={this.state.iframeWidth} height={this.state.iframeHeight}
                                         style={{transform: this.state.scale, transformOrigin: '0 0'}}

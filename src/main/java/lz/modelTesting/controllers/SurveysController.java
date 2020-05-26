@@ -46,12 +46,7 @@ public class SurveysController {
 
     @PostMapping(value = "/addMockupSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addMockupSurvey(@RequestBody String postPayload) {
-        JSONObject jsonObject = new JSONObject(postPayload);
-        String name = jsonObject.getString(NAME);
-        String mockupId = jsonObject.getString(MOCKUP_ID);
-        String body = "{\"questions\":" + jsonObject.getJSONArray(BODY).toString() + '}';
-        Survey survey = new Survey(name, body);
-        survey.setMockupId(mockupId);
+        Survey survey = getSurveyFromJson(postPayload);
         surveysRepository.save(survey);
         return ResponseEntity.ok().body(survey.getId());
     }
@@ -74,6 +69,11 @@ public class SurveysController {
         JSONObject jsonObject = new JSONObject(json);
         String name = jsonObject.getString(NAME);
         String body = jsonObject.getJSONObject(BODY).toString();
-        return new Survey(name, body);
+        Survey survey = new Survey(name, body);
+        if (jsonObject.has(MOCKUP_ID)){
+            String mockupId = jsonObject.getString(MOCKUP_ID);
+            survey.setMockupId(mockupId);
+        }
+        return survey;
     }
 }

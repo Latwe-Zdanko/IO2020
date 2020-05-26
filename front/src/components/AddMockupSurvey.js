@@ -20,7 +20,7 @@ class AddMockupSurvey extends Component {
             iframeWidth: '125%',
             iframeHeight: window.innerHeight,
             scale: 'scale(0.80)',
-            isFull: false,
+            isFullscreen: false,
             isDropdownOpen: false,
             formDisplay: "block",
             previewDisplay: "none",
@@ -48,7 +48,7 @@ class AddMockupSurvey extends Component {
 
     setFullscreen = () => {
         this.setState({
-            isFull: true,
+            isFullscreen: true,
             iframeWidth: window.screen.availWidth,
             iframeHeight: window.screen.availHeight,
             scale: 'scale(1)'
@@ -63,9 +63,9 @@ class AddMockupSurvey extends Component {
         })
     }
 
-    handleFullscreenChange = (isFull) => {
-        this.setState({isFull});
-        if (!isFull) this.setDefaultSize()
+    handleFullscreenChange = (isFullscreen) => {
+        this.setState({isFullscreen});
+        if (!isFullscreen) this.setDefaultSize()
     };
 
     handleChange = (event) => {
@@ -103,7 +103,7 @@ class AddMockupSurvey extends Component {
         axios.post(this.state.serverUrl + '/surveys/addMockupSurvey', {
             name: this.state.surveyName,
             mockupId: this.state.mockupId,
-            body: this.state.questions
+            body: {questions: this.state.questions}
         }, {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(response => this.handleRedirect(response.data))
             .catch(error => alert("Error occurred: " + error.message + "\nSurvey could not be subbmited"));
@@ -237,7 +237,7 @@ class AddMockupSurvey extends Component {
                 <Row>
                     <Col>
                         <div className="float-left" style={{width: "100%", padding: "5px"}}>
-                            <Fullscreen enabled={this.state.isFull} onChange={this.handleFullscreenChange}>
+                            <Fullscreen enabled={this.state.isFullscreen} onChange={this.handleFullscreenChange}>
                                 <iframe ref={this.iframe} title="content" frameBorder={0}
                                         width={this.state.iframeWidth} height={this.state.iframeHeight}
                                         style={{transform: this.state.scale, transformOrigin: '0 0'}}
@@ -376,7 +376,7 @@ class AddMockupSurvey extends Component {
                                                             </Col>
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
-                                                        <hr></hr>
+                                                        <hr/>
                                                     </FormGroup>
                                                 )
                                             }
