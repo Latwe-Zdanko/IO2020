@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Container} from 'reactstrap';
+import {Button, Container} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
@@ -32,17 +32,34 @@ class ViewMockup extends Component {
         return this.state.mockup.source;
     }
 
+    createSurvey = () => {
+        window.location.href = "/mockupsurvey/add/" + this.state.mockup.id
+    };
+
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to={"/"}/>
         }
         return (
-            <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
-                <iframe ref={this.iframe} title="content" frameBorder={0}
-                        width={this.state.iframeWidth} height={this.state.iframeHeight}
-                        style={{transform: this.state.scale, transformOrigin: '0 0'}}
-                        src={this.getSourceLink()} allowFullScreen={true}/>
-            </Container>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light "
+                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
+                    <span className="container float-left" style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                        <a href="/project">Projects</a> &ensp; / &ensp;
+                        {this.state.mockup.name}
+                    </span>
+                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                        <Button className="btn-secondary"
+                                onClick={this.createSurvey}>Create Survey</Button>
+                    </span>
+                </nav>
+                <Container style={{overflowX: 'hidden'}}>
+                    <iframe ref={this.iframe} title="content" frameBorder={0}
+                            width={this.state.iframeWidth} height={this.state.iframeHeight}
+                            style={{transform: this.state.scale, transformOrigin: '0 0'}}
+                            src={this.getSourceLink()} allowFullScreen={true}/>
+                </Container>
+            </div>
         );
     }
 }

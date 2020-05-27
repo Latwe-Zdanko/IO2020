@@ -18,6 +18,7 @@ public class Survey {
     private String name;
     private String body;
     private List<String> answers = new LinkedList<>();
+    private String mockupId;
 
     public Survey(String name, String body) {
         this.name = name;
