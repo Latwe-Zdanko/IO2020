@@ -1,11 +1,8 @@
-import AuthenticationService from "../service/AuthenticationService";
-
 let app = require ("express")();
 let http = require ("http").createServer (app);
 let io = require ("socket.io")(http);
 
 let users = [];
-AuthenticationService.API_URL
 io.on ("connection", function (socket)
 {
 	socket.on ("NEW_USER", function (name)
