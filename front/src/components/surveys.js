@@ -28,9 +28,7 @@ class Surveys extends Component {
 
     displaySurveys = (surveys) => {
 
-        if (!surveys.length) return;
-        console.log(window.location.href)
-        console.log(this.state.frontUrl + "/surveys")
+        if (!surveys.length) return <p>No surveys</p>;
         if (window.location.href === this.state.frontUrl + "/surveys") {
             return (
                 surveys.map((survey) => (
@@ -46,14 +44,8 @@ class Surveys extends Component {
     };
 
     render() {
-
-        console.log(this.state.surveys);
-
         return (
-            <div className="container">
-                <br/>
-                <br/>
-                <br/> {/*TODO: To nie powinno być w ten sposób, ale póki co działa - poprawię później*/}
+            <div className="container" style={{marginTop: "60px"}}>
                 <h1>Surveys</h1>
                 <br/>
                 <div className="list-group">
