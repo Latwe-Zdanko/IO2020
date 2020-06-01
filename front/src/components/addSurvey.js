@@ -345,6 +345,12 @@ class AddSurvey extends Component {
 
         return (
             <div className="wrapper2">
+                <div>
+                    <input placeholder="Survey Name" className="form-control"
+                           onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
+                    </button>
+                </div>
                 <nav className="navbar navbar-dark bg-blue">
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
                         matrix field
@@ -363,13 +369,6 @@ class AddSurvey extends Component {
                     {this.state.tmpSurvey}
                 </div>
                 <br/>
-                <div>
-                    <input placeholder="Survey Name" className="form-control"
-                           onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
-                    </button>
-                </div>
-
             </div>
         );
     }

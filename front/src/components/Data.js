@@ -2,19 +2,19 @@ import React, {Component} from "react";
 import "../App.css";
 import "survey-react/survey.css";
 import axios from 'axios';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import AuthenticationService from "../service/AuthenticationService";
 
-class Surveys extends Component {
+class Data extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             surveys: [],
+            copied: false,
             serverUrl: process.env.REACT_APP_SERVER_URL
         };
-
+        console.log("hal");
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
 
         axios.get(this.state.serverUrl + '/surveys/all', headers)
@@ -35,12 +35,8 @@ class Surveys extends Component {
                 <p>
                     <div className="input-group-prepend" style={{marginLeft: "250px"}}>
                         <div className="input-group-text">
-                            <a className="list-group-item" href={"/surveys/" + survey.id + "/addResponse"}
+                            <a className="list-group-item" href={"/data/" + survey.id + "/view"}
                                style={{color: "#2D1457", textAlign: "left", width: "500px"}}>{survey.name}</a>
-                            <CopyToClipboard text={window.location.href + survey.id + "/addResponse"}
-                                             onCopy={() => this.setState({copied: true})}>
-                                <button type="button" className="btn-primary btn-lg btn-dark">Copy</button>
-                            </CopyToClipboard>
                         </div>
                     </div>
                 </p>
@@ -48,9 +44,7 @@ class Surveys extends Component {
     };
 
     render() {
-
-        console.log(this.state.surveys);
-
+        console.log(this.state.serverUrl);
         return (
             <div className="marg">
                 <div className="container">
@@ -64,4 +58,4 @@ class Surveys extends Component {
     }
 }
 
-export default Surveys;
+export default Data;

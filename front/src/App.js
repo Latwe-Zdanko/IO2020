@@ -6,6 +6,8 @@ import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import Login from "./components/login";
 import SignUp from "./components/signup";
 import Home from "./components/home";
+import Data from "./components/Data";
+import ViewData from "./components/ViewData";
 import Surveys from "./components/surveys";
 import AddSurvey from "./components/addSurvey";
 import Survey from "./components/addResponse";
@@ -69,6 +71,8 @@ function App() {
                     <Route exact path="/surveys/" component={Surveys}/>
                     <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
                     <Route exact path="/surveys/:id/addResponse" component={Survey}/>
+                    <Route exact path="/data/" component={Data}/>
+                    <Route exact path="/data/:id/view" component={ViewData}/>
                     <Route path="/sign-in" component={Login}/>
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/project/add" component={AddProject}/>

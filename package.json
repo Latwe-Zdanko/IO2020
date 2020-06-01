@@ -22,5 +22,7 @@
     "react"
   ],
   "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {
+    "react-copy-to-clipboard": "^5.0.2"
+  }
 }
