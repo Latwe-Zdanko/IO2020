@@ -58,14 +58,23 @@ public class ProjectsController {
     @PostMapping(value = "/add")
     public ResponseEntity<String> addProject(HttpServletRequest request) {
         Project project = createProjectFromRequest(request);
+        projectsRepository.save(project);
         String id = project.getId();
+        return ResponseEntity.ok().body(id);
+    }
+
+    @PostMapping(value = "/changename/{id}")
+    public ResponseEntity<String> changeNameOfProject(HttpServletRequest request,@PathVariable String id) {
+        String name = request.getParameter(PROJECT_NAME);
+        Project project = new Project(name);
+        project.setId(id);
+        projectsRepository.save(project);
         return ResponseEntity.ok().body(id);
     }
 
     private Project createProjectFromRequest(HttpServletRequest request) {
         String name = request.getParameter(PROJECT_NAME);
         Project project = new Project(name);
-        projectsRepository.save(project);
         return project;
     }
 

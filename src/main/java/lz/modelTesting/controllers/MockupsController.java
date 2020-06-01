@@ -38,7 +38,7 @@ public class MockupsController {
 
     @GetMapping(value = "/projectid/{projectid}")
     public List<Mockup> getByProjectId(@PathVariable String projectid) {
-        return mockupsRepository.findByProjectId(projectid);
+        return mockupsRepository.findByProjectIdAndArchivedIsFalse(projectid);
     }
 
     @GetMapping(value = "/id/{id}")
@@ -68,6 +68,7 @@ public class MockupsController {
     @PostMapping(value = "/add")
     public ResponseEntity<String> addMockup(HttpServletRequest request) {
         Mockup mockup = createMockupFromRequest(request);
+        mockupsRepository.save(mockup);
         String id = mockup.getId();
         return ResponseEntity.ok().body(id);
     }
@@ -77,8 +78,17 @@ public class MockupsController {
         String src = request.getParameter(SOURCE_LINK);
         String projectId = request.getParameter(PROJECT_ID);
         Mockup mockup = new Mockup(name, src, projectId);
-        mockupsRepository.save(mockup);
+
         return mockup;
     }
 
+    @PostMapping(value = "/archive/{id}")
+    public ResponseEntity<String> addMockup(HttpServletRequest request,@PathVariable String id) {
+        Optional<Mockup> optional = mockupsRepository.findById(id);
+        optional.ifPresent(mockup -> {
+            mockup.setArchived(true);
+            mockupsRepository.save(mockup);
+        });
+        return ResponseEntity.ok().body(id);
+    }
 }

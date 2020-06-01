@@ -1,5 +1,6 @@
 package lz.modelTesting.documents;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class Mockup {
     private String source;
     @NonNull
     private String projectId;
-
+    @NonNull
+    private Boolean archived = false;
 
 
 }
