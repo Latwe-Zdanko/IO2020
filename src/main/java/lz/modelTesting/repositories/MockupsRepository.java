@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface MockupsRepository extends MongoRepository<Mockup, String> {
 
-    List<Mockup> findByProjectId(String projectId);
 
+    @Override
     List<Mockup> findAll();
 
     List<Mockup> findByProjectIdAndArchivedIsFalse(String projectId);

@@ -11,7 +11,7 @@ class Surveys extends Component {
 
         this.state = {
             surveys: [],
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};

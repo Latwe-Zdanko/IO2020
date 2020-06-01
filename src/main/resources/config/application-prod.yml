@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      database: heroku_3gdxp0qb

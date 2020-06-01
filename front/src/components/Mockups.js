@@ -11,7 +11,7 @@ class Mockups extends Component {
 
         this.state = {
             mockups: [],
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         }
     }
 

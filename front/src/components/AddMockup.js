@@ -12,7 +12,7 @@ class AddMockup extends Component {
             mockupName: "",
             sourceLink: "",
             projectId: this.props.match.params.id,
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
         this.handleChange = this.handleChange.bind(this);
 
@@ -26,7 +26,7 @@ class AddMockup extends Component {
     submitForm = (e) => {
         e.preventDefault();
         const url = this.state.serverUrl + "/mockups/add";
-        axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
+        axios.post(url, null, {params: this.state, headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(r => this.handleRedirect(r.data))
             .catch(r => alert(r))
     };

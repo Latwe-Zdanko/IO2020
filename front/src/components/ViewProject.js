@@ -5,7 +5,6 @@ import {Button, Container} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 import ChangeNamePopup from "./ChangeNamePopup";
 
-
 const API_URL = 'http://localhost:8080';
 
 class ViewProject extends Component {
@@ -17,7 +16,7 @@ class ViewProject extends Component {
             projectId: this.props.match.params.id,
             mockups: [],
             projectName: "",
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         }
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
