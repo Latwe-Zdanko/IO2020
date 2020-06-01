@@ -13,11 +13,12 @@ import SurveyExport from "./components/surveyExport"
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
+import MockupSurvey from "./components/MockupSurvey";
+import AddMockupSurvey from "./components/AddMockupSurvey";
 import Mockups from "./components/Mockups";
 import AddProject from "./components/AddProject";
 import Projects from "./components/Projects";
 import ViewProject from "./components/ViewProject";
-
 import Chat from "./components/Chat";
 
 function App() {
@@ -80,6 +81,8 @@ function App() {
                     <Route path="/project/view/:id" component={ViewProject}/>
                     <Route path="/mockup/add/:id" component={AddMockup}/>
                     <Route path="/mockup/view/:id" component={ViewMockup}/>
+                    <Route path="/mockupsurvey/add/:id" component={AddMockupSurvey}/>
+                    <Route path="/mockupsurvey/:id" component={MockupSurvey}/>
                     <Route path="/mockup" component={Mockups}/>
                     <Route path="/project" component={Projects}/>
                     <Route path="/chat" component={Chat}/>

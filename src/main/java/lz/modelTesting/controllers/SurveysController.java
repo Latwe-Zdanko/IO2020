@@ -4,6 +4,7 @@ import lz.modelTesting.documents.Survey;
 import lz.modelTesting.repositories.SurveysRepository;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class SurveysController {
     private static final String BODY = "body";
     private static final String ID = "id";
     private static final String ANSWERS = "answers";
+    private static final String MOCKUP_ID = "mockupId";
 
     private transient SurveysRepository surveysRepository;
 
@@ -42,6 +44,13 @@ public class SurveysController {
         surveysRepository.save(survey);
     }
 
+    @PostMapping(value = "/addMockupSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addMockupSurvey(@RequestBody String postPayload) {
+        Survey survey = getSurveyFromJson(postPayload);
+        surveysRepository.save(survey);
+        return ResponseEntity.ok().body(survey.getId());
+    }
+
     @PostMapping(value = "/addResponse", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addAnswersToSurvey(@RequestBody String postPayload) {
         JSONObject jsonObject = new JSONObject(postPayload);
@@ -60,6 +69,11 @@ public class SurveysController {
         JSONObject jsonObject = new JSONObject(json);
         String name = jsonObject.getString(NAME);
         String body = jsonObject.getJSONObject(BODY).toString();
-        return new Survey(name, body);
+        Survey survey = new Survey(name, body);
+        if (jsonObject.has(MOCKUP_ID)){
+            String mockupId = jsonObject.getString(MOCKUP_ID);
+            survey.setMockupId(mockupId);
+        }
+        return survey;
     }
 }

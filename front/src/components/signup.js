@@ -5,7 +5,7 @@ import axios from 'axios';
 import bcryptjs from 'bcryptjs'
 import ReactDOM from "react-dom"
 
-const API_URL = 'http://localhost:8080';
+const API_URL = process.env.REACT_APP_SERVER_URL;
 
 export default class SignUp extends Component {
 

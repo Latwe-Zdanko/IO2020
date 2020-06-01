@@ -12,7 +12,7 @@ class AddMockup extends Component {
             mockupName: "",
             sourceLink: "",
             projectId: this.props.match.params.id,
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
         this.handleChange = this.handleChange.bind(this);
 

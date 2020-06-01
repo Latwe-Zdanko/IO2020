@@ -19,7 +19,7 @@ class AddSurvey extends Component {
             inputValue5: '',
             isRequired: false,
             tmpQuestion: {"questions": []},
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             current_survey: {"questions": []},
             currentSurvey: <p></p>,
             tmpSurvey: <p></p>

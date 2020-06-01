@@ -12,7 +12,7 @@ class Surveys extends Component {
         this.state = {
             surveys: [],
             frontUrl: "http://localhost:3000",
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
