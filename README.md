@@ -55,4 +55,5 @@ Dobrym narzędziem jest Robo 3T: [link](https://robomongo.org/download)
 ### Deploy automatyczny
 ~~Z każdym buildem na [travisie](https://travis-ci.com/github/Latwe-Zdanko/IO2020) następuje build obu aplikacji
 (frontend i backend) zgodnie z [konfiguracją](.travis.yml).~~
+
 Nie ma
