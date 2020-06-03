@@ -89,7 +89,7 @@ export default class SignUp extends Component {
             return <Redirect to={"/"}/>
         }
         return (
-            <div className="auth-wrapper">
+            <div className="auth-wrapper" style={{marginTop: "60px"}}>
                 <div id="main-cont" className="auth-inner">
                     <form id="sign-form" onSubmit={this.signUp}>
                         <h3>Sign Up</h3>
@@ -120,7 +120,7 @@ export default class SignUp extends Component {
                         </div>
                         <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                         <p className="forgot-password text-right">
-                            Already registered <a href="/sign-in">sign in?</a>
+                            Already registered? <a href="/sign-in">Log in.</a>
                         </p>
                     </form>
                 </div>

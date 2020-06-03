@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import AuthenticationService from '../service/AuthenticationService.js';
 import {Redirect} from "react-router-dom"
 
-export default class Login extends Component {
+export default class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +41,7 @@ export default class Login extends Component {
             <div className="auth-wrapper">
                 <div className="auth-inner">
                     <form onSubmit={this.login}>
-                        <h3>Sign In</h3>
+                        <h3>Log In</h3>
                         <div className="form-group">
                             <label>Email address</label>
                             <input name="email" type="email" onChange={this.handleChange} className="form-control"
@@ -54,7 +54,7 @@ export default class Login extends Component {
                                    placeholder="Enter password"/>
                         </div>
 
-                        <button className="btn btn-primary btn-block">Submit</button>
+                        <button className="btn btn-primary btn-block">Log In</button>
                         <p className="forgot-password text-right">
                             { /* eslint-disable-next-line */}
                             Forgot <a href="#">password?</a>

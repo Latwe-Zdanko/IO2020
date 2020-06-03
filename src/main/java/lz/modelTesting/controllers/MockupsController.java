@@ -35,6 +35,12 @@ public class MockupsController {
         return mockupsRepository.findAll();
     }
 
+    @GetMapping(value = "/recent")
+    public List<Mockup> getRecent(){
+        List<Mockup> mockupList =  mockupsRepository.findAll();
+        return mockupList.subList(mockupList.size() - 3, mockupList.size());
+    }
+
     @GetMapping(value = "/projectid/{projectid}")
     public List<Mockup> getByProjectId(@PathVariable String projectid) {
         return mockupsRepository.findByProjectId(projectid);

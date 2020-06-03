@@ -344,6 +344,14 @@ class AddSurvey extends Component {
     render() {
 
         return (
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light "
+                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
+                    <span className="container float-left"
+                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                        <a href="/surveys">Surveys</a> &ensp; / &ensp; New Survey
+                    </span>
+                </nav>
             <div className="wrapper2">
                 <nav className="navbar navbar-dark bg-blue">
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
@@ -366,10 +374,10 @@ class AddSurvey extends Component {
                 <div>
                     <input placeholder="Survey Name" className="form-control"
                            onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
+                    <button type="button" className="btn btn-lg btn-primary btn-success" onClick={this.submitSurvey}>Submit
                     </button>
                 </div>
-
+            </div>
             </div>
         );
     }

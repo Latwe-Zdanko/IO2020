@@ -132,12 +132,12 @@ class MockupSurvey extends Component {
         survey.showCompletedPage = false;
 
         return (
-            <div style={{background: "rgb(205,205,205)", overflowX: "hidden"}}>
+            <div className="bg-light" style={{overflowX: "hidden"}}>
                 <nav className="navbar navbar-expand-lg navbar-light"
                      style={{position: "float-top", marginTop: "55px", marginBottom: "10px", height: "50px"}}>
                     <div className="float-left container">{this.state.surveyName}</div>
-                    <Button className="btn-secondary" style={{marginLeft: "5px"}}
-                            onClick={this.setFullscreen}>FullScreen</Button>
+                    <button className="btn btn-primary" style={{marginLeft: "5px"}}
+                            onClick={this.setFullscreen}>FullScreen</button>
                 </nav>
                 <Row>
                     <Col>

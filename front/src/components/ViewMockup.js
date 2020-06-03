@@ -11,6 +11,7 @@ class ViewMockup extends Component {
         this.state = {
             serverUrl: "http://localhost:8080",
             mockup: "",
+            projectName: "",
             iframeWidth: '110%',
             iframeHeight: window.innerHeight,
             scale: 'scale(0.9)'
@@ -23,9 +24,21 @@ class ViewMockup extends Component {
                 this.setState({
                     mockup: response.data
                 });
+                this.setProjectName();
             }).catch(response =>
             alert("Error: " + response)
         );
+    }
+
+    setProjectName() {
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/projects/id/' + this.state.mockup.projectId, headers)
+            .then((response) => {
+                this.setState({projectName: response.data.name});
+            })
+            .catch(response => {
+                console.log("Error: " + response);
+            });
     }
 
     getSourceLink() {
@@ -41,16 +54,17 @@ class ViewMockup extends Component {
             return <Redirect to={"/"}/>
         }
         return (
-            <div>
+            <div className="bg-light">
                 <nav className="navbar navbar-expand-lg navbar-light "
                      style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
                     <span className="container float-left" style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
                         <a href="/project">Projects</a> &ensp; / &ensp;
+                        <a href={"/project/view/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         {this.state.mockup.name}
                     </span>
                     <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
-                        <Button className="btn-secondary"
-                                onClick={this.createSurvey}>Create Survey</Button>
+                        <button className="btn btn-primary"
+                                onClick={this.createSurvey}>Create Survey</button>
                     </span>
                 </nav>
                 <Container style={{overflowX: 'hidden'}}>

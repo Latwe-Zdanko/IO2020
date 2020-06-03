@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as Survey from "survey-react";
 import {Redirect} from "react-router-dom"
 import AuthenticationService from "../service/AuthenticationService";
+import {Button} from "reactstrap";
 
 class Surveys extends Component {
 
@@ -14,6 +15,7 @@ class Surveys extends Component {
         this.state = {
             id: "",
             survey: {questions: {}},
+            surveyName: "",
             redirect: false,
             serverUrl: "http://localhost:8080"
         };
@@ -45,7 +47,7 @@ class Surveys extends Component {
                 data.map((survey) => {
                     if (survey.id === id) {
                         const tmp = JSON.parse(survey.body);
-                        this.setState({id: survey.id, survey: tmp})
+                        this.setState({id: survey.id, survey: tmp, surveyName: survey.name})
                     }
                 })
             })
@@ -78,6 +80,14 @@ class Surveys extends Component {
         survey.showCompletedPage = false;
 
         return (
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light "
+                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
+                    <span className="container float-left"
+                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                        {this.state.surveyName}
+                    </span>
+                </nav>
             <div className="wrapper">
                 <div>
                     {this.renderRedirect()}
@@ -85,6 +95,7 @@ class Surveys extends Component {
                         model={survey}
                     />
                 </div>
+            </div>
             </div>
         );
     }

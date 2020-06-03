@@ -61,7 +61,7 @@ class AddMockup extends Component {
                                    placeholder="Enter link"
                             />
                         </FormGroup>
-                        <Button className="btn btn-primary btn-block">Add Mockup</Button>
+                        <button className="btn btn-block btn-primary">Add Mockup</button>
                     </Form>
                 </div>
             </div>
