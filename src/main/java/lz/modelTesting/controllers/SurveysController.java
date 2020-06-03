@@ -35,8 +35,9 @@ public class SurveysController {
     @GetMapping(value = "/recent")
     public List<Survey> getRecent(){
         List<Survey> surveyList =  surveysRepository.findAll();
-        if (surveyList.size() <=3) return surveyList;
-        return surveyList.subList(surveyList.size() - 3, surveyList.size());
+        int numberOfSurveys = 3;
+        if (surveyList.size() <= numberOfSurveys) return surveyList;
+        return surveyList.subList(surveyList.size() - numberOfSurveys, surveyList.size());
     }
 
     @GetMapping("/{id}")

@@ -38,7 +38,9 @@ public class MockupsController {
     @GetMapping(value = "/recent")
     public List<Mockup> getRecent(){
         List<Mockup> mockupList =  mockupsRepository.findAll();
-        return mockupList.subList(mockupList.size() - 3, mockupList.size());
+        int mockupsNumber = 3;
+        if (mockupList.size() <= mockupsNumber) return mockupList;
+        return mockupList.subList(mockupList.size() - mockupsNumber, mockupList.size());
     }
 
     @GetMapping(value = "/projectid/{projectid}")
