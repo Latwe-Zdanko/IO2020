@@ -78,7 +78,7 @@ public class SurveysController {
         String name = jsonObject.getString(NAME);
         String body = jsonObject.getJSONObject(BODY).toString();
         Survey survey = new Survey(name, body, type);
-        if (type.equals("mockup")){
+        if ("mockup".equals(type)){
             String mockupId = jsonObject.getString(MOCKUP_ID);
             survey.setMockupId(mockupId);
         }
