@@ -53,5 +53,7 @@ Dobrym narzędziem jest Robo 3T: [link](https://robomongo.org/download)
  [Instrukcja](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app)
  
 ### Deploy automatyczny
-Z każdym buildem na [travisie](https://travis-ci.com/github/Latwe-Zdanko/IO2020) następuje build obu aplikacji
-(frontend i backend) zgodnie z [konfiguracją](.travis.yml).
+~~Z każdym buildem na [travisie](https://travis-ci.com/github/Latwe-Zdanko/IO2020) następuje build obu aplikacji
+(frontend i backend) zgodnie z [konfiguracją](.travis.yml).~~
+
+Nie ma
