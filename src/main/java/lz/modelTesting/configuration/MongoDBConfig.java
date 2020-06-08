@@ -1,6 +1,7 @@
 package lz.modelTesting.configuration;
 
 import lz.modelTesting.documents.Mockup;
+import lz.modelTesting.documents.Survey;
 import lz.modelTesting.documents.Project;
 import lz.modelTesting.documents.User;
 import lz.modelTesting.repositories.MockupsRepository;
@@ -19,7 +20,7 @@ import java.util.Optional;
 public class MongoDBConfig {
     @Bean
     CommandLineRunner loadSamples(UsersRepository usersRepository, MockupsRepository mockupsRepository,
-                                  ProjectsRepository projectsRepository) {
+                                  SurveysRepository surveysRepository, ProjectsRepository projectsRepository) {
         return args ->
         {
             // passwords are encrypted by BCrypt
@@ -35,6 +36,10 @@ public class MongoDBConfig {
             }
 
             saveSampleProject(mockupsRepository, projectsRepository);
+            Survey test_survey = new Survey("Test Survey", "{\"questions\":[{\"isRequired\":false,\"enableIf\":true,\"name\":\"Is this working?\",\"type\":\"comment\",\"title\":\"Is this working?\"}]}");
+            test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Yes.\"}}");
+            test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Very much so!\"}}");
+            surveysRepository.save(test_survey);
         };
     }
 
@@ -50,6 +55,4 @@ public class MongoDBConfig {
             mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width", projectId));
         }
     }
-
-
 }
