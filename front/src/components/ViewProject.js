@@ -19,7 +19,7 @@ class ViewProject extends Component {
         }
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(serverUrl + '/projects/id/' + this.state.projectId,headers)
+        axios.get(serverUrl + '/projects/id/' + this.state.projectId, headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({projectName: data.name});
@@ -32,7 +32,7 @@ class ViewProject extends Component {
 
     componentDidMount() {
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(serverUrl + '/mockups/byProjectId/' + this.state.projectId,headers)
+        axios.get(serverUrl + '/mockups/byProjectId/' + this.state.projectId, headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
@@ -42,16 +42,16 @@ class ViewProject extends Component {
             });
     }
 
-    togglePopup(){
+    togglePopup() {
         this.setState({
             showPopup: !this.state.showPopup
         });
     }
 
 
-    archive(e){
+    archive(e) {
         e.preventDefault();
-        const url = API_URL + "/mockups/archive/" + e.target.value;
+        const url = serverUrl + "/mockups/archive/" + e.target.value;
         axios.post(url, null, {params: this.state, headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(r => window.location.reload(false))
             .catch(r => alert(r))
@@ -64,12 +64,16 @@ class ViewProject extends Component {
             <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
                 <div className="auth-wrapper">
                     <div className="auth-inner">
-                        <h2>{this.state.projectName}<button className="btn btn-primary" onClick={this.togglePopup.bind(this)}>change name</button></h2>
+                        <h2>{this.state.projectName}
+                            <button className="btn btn-primary" onClick={this.togglePopup.bind(this)}>change name
+                            </button>
+                        </h2>
                         <br/>
                         <div className="list-group">
                             {this.state.mockups.map((item) => {
                                 return <div><a className="link" href={"/mockup/view/" + item.id}>{item.name}</a>
-                                    <Button className="btn-archive"  onClick={this.archive} value={item.id}>archive</Button></div>
+                                    <Button className="btn-archive" onClick={this.archive}
+                                            value={item.id}>archive</Button></div>
                             })}
                         </div>
                         {this.state.showPopup ?
@@ -80,7 +84,8 @@ class ViewProject extends Component {
                             : null
                         }
                         <br/><br/>
-                        <Button className="btn btn-primary" href={"/mockup/add/" + this.state.projectId}>Add Mockup</Button>
+                        <Button className="btn btn-primary" href={"/mockup/add/" + this.state.projectId}>Add
+                            Mockup</Button>
                     </div>
                 </div>
             </Container>

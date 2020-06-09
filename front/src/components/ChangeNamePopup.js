@@ -18,7 +18,7 @@ class ChangeNamePopup extends Component {
         this.handleChange = this.handleChange.bind(this);
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/projects/id/' + this.state.projectId,headers)
+        axios.get(this.state.serverUrl + '/projects/id/' + this.state.projectId, headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({projectName: data.name});
@@ -34,9 +34,12 @@ class ChangeNamePopup extends Component {
     submitForm = (e) => {
         e.preventDefault();
         const url = this.state.serverUrl + "/projects/change-name/" + this.state.projectId;
-        axios.post(url, null, {params: this.state.projectName, headers: {authorization: AuthenticationService.getAuthToken()}})
+        axios.post(url, null, {
+            params: {projectName: this.state.projectName},
+            headers: {authorization: AuthenticationService.getAuthToken()}
+        })
             .then(response => this.handleRedirect(response.data))
-            .catch(response => alert(r))
+            .catch(response => alert(response))
     };
 
 
@@ -45,9 +48,8 @@ class ChangeNamePopup extends Component {
     }
 
 
-
     render() {
-        return(
+        return (
             <div className='popup'>
                 <div className='popup_inner'>
                     <Form onSubmit={this.submitForm}>
@@ -60,7 +62,7 @@ class ChangeNamePopup extends Component {
                                    placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <Button className="btn btn-primary" >Confirm</Button>
+                        <Button className="btn btn-primary">Confirm</Button>
                         <button className="btn btn-primary" onClick={this.props.closePopup}>Close</button>
                     </Form>
                 </div>

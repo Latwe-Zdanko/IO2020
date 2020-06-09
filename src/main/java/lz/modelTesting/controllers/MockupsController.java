@@ -85,8 +85,7 @@ public class MockupsController {
     @PostMapping(value = "/archive/{id}")
     public ResponseEntity<String> archiveMockup(HttpServletRequest request, @PathVariable String id) {
         Optional<Mockup> optional = mockupsRepository.findById(id);
-        if(optional.isPresent())
-        {
+        if (optional.isPresent()) {
             Mockup mockup = optional.get();
             mockup.setArchived(true);
             mockupsRepository.save(mockup);
