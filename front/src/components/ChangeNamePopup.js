@@ -9,7 +9,7 @@ class ChangeNamePopup extends Component {
         super(props);
 
         this.state = {
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             projectId: this.props.id,
             projectName: "",
             showPopup: false
@@ -23,9 +23,7 @@ class ChangeNamePopup extends Component {
                 const data = response.data;
                 this.setState({projectName: data.name});
             })
-            .catch(response => {
-                console.log("Error: " + response);
-            });
+            .catch(response => alert(response));
     }
 
     handleChange(event) {
@@ -35,10 +33,10 @@ class ChangeNamePopup extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        const url = this.state.serverUrl + "/projects/changename/" + this.state.projectId;
-        axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
-            .then(r => this.handleRedirect(r.data))
-            .catch(r => alert(r))
+        const url = this.state.serverUrl + "/projects/change-name/" + this.state.projectId;
+        axios.post(url, null, {params: this.state.projectName, headers: {authorization: AuthenticationService.getAuthToken()}})
+            .then(response => this.handleRedirect(response.data))
+            .catch(response => alert(r))
     };
 
 

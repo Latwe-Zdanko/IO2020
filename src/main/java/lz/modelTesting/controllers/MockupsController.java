@@ -3,6 +3,7 @@ package lz.modelTesting.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lz.modelTesting.documents.Mockup;
+import lz.modelTesting.documents.Project;
 import lz.modelTesting.repositories.MockupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,9 @@ public class MockupsController {
         return mockupsRepository.findAll();
     }
 
-    @GetMapping(value = "/projectid/{projectid}")
-    public List<Mockup> getByProjectId(@PathVariable String projectid) {
-        return mockupsRepository.findByProjectIdAndArchivedIsFalse(projectid);
+    @GetMapping(value = "/byProjectId/{projectId}")
+    public List<Mockup> getNotArchivedByProjectId(@PathVariable String projectId) {
+        return mockupsRepository.findByProjectIdAndArchivedIsFalse(projectId);
     }
 
     @GetMapping(value = "/id/{id}")
@@ -82,12 +83,15 @@ public class MockupsController {
     }
 
     @PostMapping(value = "/archive/{id}")
-    public ResponseEntity<String> addMockup(HttpServletRequest request,@PathVariable String id) {
+    public ResponseEntity<String> archiveMockup(HttpServletRequest request, @PathVariable String id) {
         Optional<Mockup> optional = mockupsRepository.findById(id);
-        optional.ifPresent(mockup -> {
+        if(optional.isPresent())
+        {
+            Mockup mockup = optional.get();
             mockup.setArchived(true);
             mockupsRepository.save(mockup);
-        });
-        return ResponseEntity.ok().body(id);
+            return ResponseEntity.ok().body(id);
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

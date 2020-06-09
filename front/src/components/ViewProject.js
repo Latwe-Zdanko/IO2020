@@ -5,7 +5,7 @@ import {Button, Container} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 import ChangeNamePopup from "./ChangeNamePopup";
 
-const API_URL = 'http://localhost:8080';
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 class ViewProject extends Component {
 
@@ -15,12 +15,11 @@ class ViewProject extends Component {
         this.state = {
             projectId: this.props.match.params.id,
             mockups: [],
-            projectName: "",
-            serverUrl: process.env.REACT_APP_SERVER_URL
+            projectName: ""
         }
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/projects/id/' + this.state.projectId,headers)
+        axios.get(serverUrl + '/projects/id/' + this.state.projectId,headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({projectName: data.name});
@@ -33,7 +32,7 @@ class ViewProject extends Component {
 
     componentDidMount() {
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/mockups/projectid/' + this.state.projectId,headers)
+        axios.get(serverUrl + '/mockups/byProjectId/' + this.state.projectId,headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
@@ -53,7 +52,7 @@ class ViewProject extends Component {
     archive(e){
         e.preventDefault();
         const url = API_URL + "/mockups/archive/" + e.target.value;
-        axios.post(url, null, {params: this.state, headers: {authentication: AuthenticationService.getAuthToken()}})
+        axios.post(url, null, {params: this.state, headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(r => window.location.reload(false))
             .catch(r => alert(r))
     }

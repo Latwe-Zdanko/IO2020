@@ -63,12 +63,22 @@ public class ProjectsController {
         return ResponseEntity.ok().body(id);
     }
 
-    @PostMapping(value = "/changename/{id}")
+    @PutMapping(value = "/change-name/{id}")
     public ResponseEntity<String> changeNameOfProject(HttpServletRequest request,@PathVariable String id) {
         String name = request.getParameter(PROJECT_NAME);
-        Project project = new Project(name);
-        project.setId(id);
-        projectsRepository.save(project);
+        try {
+            Optional<Project> optional = projectsRepository.findById(id);
+            if(optional.isPresent())
+            {
+                Project project = optional.get();
+                project.setName(name);
+                projectsRepository.save(project);
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+
         return ResponseEntity.ok().body(id);
     }
 
