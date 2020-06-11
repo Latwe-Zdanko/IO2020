@@ -53,7 +53,7 @@ function App() {
                                     <Link className="nav-link" to={"/project/"}>Projects</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/surveys/"}>Surveys</Link>
+                                    <Link className="nav-link" to={"/surveys"}>Surveys</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/chat"}>Chat</Link>
@@ -68,7 +68,7 @@ function App() {
                 </nav>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route exact path="/surveys/" component={Surveys}/>
+                    <Route exact path="/surveys" component={Surveys}/>
                     <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
                     <Route exact path="/surveys/:id/addResponse" component={Survey}/>
                     <Route exact path="/data/" component={Data}/>
