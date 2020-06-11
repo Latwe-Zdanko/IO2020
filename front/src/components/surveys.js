@@ -40,11 +40,12 @@ class Surveys extends Component {
         return (
             surveys.map((survey) => (
                 <div className="list-group-item">
-                    <div style={{display: "inline", verticalAlign:"middle"}}>
+                    <div style={{display: "inline", verticalAlign: "middle"}}>
                         <a href={"/surveys/" + survey.id + "/addResponse"}>{survey.name}</a>
                     </div>
                     <div style={{display: "inline", float: "right"}}>
-                        <Button onClick={this.downloadJSON} value={survey.id} style={{marginRight: "10px"}}>Download in JSON</Button>
+                        <Button onClick={this.downloadJSON} value={survey.id} style={{marginRight: "10px"}}>Download in
+                            JSON</Button>
                         <Button onClick={this.downloadCSV} value={survey.id}>Download in CSV</Button>
                     </div>
                 </div>
@@ -66,7 +67,7 @@ class Surveys extends Component {
 
     downloadJSON(event) {
         let survey_id = event.target.value
-        axios.get("http://localhost:8080/surveys/" + survey_id,
+        axios.get(this.state.serverUrl + "/surveys/" + survey_id,
             {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 let result = response.data.answers
@@ -129,7 +130,7 @@ class Surveys extends Component {
         }
 
         let survey_id = event.target.value
-        axios.get("http://localhost:8080/surveys/" + survey_id,
+        axios.get(this.state.serverUrl + "/surveys/" + survey_id,
             {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 let answers = response.data.answers
