@@ -77,8 +77,7 @@ public class ProjectsController {
 
     private Project createProjectFromRequest(HttpServletRequest request) {
         String name = request.getParameter(PROJECT_NAME);
-        Project project = new Project();
-        project.setName(name);
+        Project project = new Project(name);
         return project;
     }
 
