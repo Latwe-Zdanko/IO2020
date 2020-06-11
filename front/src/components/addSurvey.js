@@ -12,11 +12,15 @@ class AddSurvey extends Component {
 
         this.state = {
             id: 0,
-            inputValue1: '',
-            inputValue2: '',
-            inputValue3: '',
-            inputValue4: '',
-            inputValue5: '',
+            matrixInputs: {
+                "inputsNumber": 1, "inputs": {
+                    1: React.createRef(), 2: React.createRef(),
+                    3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(),
+                    7: React.createRef(), 8: React.createRef()
+                }
+            },
+            inputValues: {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: ''},
+            surveyName: '',
             isRequired: false,
             tmpQuestion: {"questions": []},
             serverUrl: process.env.REACT_APP_SERVER_URL,
@@ -35,42 +39,39 @@ class AddSurvey extends Component {
         })
     };
 
+    clearMatrix = (event, id) => {
+        for (let i = 1; i < 9; i++) {
+            this.state.inputValues[i] = '';
+            if (this.state.matrixInputs.inputsNumber >= i) {
+                this.state.matrixInputs.inputs[i].value = '';
+            }
+        }
+        this.state.matrixInputs.inputsNumber = 1;
+
+        const ref = this.refresh;
+        setTimeout(function () {
+            ref(event, id);
+        }, 100);
+
+    };
+
     updateInputValue = (event, inputId, questionId) => {
 
+        this.setState({id: questionId});
         switch (inputId) {
-            case 1:
+            case "name":
+                console.log(event.target.value);
                 this.setState({
-                    inputValue1: event.target.value,
-                    id: 1
+                    surveyName: event.target.value,
                 });
                 break;
-            case 2:
-                this.setState({
-                    inputValue2: event.target.value,
-                    id: 2
-                });
-                break;
-            case 3:
-                this.setState({
-                    inputValue3: event.target.value,
-                    id: 3
-                });
-                break;
-            case 4:
-                this.setState({
-                    inputValue4: event.target.value,
-                    id: 4
-                });
-                break;
-            case 5:
-                this.setState({
-                    inputValue5: event.target.value
-                });
-                break;
-            case 6:
+            case "checkbox":
                 this.setState({
                     isRequired: event.target.checked
                 });
+                break;
+            default:
+                this.state.inputValues[parseInt(inputId)] = event.target.value
 
         }
 
@@ -78,15 +79,18 @@ class AddSurvey extends Component {
         setTimeout(function () {
             ref(event, questionId);
         }, 100);
+
     };
 
     refresh = (event, id) => {
+        this.setState({id: id});
+
         switch (id) {
             case 1:
                 this.addQuestionField();
                 break;
             case 2:
-                this.addMatrixSurvey();
+                this.addMatrixQuestion();
                 break;
             case 3:
                 this.addRadiogroupField();
@@ -97,15 +101,33 @@ class AddSurvey extends Component {
         }
     };
 
+    addStatement = () => {
+        this.state.matrixInputs.inputsNumber += 1;
+        this.addMatrixQuestion()
+    };
+
     addQuestionField = () => {
 
         const id = 1;
+        if (id !== this.state.id) this.setState({
+            inputValues: {
+                1: '',
+                2: '',
+                3: '',
+                4: '',
+                5: '',
+                6: '',
+                7: '',
+                8: ''
+            }
+        });
+
         const commentField = {
             questions: [
                 {
                     type: "comment",
-                    name: this.state.inputValue1,
-                    title: this.state.inputValue1,
+                    name: this.state.inputValues[1],
+                    title: this.state.inputValues[1],
                     isRequired: this.state.isRequired,
                     enableIf: "false"
                 }
@@ -119,7 +141,7 @@ class AddSurvey extends Component {
                         <div className="input-group-text">
                             <div className="custom-control custom-checkbox">
                                 <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                       onChange={event => this.updateInputValue(event, 6, id)}/>
+                                       onChange={event => this.updateInputValue(event, "checkbox", id)}/>
                                 <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                             </div>
                         </div>
@@ -140,9 +162,16 @@ class AddSurvey extends Component {
         this.setState({tmpSurvey: tmpSurvey, tmpQuestion: commentField});
     };
 
-    addMatrixSurvey = () => {
+    addMatrixQuestion = () => {
 
         const id = 2;
+
+        if (id !== this.state.id) {
+            this.setState({
+                inputValues: {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: ''}
+            });
+        }
+
         const matrixField = {
             questions: [
                 {
@@ -171,39 +200,73 @@ class AddSurvey extends Component {
                     ],
                     rows: [
                         {
-                            value: this.state.inputValue1,
-                            text: this.state.inputValue1
-                        }, {
-                            value: this.state.inputValue2,
-                            text: this.state.inputValue2
-                        }, {
-                            value: this.state.inputValue3,
-                            text: this.state.inputValue3
-                        }, {
-                            value: this.state.inputValue4,
-                            text: this.state.inputValue4
-                        }
-                    ]
+                            value: this.state.inputValues[1],
+                            text: this.state.inputValues[1]
+                        },
+                        {
+                            value: this.state.inputValues[2],
+                            text: this.state.inputValues[2]
+                        },
+                        {
+                            value: this.state.inputValues[3],
+                            text: this.state.inputValues[3]
+                        },
+                        {
+                            value: this.state.inputValues[4],
+                            text: this.state.inputValues[4]
+                        },
+                        {
+                            value: this.state.inputValues[5],
+                            text: this.state.inputValues[5]
+                        },
+                        {
+                            value: this.state.inputValues[6],
+                            text: this.state.inputValues[6]
+                        },
+                        {
+                            value: this.state.inputValues[7],
+                            text: this.state.inputValues[7]
+                        },
+                        {
+                            value: this.state.inputValues[8],
+                            text: this.state.inputValues[8]
+                        }]
                 }
             ]
         };
 
+
+        let inputFields = [];
+        let inputs = this.state.matrixInputs.inputs;
+
+        for (var [inputId,] in inputs) {
+            if (inputId <= this.state.matrixInputs.inputsNumber) {
+                const id2 = inputId;
+                inputFields.push((
+                    <input ref={ref => this.state.matrixInputs.inputs[id2] = ref} placeholder={"Statement " + id2}
+                           className="form-control" onChange={event => this.updateInputValue(event, id2, id)}/>));
+                inputFields.push((<br/>))
+            }
+        }
         const tmpSurvey = (
             <div>
                 <div>
-                    <input placeholder="Statement 1" className="form-control"
-                           onChange={event => this.updateInputValue(event, 1, id)}/><br/>
-                    <input placeholder="Statement 2" className="form-control"
-                           onChange={event => this.updateInputValue(event, 2, id)}/><br/>
-                    <input placeholder="Statement 3" className="form-control"
-                           onChange={event => this.updateInputValue(event, 3, id)}/><br/>
-                    <input placeholder="Statement 4" className="form-control"
-                           onChange={event => this.updateInputValue(event, 4, id)}/><br/>
+                    {inputFields}
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={event => this.updateInputValue(event, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, "checkbox", id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
+                        </div>
+                        <div style={{position: "relative", right: "-65%"}}>
+                            <button type="button" className="btn btn-sm btn-secondary"
+                                    onClick={event => this.addStatement(event)}>Add Statement
+                            </button>
+                        </div>
+                        <div style={{position: "relative", right: "-66%"}}>
+                            <button type="button" className="btn btn-sm btn-secondary"
+                                    onClick={event => this.clearMatrix(event, id)}>Clear Matrix
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -223,15 +286,20 @@ class AddSurvey extends Component {
     addRadiogroupField = () => {
 
         const id = 3;
+        if (id !== this.state.id) {
+            this.setState({
+                inputValues: {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: ''}
+            });
+        }
         const radioGroupField = {
             questions: [
                 {
                     type: "radiogroup",
-                    name: this.state.inputValue1,
-                    title: this.state.inputValue1,
+                    name: this.state.inputValues[1],
+                    title: this.state.inputValues[1],
                     isRequired: this.state.isRequired,
                     enableIf: "false",
-                    choices: [this.state.inputValue2, this.state.inputValue3, this.state.inputValue4]
+                    choices: [this.state.inputValues[2], this.state.inputValues[3], this.state.inputValues[4]]
                 }
             ]
         };
@@ -250,7 +318,7 @@ class AddSurvey extends Component {
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={event => this.updateInputValue(event, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, "checkbox", id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -270,16 +338,29 @@ class AddSurvey extends Component {
     addRatingField = () => {
 
         const id = 4;
+        if (id !== this.state.id) this.setState({
+            inputValues: {
+                1: '',
+                2: '',
+                3: '',
+                4: '',
+                5: '',
+                6: '',
+                7: '',
+                8: ''
+            }
+        });
+
         const ratingField = {
             questions: [
                 {
                     type: "rating",
-                    name: this.state.inputValue1,
-                    title: this.state.inputValue1,
+                    name: this.state.inputValues[1],
+                    title: this.state.inputValues[1],
                     isRequired: this.state.isRequired,
                     enableIf: "false",
-                    mininumRateDescription: this.state.inputValue2,
-                    maximumRateDescription: this.state.inputValue3
+                    mininumRateDescription: this.state.inputValues[2],
+                    maximumRateDescription: this.state.inputValues[3]
                 }
             ]
         };
@@ -296,7 +377,7 @@ class AddSurvey extends Component {
                     <div className="input-group-text">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="defaultUnchecked"
-                                   onChange={event => this.updateInputValue(event, 6, id)}/>
+                                   onChange={event => this.updateInputValue(event, "checkbox", id)}/>
                             <label className="custom-control-label" htmlFor="defaultUnchecked">Required</label>
                         </div>
                     </div>
@@ -330,7 +411,7 @@ class AddSurvey extends Component {
     submitSurvey = (e) => {
         e.preventDefault();
         axios.post(this.state.serverUrl + '/surveys/addSurvey', {
-            name: this.state.inputValue5,
+            name: this.state.surveyName,
             body: this.state.current_survey
         }, {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then(function (response) {
@@ -347,12 +428,11 @@ class AddSurvey extends Component {
             <div className="wrapper2">
                 <div>
                     <input placeholder="Survey Name" className="form-control"
-                           onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
-                    </button>
+                           onChange={event => this.updateInputValue(event, "name", this.state.id)}/><br/>
                 </div>
                 <nav className="navbar navbar-dark bg-blue">
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
+                    <button type="button" className="btn btn-lg btn-secondary btn-dark"
+                            onClick={this.addMatrixQuestion}>Add
                         matrix field
                     </button>
                     <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addRatingField}>Add
@@ -367,6 +447,10 @@ class AddSurvey extends Component {
                 </nav>
                 <div>
                     {this.state.tmpSurvey}
+                </div>
+                <div style={{float: "right"}}>
+                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
+                    </button>
                 </div>
                 <br/>
             </div>
