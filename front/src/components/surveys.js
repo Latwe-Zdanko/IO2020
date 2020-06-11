@@ -12,6 +12,8 @@ function fileDownloadFromData(filename, data) {
     a.click();
 }
 
+const API_URL = process.env.REACT_APP_SERVER_URL;
+
 class Surveys extends Component {
 
     constructor(props) {
@@ -19,13 +21,11 @@ class Surveys extends Component {
 
         this.state = {
             surveys: [],
-            frontUrl: "http://localhost:3000",
-            serverUrl: process.env.REACT_APP_SERVER_URL
         };
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
 
-        axios.get(this.state.serverUrl + '/surveys/all', headers)
+        axios.get(API_URL + '/surveys/all', headers)
             .then((response) => {
                 this.setState({surveys: response.data});
             })
@@ -66,12 +66,12 @@ class Surveys extends Component {
     }
 
     downloadJSON(event) {
-        let survey_id = event.target.value
-        axios.get(this.state.serverUrl + "/surveys/" + survey_id,
+        let survey_id = event.target.value;
+        axios.get(API_URL + "/surveys/" + survey_id,
             {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
-                let result = response.data.answers
-                let JSONResult = JSON.stringify(result)
+                let result = response.data.answers;
+                let JSONResult = JSON.stringify(result);
                 fileDownloadFromData('export.json', JSONResult)
             })
             .catch((error) => {
@@ -130,7 +130,7 @@ class Surveys extends Component {
         }
 
         let survey_id = event.target.value
-        axios.get(this.state.serverUrl + "/surveys/" + survey_id,
+        axios.get(API_URL + "/surveys/" + survey_id,
             {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
                 let answers = response.data.answers
