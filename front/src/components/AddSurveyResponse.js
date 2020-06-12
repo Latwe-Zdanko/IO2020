@@ -5,7 +5,6 @@ import axios from 'axios';
 import * as Survey from "survey-react";
 import {Redirect} from "react-router-dom"
 import AuthenticationService from "../service/AuthenticationService";
-import {Button} from "reactstrap";
 
 class Surveys extends Component {
 
@@ -17,7 +16,7 @@ class Surveys extends Component {
             survey: {questions: {}},
             surveyName: "",
             redirect: false,
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
     }
 
@@ -88,14 +87,14 @@ class Surveys extends Component {
                         {this.state.surveyName}
                     </span>
                 </nav>
-            <div className="wrapper">
-                <div>
-                    {this.renderRedirect()}
-                    <Survey.Survey
-                        model={survey}
-                    />
+                <div className="wrapper">
+                    <div>
+                        {this.renderRedirect()}
+                        <Survey.Survey
+                            model={survey}
+                        />
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }

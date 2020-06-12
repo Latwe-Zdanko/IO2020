@@ -72,21 +72,21 @@ export default class HomePage extends Component {
                             </Toast>
                         </Col>
                         <Col xs="6" style={{display: "flex", flexDirection: "row"}}>
-                        <Toast style={{width: "150%", maxWidth: "500px"}}>
-                            <ToastHeader>Recently Added Surveys</ToastHeader>
-                            <ToastBody>
-                                <ListGroup flush>
-                                    {this.state.surveys.map(survey => {
-                                        return <ListGroupItem tag="a" href={this.getSurveyLink(survey)}
-                                                              style={{backgroundColor: "rgba(255,255,255,0)"}}>{survey.name}</ListGroupItem>
-                                    })}
-                                </ListGroup><br/>
-                                <button className="btn btn-block btn-primary"
-                                        onClick={(e) => window.location.href = "/surveys"}>View more
-                                </button>
-                            </ToastBody>
-                        </Toast>
-                    </Col>
+                            <Toast style={{width: "150%", maxWidth: "500px"}}>
+                                <ToastHeader>Recently Added Surveys</ToastHeader>
+                                <ToastBody>
+                                    <ListGroup flush>
+                                        {this.state.surveys.map(survey => {
+                                            return <ListGroupItem tag="a" href={this.getSurveyLink(survey)}
+                                                                  style={{backgroundColor: "rgba(255,255,255,0)"}}>{survey.name}</ListGroupItem>
+                                        })}
+                                    </ListGroup><br/>
+                                    <button className="btn btn-block btn-primary"
+                                            onClick={(e) => window.location.href = "/surveys"}>View more
+                                    </button>
+                                </ToastBody>
+                            </Toast>
+                        </Col>
                     </Row>
                 </div>
             </div>

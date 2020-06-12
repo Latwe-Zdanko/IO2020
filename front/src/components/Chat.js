@@ -1,7 +1,7 @@
-import React /*, { Component } */ from "react";
-import { Paper, Typography, List, ListItem, ListItemText, Chip, Button, TextField } from "@material-ui/core";
+import React from "react";
+import {Button, Chip, List, ListItem, ListItemText, Paper, TextField, Typography} from "@material-ui/core";
 import AuthenticationService from "../service/AuthenticationService";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import io from "socket.io-client";
 
 const styles = makeStyles (theme => (

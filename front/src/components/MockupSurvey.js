@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Card, CardBody, Col, Row} from 'reactstrap';
+import {Card, CardBody, Col, Row} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
@@ -11,7 +11,7 @@ class MockupSurvey extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             mockupId: "",
             mockup: "",
             surveyName: "",
@@ -137,7 +137,8 @@ class MockupSurvey extends Component {
                      style={{position: "float-top", marginTop: "55px", marginBottom: "10px", height: "50px"}}>
                     <div className="float-left container">{this.state.surveyName}</div>
                     <button className="btn btn-primary" style={{marginLeft: "5px"}}
-                            onClick={this.setFullscreen}>FullScreen</button>
+                            onClick={this.setFullscreen}>FullScreen
+                    </button>
                 </nav>
                 <Row>
                     <Col>

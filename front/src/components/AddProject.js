@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import axios from 'axios';
@@ -10,7 +10,7 @@ class AddProject extends Component {
         super(props);
         this.state = {
             projectName: "",
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
         this.handleChange = this.handleChange.bind(this);
 

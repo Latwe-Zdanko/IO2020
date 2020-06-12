@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
@@ -12,7 +12,7 @@ class AddMockup extends Component {
             mockupName: "",
             sourceLink: "",
             projectId: this.props.match.params.id,
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         };
         this.handleChange = this.handleChange.bind(this);
 

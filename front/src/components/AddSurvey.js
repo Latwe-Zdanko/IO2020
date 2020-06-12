@@ -19,7 +19,7 @@ class AddSurvey extends Component {
             inputValue5: '',
             isRequired: false,
             tmpQuestion: {"questions": []},
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             current_survey: {"questions": []},
             currentSurvey: <p></p>,
             tmpSurvey: <p></p>
@@ -352,32 +352,35 @@ class AddSurvey extends Component {
                         <a href="/surveys">Surveys</a> &ensp; / &ensp; New Survey
                     </span>
                 </nav>
-            <div className="wrapper2">
-                <nav className="navbar navbar-dark bg-blue">
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addMatrixSurvey}>Add
-                        matrix field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addRatingField}>Add
-                        rating field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark"
-                            onClick={this.addQuestionField}>Add question field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark"
-                            onClick={this.addRadiogroupField}>Add radiogroup field
-                    </button>
-                </nav>
-                <div>
-                    {this.state.tmpSurvey}
+                <div className="wrapper2">
+                    <nav className="navbar navbar-dark bg-blue">
+                        <button type="button" className="btn btn-lg btn-primary btn-dark"
+                                onClick={this.addMatrixSurvey}>Add
+                            matrix field
+                        </button>
+                        <button type="button" className="btn btn-lg btn-primary btn-dark"
+                                onClick={this.addRatingField}>Add
+                            rating field
+                        </button>
+                        <button type="button" className="btn btn-lg btn-primary btn-dark"
+                                onClick={this.addQuestionField}>Add question field
+                        </button>
+                        <button type="button" className="btn btn-lg btn-primary btn-dark"
+                                onClick={this.addRadiogroupField}>Add radiogroup field
+                        </button>
+                    </nav>
+                    <div>
+                        {this.state.tmpSurvey}
+                    </div>
+                    <br/>
+                    <div>
+                        <input placeholder="Survey Name" className="form-control"
+                               onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
+                        <button type="button" className="btn btn-lg btn-primary btn-success"
+                                onClick={this.submitSurvey}>Submit
+                        </button>
+                    </div>
                 </div>
-                <br/>
-                <div>
-                    <input placeholder="Survey Name" className="form-control"
-                           onChange={event => this.updateInputValue(event, 5, this.state.id)}/><br/>
-                    <button type="button" className="btn btn-lg btn-primary btn-success" onClick={this.submitSurvey}>Submit
-                    </button>
-                </div>
-            </div>
             </div>
         );
     }

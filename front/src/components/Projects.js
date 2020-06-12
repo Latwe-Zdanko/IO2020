@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Button, Container, ListGroup, ListGroupItem} from 'reactstrap';
+import {ListGroup, ListGroupItem} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 
 class Projects extends Component {
@@ -11,7 +11,7 @@ class Projects extends Component {
 
         this.state = {
             projects: [],
-            serverUrl: "http://localhost:8080"
+            serverUrl: process.env.REACT_APP_SERVER_URL
         }
     }
 
@@ -39,7 +39,7 @@ class Projects extends Component {
                         <a>Projects</a>
                     </span>
                     <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
-                        <button className="btn btn-primary" onClick={(e) => window.location.href="/project/add"}>Add New Project</button>
+                        <button className="btn btn-primary" onClick={(e) => window.location.href = "/project/add"}>Add New Project</button>
                     </span>
                 </nav>
                 <div className="list-wrapper">

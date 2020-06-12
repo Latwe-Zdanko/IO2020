@@ -9,7 +9,7 @@ class ViewMockup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             mockup: "",
             projectName: "",
             iframeWidth: '110%',

@@ -1,8 +1,11 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Button, Container, ListGroup, ListGroupItem} from 'reactstrap';
+import {Button, ListGroup, ListGroupItem} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
+import ChangeNamePopup from "./ChangeNamePopup";
+
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 class ViewProject extends Component {
 
@@ -12,14 +15,24 @@ class ViewProject extends Component {
         this.state = {
             projectId: this.props.match.params.id,
             projectName: "",
-            mockups: [],
-            serverUrl: "http://localhost:8080"
-        }
+            mockups: []
+        };
+
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(serverUrl + '/projects/id/' + this.state.projectId, headers)
+            .then((response) => {
+                const data = response.data;
+                this.setState({projectName: data.name});
+            })
+            .catch(response => {
+                console.log("Error: " + response);
+            });
+
     }
 
     componentDidMount() {
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/mockups/projectid/' + this.state.projectId, headers)
+        axios.get(serverUrl + '/mockups/byProjectId/' + this.state.projectId, headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
@@ -27,7 +40,7 @@ class ViewProject extends Component {
             .catch(response => {
                 console.log("Error: " + response);
             });
-        axios.get(this.state.serverUrl + '/projects/id/' + this.state.projectId, headers)
+        axios.get(serverUrl + '/projects/id/' + this.state.projectId, headers)
             .then((response) => {
                 this.setState({projectName: response.data.name});
             })
@@ -35,6 +48,26 @@ class ViewProject extends Component {
                 console.log("Error: " + response);
             });
     }
+
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
+    handleRedirect(item, event) {
+        if (event.target.id === "archive") return;
+        window.location.href = "/mockup/view/" + item.id
+    }
+
+    archive(e) {
+        e.preventDefault();
+        const url = serverUrl + "/mockups/archive/" + e.target.value;
+        axios.post(url, null, {params: this.state, headers: {authorization: AuthenticationService.getAuthToken()}})
+            .then(r => window.location.reload(false))
+            .catch(r => alert(r))
+    }
+
 
     render() {
         return (
@@ -48,18 +81,37 @@ class ViewProject extends Component {
                     </span>
                     <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
                         <button className="btn btn-primary"
-                                onClick={(e) => window.location.href="/mockup/add/" + this.state.projectId}>Add New Mockup</button>
+                                onClick={this.togglePopup.bind(this)}>Change project name</button>
+                        {'  '}
+                        <button className="btn btn-primary"
+                                onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}>Add New Mockup</button>
                     </span>
                 </nav>
                 <div className="list-wrapper">
-                        <h2>Mockups</h2>
-                        <ListGroup>
-                            {this.state.mockups.map((item) => {
-                                return <ListGroupItem action
-                                    onClick={e => window.location.href = "/mockup/view/" + item.id}>{item.name}</ListGroupItem>
-                            })}
-                            <ListGroupItem tag="button" action onClick={(e) => window.location.href="/mockup/add/" + this.state.projectId} style={{textAlign: "center", fontSize: "125%"}}>+</ListGroupItem>
-                        </ListGroup>
+                    <h2>{this.state.projectName}</h2>
+                    <br/>
+                    {this.state.mockups.length === 0 ? "No mockups available" : ""}
+                    <ListGroup>
+                        {this.state.mockups.map((item) => {
+                            return <ListGroupItem action
+                                                  onClick={e => this.handleRedirect(item, e)}>{item.name}
+                                <Button id="archive" className="btn btn-light float-right" onClick={this.archive}
+                                        value={item.id}>Archive</Button>
+                            </ListGroupItem>
+                        })}
+                        <ListGroupItem tag="button" action
+                                       onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}
+                                       style={{textAlign: "center", fontSize: "125%"}}>+</ListGroupItem>
+                    </ListGroup>
+
+                    {this.state.showPopup ?
+                        <ChangeNamePopup
+                            id={this.state.projectId}
+                            closePopup={this.togglePopup.bind(this)}
+                        />
+                        : null
+                    }
+
                 </div>
             </div>
         );

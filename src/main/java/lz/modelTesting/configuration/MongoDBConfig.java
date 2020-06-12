@@ -53,6 +53,25 @@ public class MongoDBConfig {
                 mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width", projects[i].getId()));
             }
 
+            saveSampleProject(mockupsRepository, projectsRepository);
+            Survey test_survey = new Survey("Test Survey", "{\"questions\":[{\"isRequired\":false,\"enableIf\":true,\"name\":\"Is this working?\",\"type\":\"comment\",\"title\":\"Is this working?\"}]}", "basic");
+            test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Yes.\"}}");
+            test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Very much so!\"}}");
+            surveysRepository.save(test_survey);
+
         };
+    }
+
+    private void saveSampleProject(MockupsRepository mockupsRepository, ProjectsRepository projectsRepository) {
+        String sampleProject = "Sample project";
+        Optional<Project> projectOptional = projectsRepository.findByName(sampleProject);
+        if (projectOptional.isEmpty()) {
+            Project project = new Project(sampleProject);
+            projectsRepository.save(project);
+            String projectId = project.getId();
+            mockupsRepository.save(new Mockup("Axure", "https://2usnmc.axshare.com/", projectId));
+            mockupsRepository.save(new Mockup("AdobeXD", "https://xd.adobe.com/embed/e6a0d97b-6bfc-4f07-653f-70a6a2eae5a7-9091/", projectId));
+            mockupsRepository.save(new Mockup("Figma", "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/a32Lpn3oXSef2HgPtu5BQx/Course-Dashboard-Copy?node-id=1%3A10&scaling=scale-down-width", projectId));
+        }
     }
 }
