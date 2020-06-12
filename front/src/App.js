@@ -54,6 +54,9 @@ function App() {
                                     <Link className="nav-link" to={"/surveys"}>Surveys</Link>
                                 </li>
                                 <li className="nav-item">
+                                    <Link className="nav-link" to={"/mockup/"}>Mockups</Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link className="nav-link" to={"/chat"}>Chat</Link>
                                 </li>
                                 <li className="nav-item">

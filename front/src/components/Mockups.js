@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Button, Container} from 'reactstrap';
+import {Container} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 
 class Mockups extends Component {
@@ -39,7 +39,7 @@ class Mockups extends Component {
                         <h1>Mockups</h1>
                         <div className="list-group">
                             {this.state.mockups.map((item) => {
-                                return <a href={"/mockup/view/" + item.id}>{item.name}</a>
+                                return <div><a href={"/mockup/view/" + item.id}>{item.name} </a>{item.archived && <text>archived</text>}</div>
                             })}
                         </div>
                     </div>
