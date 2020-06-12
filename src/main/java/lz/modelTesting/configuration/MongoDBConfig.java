@@ -37,10 +37,11 @@ public class MongoDBConfig {
 
             Project[] projects = {new Project("First Project"), new Project("Sample Project"), new Project("Axure Project"), new Project("AdobeXD Project"), new Project("Figma Project")};
 
+            String basicType = "basic";
             String surveyBody = "{\"questions\":[{\"isRequired\":false,\"enableIf\":true,\"name\":\"Text question?\",\"type\":\"comment\",\"title\":\"Text question?\"},{\"isRequired\":false,\"enableIf\":true,\"name\":\"Radiogroup question\",\"type\":\"radiogroup\",\"title\":\"Radiogroup question\",\"choices\":[\"yes\",\"no\",\"maybe\"]},{\"isRequired\":false,\"enableIf\":true,\"mininumRateDescription\":\"low\",\"name\":\"Rating question\",\"maximumRateDescription\":\"high\",\"type\":\"rating\",\"title\":\"Rating question\"},{\"isRequired\":false,\"enableIf\":true,\"columns\":[{\"text\":\"Strongly Disagree\",\"value\":1},{\"text\":\"Disagree\",\"value\":2},{\"text\":\"Neutral\",\"value\":3},{\"text\":\"Agree\",\"value\":4},{\"text\":\"Strongly Agree\",\"value\":5}],\"name\":\"Please indicate if you agree or disagree with the following statements\",\"type\":\"matrix\",\"title\":\"Please indicate if you agree or disagree with the following statements\",\"rows\":[{\"text\":\"Statement 1\",\"value\":\"Statement 1\"},{\"text\":\"Statement 2\",\"value\":\"Statement 2\"},{\"text\":\"Statement 3\",\"value\":\"Statement 3\"},{\"text\":\"Statement 4\",\"value\":\"Statement 4\"}]}]}";
-            surveysRepository.save(new Survey("First Sample Survey", surveyBody, "basic"));
-            surveysRepository.save(new Survey("Second Sample Survey", surveyBody, "basic"));
-            surveysRepository.save(new Survey("Third Sample Survey", surveyBody, "basic"));
+            surveysRepository.save(new Survey("First Sample Survey", surveyBody, basicType));
+            surveysRepository.save(new Survey("Second Sample Survey", surveyBody, basicType));
+            surveysRepository.save(new Survey("Third Sample Survey", surveyBody, basicType));
 
             for (int i = 0; i < 5; i++) {
                 projectsRepository.save(projects[i]);
@@ -54,7 +55,7 @@ public class MongoDBConfig {
             }
 
             saveSampleProject(mockupsRepository, projectsRepository);
-            Survey test_survey = new Survey("Test Survey", "{\"questions\":[{\"isRequired\":false,\"enableIf\":true,\"name\":\"Is this working?\",\"type\":\"comment\",\"title\":\"Is this working?\"}]}", "basic");
+            Survey test_survey = new Survey("Test Survey", "{\"questions\":[{\"isRequired\":false,\"enableIf\":true,\"name\":\"Is this working?\",\"type\":\"comment\",\"title\":\"Is this working?\"}]}", basicType);
             test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Yes.\"}}");
             test_survey.addAnswers("{\"id\":\"5ec3008f2f8924036eecd3ac\",\"answers\":{\"Is this working?\":\"Very much so!\"}}");
             surveysRepository.save(test_survey);
