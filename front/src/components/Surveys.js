@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import "../App.css";
 import "survey-react/survey.css";
 import axios from 'axios';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import AuthenticationService from "../service/AuthenticationService";
 import {Button} from "reactstrap";
 
@@ -56,7 +55,7 @@ class Surveys extends Component {
 
     render() {
         return (
-            <div className="container" style={{marginTop: "60px"}}>
+            <div className="container" style={{marginTop: "100px"}}>
                 <h1>Surveys</h1>
                 <br/>
                 <div className="list-group">
@@ -82,7 +81,7 @@ class Surveys extends Component {
 
     downloadCSV(event) {
         function getQuestionsFromJSON(questions) {
-            let questionsArray = []
+            let questionsArray = [];
             for (let i = 0; i < questions.length; i++) {
                 if (questions[i].type === "matrix") {
                     for (let j = 0; j < questions[i].rows.length; j++) {
@@ -101,10 +100,10 @@ class Surveys extends Component {
         }
 
         function convertAnswerToCSV(questionsArray, answer) {
-            let csvAnswer = ""
+            let csvAnswer = "";
             for (let j = 0; j < questionsArray.length; j++) {
-                let question = questionsArray[j]
-                let questionAnswer = answer[question]
+                let question = questionsArray[j];
+                let questionAnswer = answer[question];
                 if (typeof questionAnswer === 'undefined') {
                     for (let key in answer) {
                         if (typeof questionAnswer === 'undefined' && answer.hasOwnProperty(key)) {
@@ -117,30 +116,30 @@ class Surveys extends Component {
                 }
                 csvAnswer += questionAnswer + ','
             }
-            csvAnswer = csvAnswer.slice(0, -1) + '\n'
+            csvAnswer = csvAnswer.slice(0, -1) + '\n';
             return csvAnswer
         }
 
         function convertQuestionsToCSV(questionsArray) {
-            let csvQuestions = ""
+            let csvQuestions = "";
             for (let i = 0; i < questionsArray.length; i++) {
                 csvQuestions += questionsArray[i] + ','
             }
-            csvQuestions = csvQuestions.slice(0, -1) + '\n'
+            csvQuestions = csvQuestions.slice(0, -1) + '\n';
             return csvQuestions;
         }
 
-        let survey_id = event.target.value
+        let survey_id = event.target.value;
         axios.get(API_URL + "/surveys/" + survey_id,
             {headers: {authorization: AuthenticationService.getAuthToken()}})
             .then((response) => {
-                let answers = response.data.answers
-                let questions = (JSON.parse(response.data.body)).questions
-                let csvResult = ""
+                let answers = response.data.answers;
+                let questions = (JSON.parse(response.data.body)).questions;
+                let csvResult = "";
                 let questionsArray = getQuestionsFromJSON(questions);
                 csvResult += convertQuestionsToCSV(questionsArray);
                 for (let i = 0; i < answers.length; i++) {
-                    let answer = JSON.parse(answers[i])
+                    let answer = JSON.parse(answers[i]);
                     csvResult += convertAnswerToCSV(questionsArray, answer);
                 }
                 fileDownloadFromData('export.csv', csvResult)

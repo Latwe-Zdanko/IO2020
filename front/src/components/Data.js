@@ -14,7 +14,6 @@ class Data extends Component {
             copied: false,
             serverUrl: process.env.REACT_APP_SERVER_URL
         };
-        console.log("hal");
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
 
         axios.get(this.state.serverUrl + '/surveys/all', headers)
@@ -32,28 +31,27 @@ class Data extends Component {
 
         return (
             surveys.map((survey) => (
-                <p>
-                    <div className="input-group-prepend" style={{marginLeft: "250px"}}>
+                <div style={{"margin": "auto"}}>
+                    <div className="input-group-prepend">
                         <div className="input-group-text">
                             <a className="list-group-item" href={"/data/" + survey.id + "/view"}
                                style={{color: "#2D1457", textAlign: "left", width: "500px"}}>{survey.name}</a>
                         </div>
                     </div>
-                </p>
+                    <br/>
+                </div>
+
             )))
     };
 
     render() {
-        console.log(this.state.serverUrl);
         return (
-            <div className="marg">
                 <div className="container">
-                    <h1 style={{color: "#231F20", borderColor: "black"}}>Surveys</h1>
-                    <div className="list-group" style={{marginTop: "150px"}}>
+                    <h1 style={{"color": "#231F20", "borderColor": "black", "margin-top": "100px"}}>Surveys</h1>
+                    <div className="list-group" style={{marginTop: "50px"}}>
                         {this.displaySurveys(this.state.surveys)}
                     </div>
                 </div>
-            </div>
         );
     }
 }
