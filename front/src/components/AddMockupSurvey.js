@@ -21,7 +21,7 @@ class AddMockupSurvey extends Component {
             surveyName: "",
             questions: [],
             iframeWidth: '125%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2 - 140,
             scale: 'scale(0.80)',
             isFullscreen: false,
             isDropdownOpen: false,
@@ -73,7 +73,7 @@ class AddMockupSurvey extends Component {
     setDefaultSize() {
         this.setState({
             iframeWidth: '110%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2 - 140,
             scale: 'scale(0.9)'
         })
     }
@@ -234,17 +234,15 @@ class AddMockupSurvey extends Component {
         const survey = new Survey.Model({questions: this.state.questions});
 
         return (
-            <div className="bg-light" style={{overflowX: "hidden"}}>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+            <div className="bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
                         <a href={"/project/view/id/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         <a href={"/mockup/view/" + this.state.mockup.id}>{this.state.mockup.name}</a> &ensp; / &ensp;
                         New Survey
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                    <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"
                                 onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>{' '}
                         <button className="btn btn-primary" onClick={this.setFullscreen}>Full Screen</button>
@@ -267,7 +265,7 @@ class AddMockupSurvey extends Component {
                             display: this.state.previewDisplay,
                             marginRight: "10px",
                             overflow: "auto",
-                            height: window.screen.availHeight * 0.7
+                            maxHeight: window.innerHeight - 140
                         }}>
                             <Survey.Survey
                                 model={survey}
@@ -277,7 +275,7 @@ class AddMockupSurvey extends Component {
                             display: this.state.formDisplay,
                             marginRight: "10px",
                             overflow: "auto",
-                            maxHeight: window.screen.availHeight * 0.7
+                            maxHeight: window.innerHeight - 140
                         }}>
                             <Form>
                                 <CardHeader>

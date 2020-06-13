@@ -80,10 +80,8 @@ class Surveys extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         {this.state.surveyName}
                     </span>
                 </nav>

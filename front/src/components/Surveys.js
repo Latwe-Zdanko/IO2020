@@ -49,15 +49,15 @@ class Surveys extends Component {
     };
 
     mockupSurveyBadge = (survey) => {
-        if (survey.type == "mockup") {
-            return <Badge pill style={{backgroundColor: "rgba(28,125,232,0.85)"}}>mockup survey</Badge>
+        if (survey.type === "mockup") {
+            return <Badge pill className="badge-pill">mockup survey</Badge>
         }
     };
 
     toggle = (index) => {
         const list = this.state.isDropdownOpen;
-        list[index] = !list[index]
-        this.setState({isDropdownOpen: list})
+        list[index] = !list[index];
+        this.setState({isDropdownOpen: list});
     };
 
     displaySurveys = (surveys) => {
@@ -67,7 +67,7 @@ class Surveys extends Component {
         return (
             surveys.map((survey, index) => (
                 <ListGroupItem tag="button" action onClick={e => this.handleRedirect(e, survey)}>
-                    {survey.name}
+                    <a className="list-link">{survey.name}</a>
 
                     <ButtonDropdown className="float-right"
                                     isOpen={this.state.isDropdownOpen[index]} toggle={e => this.toggle(index)}>
@@ -95,13 +95,11 @@ class Surveys extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         Surveys
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                    <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary" onClick={e => this.addSurvey(e)}> Add New Survey</button>
                     </span>
                 </nav>

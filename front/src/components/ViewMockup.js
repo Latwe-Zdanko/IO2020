@@ -55,14 +55,13 @@ class ViewMockup extends Component {
         }
         return (
             <div className="bg-light">
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left" style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
                         <a href={"/project/view/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         {this.state.mockup.name}
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                    <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"
                                 onClick={this.createSurvey}>Create Survey</button>
                     </span>

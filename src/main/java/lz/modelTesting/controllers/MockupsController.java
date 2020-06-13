@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/mockups")
@@ -38,9 +39,8 @@ public class MockupsController {
     @GetMapping(value = "/recent")
     public List<Mockup> getRecent(){
         List<Mockup> mockupList =  mockupsRepository.findAll();
-        int mockupsNumber = 3;
-        if (mockupList.size() <= mockupsNumber) return mockupList;
-        return mockupList.subList(mockupList.size() - mockupsNumber, mockupList.size());
+        int mockupsNumber = 5;
+        return mockupList.stream().limit(mockupsNumber).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/byProjectId/{projectId}")

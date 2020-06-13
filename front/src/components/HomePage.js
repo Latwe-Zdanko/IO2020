@@ -9,7 +9,7 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            serverUrl: "http://localhost:8080",
+            serverUrl: process.env.REACT_APP_SERVER_URL,
             mockups: [],
             surveys: []
         };
@@ -47,16 +47,14 @@ export default class HomePage extends Component {
         }
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}> Home
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs"> Home
                     </span>
                 </nav>
                 <div style={{margin: "50px"}}>
                     <Row>
                         <Col xs="6" style={{display: "flex", flexDirection: "row-reverse"}}>
-                            <Toast style={{width: "150%", maxWidth: "500px"}}>
+                            <Toast className="toast-list">
                                 <ToastHeader>Recently Added Mockups</ToastHeader>
                                 <ToastBody>
                                     <ListGroup flush>
@@ -72,7 +70,7 @@ export default class HomePage extends Component {
                             </Toast>
                         </Col>
                         <Col xs="6" style={{display: "flex", flexDirection: "row"}}>
-                            <Toast style={{width: "150%", maxWidth: "500px"}}>
+                            <Toast className="toast-list">
                                 <ToastHeader>Recently Added Surveys</ToastHeader>
                                 <ToastBody>
                                     <ListGroup flush>

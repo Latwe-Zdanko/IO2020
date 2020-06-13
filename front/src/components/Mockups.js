@@ -33,10 +33,8 @@ class Mockups extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a>Mockups</a>
                     </span>
                 </nav>
@@ -46,9 +44,9 @@ class Mockups extends Component {
                         {this.state.mockups.map((item) => {
                             return <ListGroupItem tag="button" action
                                                   onClick={(e) => window.location.href = "/mockup/view/" + item.id}>
-                                {item.name} &ensp;
+                                <a className="list-link">{item.name}</a> &ensp;
                                 {item.archived &&
-                                <Badge pill style={{backgroundColor: "rgba(28,125,232,0.85)"}}>archived</Badge>}
+                                <Badge pill className="badge-pill">archived</Badge>}
                             </ListGroupItem>
                         })}
                     </div>

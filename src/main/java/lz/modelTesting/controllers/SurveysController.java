@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -35,9 +36,8 @@ public class SurveysController {
     @GetMapping(value = "/recent")
     public List<Survey> getRecent(){
         List<Survey> surveyList =  surveysRepository.findAll();
-        int numberOfSurveys = 3;
-        if (surveyList.size() <= numberOfSurveys) return surveyList;
-        return surveyList.subList(surveyList.size() - numberOfSurveys, surveyList.size());
+        int numberOfSurveys = 5;
+        return surveyList.stream().limit(numberOfSurveys).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

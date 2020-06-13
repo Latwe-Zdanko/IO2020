@@ -32,13 +32,11 @@ class Projects extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a>Projects</a>
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                    <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary" onClick={(e) => window.location.href = "/project/add"}>Add New Project</button>
                     </span>
                 </nav>
@@ -49,7 +47,7 @@ class Projects extends Component {
                             return <ListGroupItem tag="button" action onClick={e => {
                                 window.location.href = "/project/view/" + item.id
                             }}>
-                                {item.name}
+                                <a className="list-link">{item.name}</a>
                             </ListGroupItem>
                         })}
                         <ListGroupItem tag="button" action onClick={(e) => window.location.href = "/project/add"}

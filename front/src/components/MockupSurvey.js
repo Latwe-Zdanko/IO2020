@@ -17,7 +17,7 @@ class MockupSurvey extends Component {
             surveyName: "",
             questions: [],
             iframeWidth: '125%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2 - 100,
             scale: 'scale(0.8)',
             isFullscreen: false,
             answers: [],
@@ -97,7 +97,7 @@ class MockupSurvey extends Component {
     setDefaultSize() {
         this.setState({
             iframeWidth: '125%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2,
             scale: 'scale(0.8)'
         })
     }
@@ -132,13 +132,14 @@ class MockupSurvey extends Component {
         survey.showCompletedPage = false;
 
         return (
-            <div className="bg-light" style={{overflowX: "hidden"}}>
-                <nav className="navbar navbar-expand-lg navbar-light"
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px", height: "50px"}}>
-                    <div className="float-left container">{this.state.surveyName}</div>
-                    <button className="btn btn-primary" style={{marginLeft: "5px"}}
-                            onClick={this.setFullscreen}>FullScreen
-                    </button>
+            <div className="bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="float-left container">{this.state.surveyName}</span>
+                    <span className="navbar-buttons">
+                        <button className="btn btn-primary"
+                                onClick={this.setFullscreen}>FullScreen
+                        </button>
+                    </span>
                 </nav>
                 <Row>
                     <Col>

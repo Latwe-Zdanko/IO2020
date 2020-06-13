@@ -72,17 +72,14 @@ class ViewProject extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
                         {this.state.projectName}
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
+                    <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"
                                 onClick={this.togglePopup.bind(this)}>Change project name</button>
-                        {'  '}
                         <button className="btn btn-primary"
                                 onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}>Add New Mockup</button>
                     </span>
@@ -94,7 +91,8 @@ class ViewProject extends Component {
                     <ListGroup>
                         {this.state.mockups.map((item) => {
                             return <ListGroupItem action
-                                                  onClick={e => this.handleRedirect(item, e)}>{item.name}
+                                                  onClick={e => this.handleRedirect(item, e)}>
+                                <a className="list-link">{item.name}</a>
                                 <Button id="archive" className="btn btn-light float-right" onClick={this.archive}
                                         value={item.id}>Archive</Button>
                             </ListGroupItem>
