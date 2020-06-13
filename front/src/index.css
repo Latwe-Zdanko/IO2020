@@ -9,7 +9,6 @@ body {
     min-height: 100vh;
     display: flex;
     font-weight: 400;
-    font-family: 'Fira Sans', sans-serif;
 }
 
 .logo {
@@ -45,7 +44,6 @@ body {
 
 h1, h3, h4, h5, h6, label, span {
     font-weight: 500;
-    font-family: 'Fira Sans', sans-serif;
 }
 
 body, html, .App, #root, .auth-wrapper {
@@ -59,7 +57,6 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .navbar-secondary {
-    display: inline-block;
     vertical-align: top;
     margin-top: 55px;
     margin-bottom: 10px;
