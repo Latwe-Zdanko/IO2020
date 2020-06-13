@@ -31,27 +31,26 @@ class Data extends Component {
 
         return (
             surveys.map((survey) => (
-                <div style={{"margin": "auto"}}>
-                    <div className="input-group-prepend">
-                        <div className="input-group-text">
-                            <a className="list-group-item" href={"/data/" + survey.id + "/view"}
-                               style={{color: "#2D1457", textAlign: "left", width: "500px"}}>{survey.name}</a>
+                <a href={"/data/" + survey.id + "/view"}>
+                    <div className="list-group-item" style={{"height": "50px"}}>
+                        <div style={{display: "inline", verticalAlign: "middle"}}>
+                            <a>{survey.name}</a>
                         </div>
                     </div>
-                    <br/>
-                </div>
+                </a>
 
             )))
     };
 
     render() {
         return (
-                <div className="container">
-                    <h1 style={{"color": "#231F20", "borderColor": "black", "margin-top": "100px"}}>Surveys</h1>
-                    <div className="list-group" style={{marginTop: "50px"}}>
-                        {this.displaySurveys(this.state.surveys)}
-                    </div>
+            <div className="container" style={{marginTop: "100px"}}>
+                <h1>Surveys</h1>
+                <br/>
+                <div className="list-group">
+                    {this.displaySurveys(this.state.surveys)}
                 </div>
+            </div>
         );
     }
 }
