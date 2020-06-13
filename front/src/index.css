@@ -95,3 +95,59 @@ body, html, .App, #root, .auth-wrapper {
 .forgot-password a {
     color: #167bff;
 }
+
+.answer-list {
+    height: 180px;
+    margin: auto;
+    overflow-y: scroll;
+}
+
+.answer {
+    text-align: left;
+    font-family: Roboto, sans-serif;
+    padding: 6px;
+    margin-bottom: 1px;
+    height: 45px;
+    background-color: #1ab394;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1C8EF9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    border-radius: 10px;
+}
+
+.answer-list-div {
+    width: 1000px;
+    height: 235px;
+    margin: auto auto 50px;
+    border: solid 2px;
+    border-radius: 10px;
+}
+
+.answer-list-title {
+    border-radius: 10px;
+    border-bottom: solid 2px;
+}
+
+.chart {
+    margin: 50px auto auto;
+}
+
+.chart-div {
+    width: 900px;
+    height: 500px;
+    margin: 20px auto auto;
+}
