@@ -8,7 +8,7 @@ import SignUp from "./components/SignUp";
 import HomePage from "./components/HomePage";
 import Surveys from "./components/Surveys";
 import AddSurvey from "./components/AddSurvey";
-import Survey from "./components/AddSurveyResponse";
+import Survey from "./components/AddResponse";
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";

@@ -25,6 +25,24 @@ body {
     overflow-x: hidden;
 }
 
+.btn-medium {
+    padding: .45rem .8rem !important;
+    font-size: 1.1rem !important;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.btn-survey{
+    background-color: #005cb8 !important;
+    border-color: #005cb8 !important;
+    color: #ffffff !important;
+}
+
+.btn-survey:hover{
+    background-color: #0054a5 !important;
+    border-color: #004c91;
+}
+
 h1, h3, h4, h5, h6, label, span {
     font-weight: 500;
     font-family: 'Fira Sans', sans-serif;
