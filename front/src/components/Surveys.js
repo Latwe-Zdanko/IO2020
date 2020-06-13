@@ -36,7 +36,7 @@ class Surveys extends Component {
 
     displaySurveys = (surveys) => {
 
-        if (!surveys.length) return <p>No surveys</p>;
+        if (!surveys.length) return;
         return (
             surveys.map((survey) => (
                 <div className="list-group-item">
@@ -50,7 +50,6 @@ class Surveys extends Component {
                     </div>
                 </div>
             )))
-
     };
 
     render() {
