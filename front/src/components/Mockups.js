@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Container} from 'reactstrap';
+
+import {Badge, ListGroupItem} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 
 class Mockups extends Component {
@@ -17,7 +18,7 @@ class Mockups extends Component {
 
     componentDidMount() {
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/mockups/all',headers)
+        axios.get(this.state.serverUrl + '/mockups/all', headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({mockups: data});
@@ -28,23 +29,29 @@ class Mockups extends Component {
     }
 
 
-
-
     render() {
 
         return (
-            <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <h1>Mockups</h1>
-                        <div className="list-group">
-                            {this.state.mockups.map((item) => {
-                                return <div><a href={"/mockup/view/" + item.id}>{item.name} </a>{item.archived && <text>archived</text>}</div>
-                            })}
-                        </div>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
+                        <a>Mockups</a>
+                    </span>
+                </nav>
+                <div className="list-wrapper">
+                    <h2>Mockups</h2>
+                    <div className="list-group">
+                        {this.state.mockups.map((item) => {
+                            return <ListGroupItem tag="button" action
+                                                  onClick={(e) => window.location.href = "/mockup/view/" + item.id}>
+                                <a className="list-link">{item.name}</a> &ensp;
+                                {item.archived &&
+                                <Badge pill className="badge-pill">archived</Badge>}
+                            </ListGroupItem>
+                        })}
                     </div>
                 </div>
-            </Container>
+            </div>
         );
     }
 }

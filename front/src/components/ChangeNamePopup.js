@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import AuthenticationService from "../service/AuthenticationService";
 import axios from "axios";
-import {Button, Form, FormGroup, Input} from "reactstrap";
+import {Form, FormGroup, Input} from "reactstrap";
 
 class ChangeNamePopup extends Component {
 
@@ -13,7 +13,7 @@ class ChangeNamePopup extends Component {
             projectId: this.props.id,
             projectName: "",
             showPopup: false
-        }
+        };
 
         this.handleChange = this.handleChange.bind(this);
 
@@ -55,6 +55,7 @@ class ChangeNamePopup extends Component {
                     <Form onSubmit={this.submitForm}>
                         <FormGroup>
                             <h2 for="projectName">Change Name</h2>
+                            <br/>
                             <Input name="projectName"
                                    type="text"
                                    value={this.state.projectName}
@@ -62,8 +63,9 @@ class ChangeNamePopup extends Component {
                                    placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <Button className="btn btn-primary">Confirm</Button>
-                        <button className="btn btn-primary" onClick={this.props.closePopup}>Close</button>
+                        <button className="btn btn-secondary" onClick={this.props.closePopup}>Cancel</button>
+                        {' '}
+                        <button className="btn btn-primary">Rename</button>
                     </Form>
                 </div>
             </div>

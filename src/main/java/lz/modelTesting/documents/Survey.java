@@ -16,13 +16,15 @@ public class Survey {
     @Id
     private String id;
     private String name;
+    private String type;
     private String body;
     private List<String> answers = new LinkedList<>();
     private String mockupId;
 
-    public Survey(String name, String body) {
+    public Survey(String name, String body, String type) {
         this.name = name;
         this.body = body;
+        this.type = type;
     }
 
     public void addAnswers(String answers) {

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
@@ -61,7 +61,7 @@ class AddMockup extends Component {
                                    placeholder="Enter link"
                             />
                         </FormGroup>
-                        <Button className="btn btn-primary btn-block">Add Mockup</Button>
+                        <button className="btn btn-block btn-primary">Add Mockup</button>
                     </Form>
                 </div>
             </div>

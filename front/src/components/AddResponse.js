@@ -14,6 +14,7 @@ class Surveys extends Component {
         this.state = {
             id: "",
             survey: {questions: {}},
+            surveyName: "",
             redirect: false,
             serverUrl: process.env.REACT_APP_SERVER_URL
         };
@@ -45,7 +46,7 @@ class Surveys extends Component {
                 data.map((survey) => {
                     if (survey.id === id) {
                         const tmp = JSON.parse(survey.body);
-                        this.setState({id: survey.id, survey: tmp})
+                        this.setState({id: survey.id, survey: tmp, surveyName: survey.name})
                     }
                 })
             })
@@ -78,12 +79,19 @@ class Surveys extends Component {
         survey.showCompletedPage = false;
 
         return (
-            <div className="wrapper">
-                <div>
-                    {this.renderRedirect()}
-                    <Survey.Survey
-                        model={survey}
-                    />
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
+                        {this.state.surveyName}
+                    </span>
+                </nav>
+                <div className="wrapper">
+                    <div>
+                        {this.renderRedirect()}
+                        <Survey.Survey
+                            model={survey}
+                        />
+                    </div>
                 </div>
             </div>
         );

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -32,6 +33,13 @@ public class SurveysController {
         return surveysRepository.findAll();
     }
 
+    @GetMapping(value = "/recent")
+    public List<Survey> getRecent(){
+        List<Survey> surveyList =  surveysRepository.findAll();
+        int numberOfSurveys = 5;
+        return surveyList.stream().limit(numberOfSurveys).collect(Collectors.toList());
+    }
+
     @GetMapping("/{id}")
     public Survey getSurvey(@PathVariable String id) {
         Optional<Survey> survey = surveysRepository.findById(id);
@@ -40,13 +48,13 @@ public class SurveysController {
 
     @PostMapping(value = "/addSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addSurvey(@RequestBody String postPayload) {
-        Survey survey = getSurveyFromJson(postPayload);
+        Survey survey = getSurveyFromJson(postPayload, "basic");
         surveysRepository.save(survey);
     }
 
     @PostMapping(value = "/addMockupSurvey", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addMockupSurvey(@RequestBody String postPayload) {
-        Survey survey = getSurveyFromJson(postPayload);
+        Survey survey = getSurveyFromJson(postPayload, "mockup");
         surveysRepository.save(survey);
         return ResponseEntity.ok().body(survey.getId());
     }
@@ -65,12 +73,12 @@ public class SurveysController {
         );
     }
 
-    private Survey getSurveyFromJson(String json) {
+    private Survey getSurveyFromJson(String json, String type) {
         JSONObject jsonObject = new JSONObject(json);
         String name = jsonObject.getString(NAME);
         String body = jsonObject.getJSONObject(BODY).toString();
-        Survey survey = new Survey(name, body);
-        if (jsonObject.has(MOCKUP_ID)){
+        Survey survey = new Survey(name, body, type);
+        if ("mockup".equals(type)){
             String mockupId = jsonObject.getString(MOCKUP_ID);
             survey.setMockupId(mockupId);
         }

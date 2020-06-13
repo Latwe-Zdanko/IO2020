@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import axios from 'axios';
@@ -47,7 +47,7 @@ class AddProject extends Component {
                                    placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <Button className="btn btn-primary btn-block">Add Project</Button>
+                        <button className="btn btn-block btn-primary">Add Project</button>
                     </Form>
                 </div>
             </div>

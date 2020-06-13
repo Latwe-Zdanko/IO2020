@@ -17,10 +17,11 @@ class AddMockupSurvey extends Component {
             serverUrl: process.env.REACT_APP_SERVER_URL,
             mockupId: this.props.match.params.id,
             mockup: "",
+            projectName: "",
             surveyName: "",
             questions: [],
             iframeWidth: '125%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2 - 140,
             scale: 'scale(0.80)',
             isFullscreen: false,
             isDropdownOpen: false,
@@ -45,8 +46,20 @@ class AddMockupSurvey extends Component {
                 this.setState({
                     mockup: response.data
                 });
+                this.setProjectName();
             }).catch(error => alert("Error occurred: " + error.message));
     };
+
+    setProjectName() {
+        let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
+        axios.get(this.state.serverUrl + '/projects/id/' + this.state.mockup.projectId, headers)
+            .then((response) => {
+                this.setState({projectName: response.data.name});
+            })
+            .catch(response => {
+                console.log("Error: " + response);
+            });
+    }
 
     setFullscreen = () => {
         this.setState({
@@ -60,7 +73,7 @@ class AddMockupSurvey extends Component {
     setDefaultSize() {
         this.setState({
             iframeWidth: '110%',
-            iframeHeight: window.innerHeight,
+            iframeHeight: window.innerHeight * 1.2 - 140,
             scale: 'scale(0.9)'
         })
     }
@@ -209,7 +222,7 @@ class AddMockupSurvey extends Component {
         return (<Col xs="12">
             <Button
                 onClick={(event) => this.deleteQuestion(event, index)}
-                className="btn btn-danger">Delete Question
+                className="btn btn-danger btn-margin-top">Delete Question
             </Button>
         </Col>)
     };
@@ -221,19 +234,18 @@ class AddMockupSurvey extends Component {
         const survey = new Survey.Model({questions: this.state.questions});
 
         return (
-            <div style={{background: "rgb(205,205,205)", overflowX: "hidden"}}>
-                <nav className="navbar navbar-expand-lg navbar-light "
-                     style={{position: "float-top", marginTop: "55px", marginBottom: "10px"}}>
-                    <span className="container float-left"
-                          style={{textAlign: "left", display: "inline", justifyContent: "start"}}>
+            <div className="bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
+                        <a href={"/project/view/id/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         <a href={"/mockup/view/" + this.state.mockup.id}>{this.state.mockup.name}</a> &ensp; / &ensp;
                         New Survey
                     </span>
-                    <span className="container float-right" style={{textAlign: "right", display: "inline"}}>
-                        <Button className="btn-secondary"
-                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</Button>{' '}
-                        <Button className="btn-secondary" onClick={this.setFullscreen}>Full Screen</Button>
+                    <span className="container float-right navbar-buttons">
+                        <button className="btn btn-primary"
+                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>{' '}
+                        <button className="btn btn-primary" onClick={this.setFullscreen}>Full Screen</button>
                     </span>
                 </nav>
                 <Row>
@@ -253,7 +265,7 @@ class AddMockupSurvey extends Component {
                             display: this.state.previewDisplay,
                             marginRight: "10px",
                             overflow: "auto",
-                            height: window.screen.availHeight * 0.7
+                            maxHeight: window.innerHeight - 140
                         }}>
                             <Survey.Survey
                                 model={survey}
@@ -263,7 +275,7 @@ class AddMockupSurvey extends Component {
                             display: this.state.formDisplay,
                             marginRight: "10px",
                             overflow: "auto",
-                            maxHeight: window.screen.availHeight * 0.7
+                            maxHeight: window.innerHeight - 140
                         }}>
                             <Form>
                                 <CardHeader>
@@ -313,6 +325,7 @@ class AddMockupSurvey extends Component {
                                                                     <Input name="statement"
                                                                            type="text"
                                                                            key={id}
+                                                                           className="margin-top-5"
                                                                            value={row.value}
                                                                            placeholder={"Statement " + (id + 1)}
                                                                            onChange={(e) => this.handleStatementChange(e, index, id)}
@@ -323,7 +336,7 @@ class AddMockupSurvey extends Component {
                                                             <Col xs="12">
                                                                 <Button
                                                                     onClick={(event) => this.addStatement(event, index)}
-                                                                    className="btn btn-primary">Add Statement
+                                                                    className="btn btn-primary btn-margin-top">Add Statement
                                                                 </Button>
                                                             </Col>
                                                             {this.deleteQuestionButton(index)}
@@ -357,6 +370,7 @@ class AddMockupSurvey extends Component {
                                                                 <Input name="minRateDesc"
                                                                        type="text"
                                                                        key={index}
+                                                                       className="margin-top-5"
                                                                        value={value.mininumRateDescription}
                                                                        placeholder="Minimum Rate Description"
                                                                        onChange={(e) => this.handleRateDescriptionChange(e, index, "mininumRateDescription")}
@@ -370,6 +384,7 @@ class AddMockupSurvey extends Component {
                                                                 <Input name="maxRateDesc"
                                                                        type="text"
                                                                        key={index}
+                                                                       className="margin-top-5"
                                                                        value={value.maximumRateDescription}
                                                                        placeholder="Maximum Rate Description"
                                                                        onChange={(e) => this.handleRateDescriptionChange(e, index, "maximumRateDescription")}
@@ -407,6 +422,7 @@ class AddMockupSurvey extends Component {
                                                                     <Input name="choice"
                                                                            type="text"
                                                                            key={id}
+                                                                           className="margin-top-5"
                                                                            value={choice}
                                                                            placeholder={"Option " + (id + 1)}
                                                                            onChange={(e) => this.handleChoiceChange(e, index, id)}
@@ -417,7 +433,7 @@ class AddMockupSurvey extends Component {
                                                         </Col>
                                                         <Col xs="12"><Button
                                                             onClick={(event) => this.addOption(event, index)}
-                                                            className="btn btn-primary">Add Option
+                                                            className="btn btn-primary btn-margin-top">Add Option
                                                         </Button></Col>
                                                     </Row>
                                                     {this.deleteQuestionButton(index)}
@@ -442,7 +458,7 @@ class AddMockupSurvey extends Component {
                                 </CardBody>
 
                                 <CardFooter>
-                                    <Button className="btn-success"
+                                    <Button className="btn btn-success"
                                             onClick={(e) => this.submitSurvey(e)}>Submit</Button>
                                 </CardFooter>
                             </Form>
