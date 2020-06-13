@@ -8,9 +8,9 @@ import SignUp from "./components/signup";
 import Home from "./components/home";
 import Data from "./components/Data";
 import ViewData from "./components/ViewData";
-import Surveys from "./components/surveys";
-import AddSurvey from "./components/addSurvey";
-import Survey from "./components/addResponse";
+import Surveys from "./components/Surveys";
+import AddSurvey from "./components/AddSurvey";
+import Survey from "./components/AddResponse";
 import AuthenticationService from "./service/AuthenticationService";
 import ViewMockup from "./components/ViewMockup";
 import AddMockup from "./components/AddMockup";
@@ -54,6 +54,9 @@ function App() {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/surveys"}>Surveys</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/mockup/"}>Mockups</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/chat"}>Chat</Link>

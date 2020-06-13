@@ -15,7 +15,8 @@ class AddSurvey extends Component {
             matrixInputs: {
                 "inputsNumber": 1, "inputs": {
                     1: React.createRef(), 2: React.createRef(),
-                    3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(),
+                    3: React.createRef(), 4: React.createRef(),
+                    5: React.createRef(), 6: React.createRef(),
                     7: React.createRef(), 8: React.createRef()
                 }
             },
