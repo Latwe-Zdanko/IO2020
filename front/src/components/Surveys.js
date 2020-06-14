@@ -5,14 +5,14 @@ import axios from 'axios';
 import AuthenticationService from "../service/AuthenticationService";
 import {Badge, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, ListGroup, ListGroupItem} from "reactstrap";
 
+const API_URL = process.env.REACT_APP_SERVER_URL;
+
 function fileDownloadFromData(filename, data) {
     let a = document.createElement('a');
     a.href = window.URL.createObjectURL(new Blob([data]));
     a.download = filename;
     a.click();
 }
-
-const API_URL = process.env.REACT_APP_SERVER_URL;
 
 class Surveys extends Component {
 
@@ -40,8 +40,11 @@ class Surveys extends Component {
 
     handleRedirect = (event, survey) => {
         event.stopPropagation();
+        console.log(event.target.id)
         if (event.target.id === "export") return;
-        if (survey.type === "mockup") {
+        if (event.target.id === "viewData") {
+            window.location.href = "/data/" + survey.id + "/view"
+        } else if (survey.type === "mockup") {
             window.location.href = "/mockupsurvey/" + survey.id
         } else {
             window.location.href = "/surveys/" + survey.id + "/addResponse"
@@ -61,14 +64,13 @@ class Surveys extends Component {
     };
 
     displaySurveys = (surveys) => {
-
-        if (!surveys.length) return <p>No surveys</p>;
-
+        if (!surveys.length) return;
         return (
             surveys.map((survey, index) => (
                 <ListGroupItem tag="button" action onClick={e => this.handleRedirect(e, survey)}>
                     <a className="list-link">{survey.name}</a>
 
+                    <button id="viewData" className="btn btn-primary float-right view-results-button" > View results</button>
                     <ButtonDropdown className="float-right"
                                     isOpen={this.state.isDropdownOpen[index]} toggle={e => this.toggle(index)}>
                         <DropdownToggle id="export" caret className="btn btn-light">Export Results</DropdownToggle>
@@ -90,9 +92,6 @@ class Surveys extends Component {
     };
 
     render() {
-
-        console.log(this.state.surveys);
-
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
