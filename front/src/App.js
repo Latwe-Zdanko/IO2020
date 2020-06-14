@@ -3,11 +3,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
-import Login from "./components/login";
-import SignUp from "./components/signup";
-import Home from "./components/home";
 import Data from "./components/Data";
 import ViewData from "./components/ViewData";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
+import HomePage from "./components/HomePage";
 import Surveys from "./components/Surveys";
 import AddSurvey from "./components/AddSurvey";
 import Survey from "./components/AddResponse";
@@ -27,18 +27,16 @@ function App() {
             <div className="App">
                 <nav className="navbar navbar-expand-lg navbar-light fixed-top">
                     <div className="container">
-                        <Link className="navbar-brand" to={"/sign-in"}>LZ - Model Testing</Link>
+                        <div className="logo"/>
+                        <Link className="navbar-brand" to={"/sign-in"}>Mockup Testing</Link>
                         <div className="collapse navbar-collapse">
                             <ul id="logged-out" hidden={AuthenticationService.isUserLoggedIn()}
                                 className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/project"}>Projects</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link id="sign-in" className="nav-link" to={"/sign-up"}>Sign up</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link id="login" className="nav-link" to={"/sign-in"}>Login</Link>
+                                    <Link id="login" className="nav-link" to={"/sign-in"}>Log in</Link>
                                 </li>
                             </ul>
                             <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
@@ -76,13 +74,13 @@ function App() {
                     </div>
                 </nav>
                 <Switch>
-                    <Route exact path='/' component={Home}/>
+                    <Route exact path='/' component={HomePage}/>
                     <Route exact path="/surveys" component={Surveys}/>
                     <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
                     <Route exact path="/surveys/:id/addResponse" component={Survey}/>
                     <Route exact path="/data/" component={Data}/>
                     <Route exact path="/data/:id/view" component={ViewData}/>
-                    <Route path="/sign-in" component={Login}/>
+                    <Route path="/sign-in" component={LogIn}/>
                     <Route path="/sign-up" component={SignUp}/>
                     <Route path="/project/add" component={AddProject}/>
                     <Route path="/project/view/:id" component={ViewProject}/>

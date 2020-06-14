@@ -155,7 +155,7 @@ class AddSurvey extends Component {
                     json={commentField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                <button type="button" className="btn btn-medium btn-survey" onClick={this.submitQuestion}>Add Field
                 </button>
             </div>
 
@@ -275,7 +275,7 @@ class AddSurvey extends Component {
                     json={matrixField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                <button type="button" className="btn btn-medium btn-survey" onClick={this.submitQuestion}>Add Field
                 </button>
             </div>
 
@@ -328,7 +328,7 @@ class AddSurvey extends Component {
                     json={radioGroupField}
                     showCompletedPage={false}
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                <button type="button" className="btn btn-medium btn-survey" onClick={this.submitQuestion}>Add Field
                 </button>
             </div>
 
@@ -388,7 +388,7 @@ class AddSurvey extends Component {
                     showCompletedPage={false}
                     theme="modern"
                 />
-                <button type="button" className="btn-primary btn-lg btn-dark" onClick={this.submitQuestion}>Add Field
+                <button type="button" className="btn btn-medium btn-survey" onClick={this.submitQuestion}>Add Field
                 </button>
             </div>
 
@@ -403,7 +403,9 @@ class AddSurvey extends Component {
         this.state.tmpQuestion.questions[0].enableIf = true;
         tmp.questions.push(this.state.tmpQuestion.questions[0]);
         this.setState({
-            current_survey: tmp
+            current_survey: tmp,
+            tmpQuestion: {"questions": []},
+            tmpSurvey: <p></p>
         });
 
 
@@ -426,34 +428,43 @@ class AddSurvey extends Component {
     render() {
 
         return (
-            <div className="wrapper2">
-                <div>
-                    <input placeholder="Survey Name" className="form-control"
-                           onChange={event => this.updateInputValue(event, "name", this.state.id)}/><br/>
-                </div>
-                <nav className="navbar navbar-dark bg-blue">
-                    <button type="button" className="btn btn-lg btn-secondary btn-dark"
-                            onClick={this.addMatrixQuestion}>Add
-                        matrix field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.addRatingField}>Add
-                        rating field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark"
-                            onClick={this.addQuestionField}>Add question field
-                    </button>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark"
-                            onClick={this.addRadiogroupField}>Add radiogroup field
-                    </button>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
+                        <a href="/surveys">Surveys</a> &ensp; / &ensp; New Survey
+                    </span>
                 </nav>
-                <div>
-                    {this.state.tmpSurvey}
+
+                <div className="wrapper2">
+                    <div>
+                        <input placeholder="Survey Name" className="form-control"
+                               onChange={event => this.updateInputValue(event, "name", this.state.id)}/><br/>
+                    </div>
+                    <nav className="navbar navbar-dark bg-blue">
+                        <button type="button" className="btn btn-medium btn-survey"
+                                onClick={this.addMatrixQuestion}>Add
+                            matrix field
+                        </button>
+                        <button type="button" className="btn btn-medium btn-survey"
+                                onClick={this.addRatingField}>Add
+                            rating field
+                        </button>
+                        <button type="button" className="btn btn-medium btn-survey"
+                                onClick={this.addQuestionField}>Add question field
+                        </button>
+                        <button type="button" className="btn btn-medium btn-survey"
+                                onClick={this.addRadiogroupField}>Add radiogroup field
+                        </button>
+                    </nav>
+                    <div>
+                        {this.state.tmpSurvey}
+                    </div>
+                    <div>
+                        <button type="button" className="btn btn-medium btn-success"
+                                onClick={this.submitSurvey}>Submit Survey
+                        </button>
+                    </div>
                 </div>
-                <div style={{float: "right"}}>
-                    <button type="button" className="btn btn-lg btn-primary btn-dark" onClick={this.submitSurvey}>Submit
-                    </button>
-                </div>
-                <br/>
             </div>
         );
     }

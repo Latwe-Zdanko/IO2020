@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "../App.css";
 import axios from 'axios';
-import {Button, Container} from 'reactstrap';
+import {Button, ListGroup, ListGroupItem} from 'reactstrap';
 import AuthenticationService from "../service/AuthenticationService";
 import ChangeNamePopup from "./ChangeNamePopup";
 
@@ -14,8 +14,8 @@ class ViewProject extends Component {
 
         this.state = {
             projectId: this.props.match.params.id,
-            mockups: [],
-            projectName: ""
+            projectName: "",
+            mockups: []
         };
 
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
@@ -40,6 +40,13 @@ class ViewProject extends Component {
             .catch(response => {
                 console.log("Error: " + response);
             });
+        axios.get(serverUrl + '/projects/id/' + this.state.projectId, headers)
+            .then((response) => {
+                this.setState({projectName: response.data.name});
+            })
+            .catch(response => {
+                console.log("Error: " + response);
+            });
     }
 
     togglePopup() {
@@ -48,6 +55,10 @@ class ViewProject extends Component {
         });
     }
 
+    handleRedirect(item, event) {
+        if (event.target.id === "archive") return;
+        window.location.href = "/mockup/view/" + item.id
+    }
 
     archive(e) {
         e.preventDefault();
@@ -59,40 +70,50 @@ class ViewProject extends Component {
 
 
     render() {
-
         return (
-            <Container style={{marginTop: '60px', overflowX: 'hidden'}}>
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <h2>{this.state.projectName}
-                            <button className="btn btn-primary" onClick={this.togglePopup.bind(this)}>change name
-                            </button>
-                        </h2>
-                        <br/>
-                        <div className="list-group">
-                            {this.state.mockups.map((item) => {
-                                return <div><a className="link" href={"/mockup/view/" + item.id}>{item.name}</a>
-                                    <Button className="btn-archive" onClick={this.archive}
-                                            value={item.id}>archive</Button></div>
-                            })}
-                        </div>
-                        {this.state.showPopup ?
-                            <ChangeNamePopup
-                                id={this.state.projectId}
-                                closePopup={this.togglePopup.bind(this)}
-                            />
-                            : null
-                        }
-                        <br/><br/>
-                        <Button className="btn btn-primary" href={"/mockup/add/" + this.state.projectId}>Add
-                            Mockup</Button>
-                    </div>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container float-left navbar-breadcrumbs">
+                        <a href="/project">Projects</a> &ensp; / &ensp;
+                        {this.state.projectName}
+                    </span>
+                    <span className="container float-right navbar-buttons">
+                        <button className="btn btn-primary"
+                                onClick={this.togglePopup.bind(this)}>Change project name</button>
+                        <button className="btn btn-primary"
+                                onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}>Add New Mockup</button>
+                    </span>
+                </nav>
+                <div className="list-wrapper">
+                    <h2>{this.state.projectName}</h2>
+                    <br/>
+                    {this.state.mockups.length === 0 ? "No mockups available" : ""}
+                    <ListGroup>
+                        {this.state.mockups.map((item) => {
+                            return <ListGroupItem action
+                                                  onClick={e => this.handleRedirect(item, e)}>
+                                <a className="list-link">{item.name}</a>
+                                <Button id="archive" className="btn btn-light float-right" onClick={this.archive}
+                                        value={item.id}>Archive</Button>
+                            </ListGroupItem>
+                        })}
+                        <ListGroupItem tag="button" action
+                                       onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}
+                                       style={{textAlign: "center", fontSize: "125%"}}>+</ListGroupItem>
+                    </ListGroup>
+
+                    {this.state.showPopup ?
+                        <ChangeNamePopup
+                            id={this.state.projectId}
+                            closePopup={this.togglePopup.bind(this)}
+                        />
+                        : null
+                    }
+
                 </div>
-            </Container>
+            </div>
         );
     }
 }
 
 export default ViewProject;
-
-
