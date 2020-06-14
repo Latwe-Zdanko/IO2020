@@ -42,15 +42,6 @@ function App() {
                             <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
                                 className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/surveys/addSurvey"}>Add survey</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={"/surveys"}>Surveys</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={"/data"}>Data from surveys</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link className="nav-link" to={"/project/add"}>Add project</Link>
                                 </li>
                                 <li className="nav-item">
@@ -58,6 +49,9 @@ function App() {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/surveys"}>Surveys</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/data"}>Data from surveys</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/mockup/"}>Mockups</Link>

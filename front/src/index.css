@@ -230,8 +230,9 @@ body, html, .App, #root, .auth-wrapper {
     text-align: left;
     font-family: Roboto, sans-serif;
     padding: 6px;
-    margin-bottom: 1px;
+    margin: 1px;
     height: 45px;
+    border-radius: 5px;
     background-color: #1ab394;
 }
 
@@ -274,4 +275,8 @@ body, html, .App, #root, .auth-wrapper {
     width: 900px;
     height: 500px;
     margin: 20px auto auto;
+}
+
+.answer-div {
+    background-color: white;
 }

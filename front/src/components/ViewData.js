@@ -5,19 +5,21 @@ import axios from 'axios';
 import AuthenticationService from "../service/AuthenticationService";
 import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis,} from 'recharts';
 
+const API_URL = process.env.REACT_APP_SERVER_URL;
+
 class ViewData extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            surveyName: "",
             survey: {},
             answers: [],
-            serverUrl: process.env.REACT_APP_SERVER_URL,
         };
 
         const headers = {headers: {authentication: AuthenticationService.getAuthToken()}};
 
-        axios.get(this.state.serverUrl + '/surveys/' + this.props.match.params.id, headers)
+        axios.get(API_URL + '/surveys/' + this.props.match.params.id, headers)
             .then((response) => {
                 const data = response.data;
 
@@ -27,7 +29,8 @@ class ViewData extends Component {
                 });
                 this.setState({
                     answers: answers,
-                    survey: JSON.parse(data.body)
+                    survey: JSON.parse(data.body),
+                    surveyName: data.name
                 });
                 this.getDataFromJson()
             })
@@ -99,11 +102,11 @@ class ViewData extends Component {
         let results = [];
         questions.map((question) => {
             const answer = {};
+            answer["title"] = question.title;
+            answer["name"] = question.name;
+            answer["type"] = question.type;
             switch (question.type) {
                 case "matrix":
-                    answer["title"] = question.title;
-                    answer["name"] = question.name;
-                    answer["type"] = question.type;
                     answer["questions"] = [];
                     let choices = [];
                     question.columns.map((col) => {
@@ -124,9 +127,6 @@ class ViewData extends Component {
                     answers.push(answer);
                     break;
                 case "rating":
-                    answer["title"] = question.title;
-                    answer["name"] = question.name;
-                    answer["type"] = question.type;
                     answer["min"] = question.mininumRateDescription;
                     answer["max"] = question.maximumRateDescription;
                     results = [];
@@ -140,9 +140,6 @@ class ViewData extends Component {
                     answers.push(answer);
                     break;
                 case "comment":
-                    answer["title"] = question.title;
-                    answer["name"] = question.name;
-                    answer["type"] = question.type;
                     results = [];
                     this.state.answers.map((ans) => {
                         if (ans[question.name] !== undefined) {
@@ -154,9 +151,6 @@ class ViewData extends Component {
 
                     break;
                 case "radiogroup":
-                    answer["title"] = question.title;
-                    answer["name"] = question.name;
-                    answer["type"] = question.type;
                     results = [];
                     this.state.answers.map((ans) => {
                         if (ans[question.name] !== undefined) {
@@ -176,7 +170,6 @@ class ViewData extends Component {
 
     displayAnswers = (answers) => {
         let output = [];
-        console.log(answers);
         answers.forEach((answer) => {
             switch (answer.type) {
                 case "radiogroup":
@@ -200,17 +193,21 @@ class ViewData extends Component {
     };
 
     render() {
-
         const displayAnswers = (this.state.questions !== undefined) ? (
             (
-                <div style={{"background-color": "white"}}>
+                <div className="answer-div">
                     {this.displayAnswers(this.state.answers)}
                 </div>
             )
         ) : null;
 
         return (
-            <div className="wrapper" style={{"background-color": "white"}}>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
+                    <span className="container navbar-breadcrumbs">
+                        {this.state.surveyName}
+                    </span>
+                </nav>
                 {displayAnswers}
             </div>
         );
