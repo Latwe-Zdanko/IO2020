@@ -81,6 +81,10 @@ body, html, .App, #root, .auth-wrapper {
     margin-right: 5px;
 }
 
+.view-results-button {
+    margin-left: 10px;
+}
+
 .list-wrapper {
     width: 50%;
     min-width: 350px;

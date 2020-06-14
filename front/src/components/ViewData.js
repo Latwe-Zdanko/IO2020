@@ -17,7 +17,7 @@ class ViewData extends Component {
             answers: [],
         };
 
-        const headers = {headers: {authentication: AuthenticationService.getAuthToken()}};
+        const headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
 
         axios.get(API_URL + '/surveys/' + this.props.match.params.id, headers)
             .then((response) => {
@@ -58,8 +58,7 @@ class ViewData extends Component {
                           margin={{
                               top: 5, right: 30, left: 20, bottom: 5,
                           }}
-                          barSize={40}
-                >
+                          barSize={40}>
                     <XAxis dataKey="name" scale="point" padding={{left: 20, right: 10}}/>
                     <YAxis/>
                     <Tooltip/>

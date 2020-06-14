@@ -3,7 +3,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 
-import Data from "./components/Data";
 import ViewData from "./components/ViewData";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
@@ -42,16 +41,10 @@ function App() {
                             <ul id="logged-in" hidden={!AuthenticationService.isUserLoggedIn()}
                                 className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to={"/project/add"}>Add project</Link>
-                                </li>
-                                <li className="nav-item">
                                     <Link className="nav-link" to={"/project/"}>Projects</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/surveys"}>Surveys</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to={"/data"}>Data from surveys</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to={"/mockup/"}>Mockups</Link>
@@ -72,7 +65,6 @@ function App() {
                     <Route exact path="/surveys" component={Surveys}/>
                     <Route exact path="/surveys/addSurvey" component={AddSurvey}/>
                     <Route exact path="/surveys/:id/addResponse" component={Survey}/>
-                    <Route exact path="/data/" component={Data}/>
                     <Route exact path="/data/:id/view" component={ViewData}/>
                     <Route path="/sign-in" component={LogIn}/>
                     <Route path="/sign-up" component={SignUp}/>
