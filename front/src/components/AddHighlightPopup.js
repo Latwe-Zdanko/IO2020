@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-
 import AuthenticationService from "../service/AuthenticationService";
 import axios from "axios";
 import {Layer, Stage, Rect} from "react-konva";
@@ -104,8 +103,8 @@ class AddHighlightPopup extends Component {
         return (
             <div className='highlight'>
                 <div className='highlight_inner'>
-                    <button className="btn btn-secondary" onClick={this.handleClose}>Save Highlight</button>
-                    <button className="btn btn-secondary" onClick={this.props.closePopup}>Cancel</button>
+                        <button className="btn btn-primary" onClick={this.handleClose}>Save</button>
+                        <button className="btn btn-secondary" onClick={this.props.closePopup}>Cancel</button>
                 </div>
 
                 <Stage width={window.innerWidth-480} height={window.innerHeight}  onClick={this.handleClick}
