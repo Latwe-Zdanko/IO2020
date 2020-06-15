@@ -1,9 +1,24 @@
 import React, {Component} from "react";
-import {Button, Container} from 'reactstrap';
+import {Container} from 'reactstrap';
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
+
+function startRecording(stream) {
+    let recorder = new MediaRecorder(stream)
+    let data = []
+
+    recorder.ondataavailable = event => data.push(event.data)
+    recorder.start()
+
+    let stopped = new Promise((resolve, reject) => {
+        recorder.onstop = resolve
+        recorder.onerror = event => reject(event.name)
+    })
+
+    return stopped.then(() => data)
+}
 
 class ViewMockup extends Component {
     constructor(props) {
@@ -49,12 +64,50 @@ class ViewMockup extends Component {
         window.location.href = "/mockupsurvey/add/" + this.state.mockup.id
     };
 
+    startScreenRecording() {
+        let displayMediaOptions = {
+            video: {
+                cursor: "always"
+            },
+            audio: false
+        }
+        let video = document.getElementById("video")
+        navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+            .then(stream => {
+                video.srcObject = stream
+                return new Promise(resolve => video.onplaying = resolve)
+            })
+            .then(() => {
+                let startRecordingButton = document.getElementById("startRecordingButton")
+                let stopRecordingButton = document.getElementById("stopRecordingButton")
+                startRecordingButton.hidden = true;
+                stopRecordingButton.hidden = false;
+                return startRecording(video.captureStream())
+            })
+            .then(recordedChunks => {
+                let a = document.createElement('a');
+                a.href = window.URL.createObjectURL(new Blob(recordedChunks, {type: "video/webm"}));
+                a.download = "Recording.webm";
+                a.click();
+            })
+    }
+
+    stopScreenRecording() {
+        let video = document.getElementById("video")
+        video.srcObject.getTracks().forEach(track => track.stop())
+        let startRecordingButton = document.getElementById("startRecordingButton")
+        let stopRecordingButton = document.getElementById("stopRecordingButton")
+        startRecordingButton.hidden = false;
+        stopRecordingButton.hidden = true;
+    }
+
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to={"/"}/>
         }
         return (
             <div className="bg-light">
+                <video id="video" hidden autoPlay/>
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
@@ -62,6 +115,10 @@ class ViewMockup extends Component {
                         {this.state.mockup.name}
                     </span>
                     <span className="container float-right navbar-buttons">
+                        <button className="btn btn-primary" id="startRecordingButton"
+                                onClick={this.startScreenRecording}>Start recording</button>
+                        <button className="btn btn-primary" hidden id="stopRecordingButton"
+                                onClick={this.stopScreenRecording}>Stop recording and download</button>
                         <button className="btn btn-primary"
                                 onClick={this.createSurvey}>Create Survey</button>
                     </span>
