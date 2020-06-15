@@ -16,17 +16,16 @@ public class Highlight {
     @NonNull
     private String mockupId;
     @NonNull
+    private String surveyId;
+    @NonNull
     private String questionNumber;
     @NonNull
     private String width;
     @NonNull
-    private String height ;
+    private String height;
     @NonNull
     private String posX;
     @NonNull
     private String posY;
-
-
-
 
 }

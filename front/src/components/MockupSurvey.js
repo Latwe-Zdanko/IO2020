@@ -116,7 +116,6 @@ class MockupSurvey extends Component {
     }
 
 
-
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to={"/"}/>
@@ -181,7 +180,7 @@ class MockupSurvey extends Component {
                 </Row>
                 {this.state.showPopup ?
                     <HighlightPopup
-                        mockupId = {this.state.mockupId}
+                        surveyId={this.state.id}
                         closePopup={this.togglePopup.bind(this)}
                     />
                     : null

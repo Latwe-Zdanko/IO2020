@@ -1,11 +1,7 @@
 import React, {Component} from "react";
-
 import AuthenticationService from "../service/AuthenticationService";
 import axios from "axios";
-import {Layer, Stage, Rect, Group, Text} from "react-konva";
-
-
-
+import {Group, Layer, Rect, Stage, Text} from "react-konva";
 
 class HighlightPopup extends Component {
 
@@ -14,18 +10,15 @@ class HighlightPopup extends Component {
         super(props);
         this.state = {
             serverUrl: process.env.REACT_APP_SERVER_URL,
-            mockupId: this.props.mockupId,
+            surveyId: this.props.surveyId,
             showPopup: false,
             highlights: []
         };
-
-
-
     }
 
     componentDidMount() {
         let headers = {headers: {authorization: AuthenticationService.getAuthToken()}};
-        axios.get(this.state.serverUrl + '/highlights/byMockupId/' + this.state.mockupId, headers)
+        axios.get(this.state.serverUrl + '/highlights/bySurveyId/' + this.state.surveyId, headers)
             .then((response) => {
                 const data = response.data;
                 this.setState({highlights: data});
@@ -36,47 +29,41 @@ class HighlightPopup extends Component {
     }
 
 
-    render(){
+    render() {
         return (
             <div className='highlight'>
-                <Stage width={window.innerWidth-480} height={window.innerHeight}  onClick={this.handleClick}
+                <Stage width={window.innerWidth - 480} height={window.innerHeight} onClick={this.handleClick}
                        onContentMousemove={this.handleMouseMove}>
                     <Layer>
                         {this.state.highlights.map(highlight => {
                             return (
-                            <Group>
-                                <Rect
-                                    x={highlight.posX}
-                                    y={highlight.posY}
-                                    width={highlight.width}
-                                    height={highlight.height}
-                                    fill={"rgba(0,0,0,0)"}
-                                    stroke={"lightblue"}
-                                    strokeWidth={4}
-                                />
-                                <Text
-                                    x={highlight.posX}
-                                    y={highlight.posY}
-                                    width={highlight.width}
-                                    height={highlight.height}
-                                    text = {highlight.questionNumber}
-                                    fontSize = {20}
-                                    fill = "blue"
-                                />
-                            </Group>
+                                <Group>
+                                    <Rect
+                                        x={highlight.posX}
+                                        y={highlight.posY}
+                                        width={highlight.width}
+                                        height={highlight.height}
+                                        fill={"rgba(0,0,0,0)"}
+                                        stroke={"lightblue"}
+                                        strokeWidth={4}
+                                    />
+                                    <Text
+                                        x={highlight.posX}
+                                        y={highlight.posY}
+                                        width={highlight.width}
+                                        height={highlight.height}
+                                        text={highlight.questionNumber}
+                                        fontSize={20}
+                                        fill="blue"
+                                    />
+                                </Group>
                             );
                         })}
                     </Layer>
                 </Stage>
-
             </div>
-
-
         );
-
-
     }
-
 }
 
 export default HighlightPopup;

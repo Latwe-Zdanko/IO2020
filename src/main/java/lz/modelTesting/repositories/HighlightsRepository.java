@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface HighlightsRepository extends MongoRepository<Highlight, String> {
 
-    List<Highlight> findByMockupId(String mockupId);
-
-    List<Highlight> findByMockupIdAndQuestionNumber(String mockupId, String questionNumber);
+    List<Highlight> findBySurveyId(String surveyId);
 
 }

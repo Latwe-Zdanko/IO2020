@@ -1,7 +1,5 @@
 package lz.modelTesting.controllers;
 
-
-
 import lz.modelTesting.documents.Highlight;
 import lz.modelTesting.repositories.HighlightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import java.util.List;
 public class HighlightsController {
 
     private final static String MOCKUP_ID = "mockupId";
+    private final static String SURVEY_ID = "surveyId";
     private final static String QUESTION_NUMBER = "questionNumber";
     private final static String WIDTH = "width";
     private final static String HEIGHT = "height";
@@ -24,11 +23,9 @@ public class HighlightsController {
     private final static String POS_Y = "posY";
     private transient HighlightsRepository highlightsRepository;
 
-
     @Autowired
     public HighlightsController(HighlightsRepository highlightsRepository) {
         this.highlightsRepository = highlightsRepository;
-
     }
 
     @PostMapping(value = "/add")
@@ -41,28 +38,21 @@ public class HighlightsController {
 
     private Highlight createHighlightFromRequest(HttpServletRequest request) {
         String mockupId = request.getParameter(MOCKUP_ID);
+        String surveyId = request.getParameter(SURVEY_ID);
         String questionNumber = request.getParameter(QUESTION_NUMBER);
         String width = request.getParameter(WIDTH);
         String height = request.getParameter(HEIGHT);
         String posX = request.getParameter(POS_X);
         String posY = request.getParameter(POS_Y);
 
-
-
-
-        Highlight highlight = new Highlight(mockupId,questionNumber,width,height,posX,posY);
+        Highlight highlight = new Highlight(mockupId, surveyId, questionNumber, width, height, posX, posY);
 
         return highlight;
     }
 
-    @GetMapping(value = "/byMockupId/{mockupId}")
-    public List<Highlight> getByMockupId(@PathVariable String mockupId) {
-        return highlightsRepository.findByMockupId(mockupId);
-    }
-
-    @GetMapping(value = "/byMockupId/{mockupId}/byQuestionNumber/{questionNumber}")
-    public List<Highlight> getByMockupId(@PathVariable String mockupId, @PathVariable String questionNumber) {
-        return highlightsRepository.findByMockupIdAndQuestionNumber(mockupId, questionNumber);
+    @GetMapping(value = "/bySurveyId/{surveyId}")
+    public List<Highlight> getBySurveyId(@PathVariable String surveyId) {
+        return highlightsRepository.findBySurveyId(surveyId);
     }
 
 
