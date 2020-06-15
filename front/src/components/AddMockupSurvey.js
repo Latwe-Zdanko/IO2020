@@ -9,6 +9,7 @@ import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as Survey from "survey-react";
+import Tooltip from "reactstrap/es/Tooltip";
 
 class AddMockupSurvey extends Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class AddMockupSurvey extends Component {
             isDropdownOpen: false,
             formDisplay: "block",
             previewDisplay: "none",
-            buttonName: "Show Preview"
+            buttonName: "Show Preview",
+            isTooltipOpen: false
         };
         this.iframe = React.createRef();
         this.setMockup();
@@ -36,6 +38,11 @@ class AddMockupSurvey extends Component {
     toggle = () => {
         const oldValue = this.state.isDropdownOpen;
         this.setState({isDropdownOpen: !oldValue})
+    };
+
+    toggleTooltip = () => {
+        const oldValue = this.state.isTooltipOpen;
+        this.setState({isTooltipOpen: !oldValue});
     };
 
     setMockup = () => {
@@ -244,8 +251,14 @@ class AddMockupSurvey extends Component {
                     </span>
                     <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"
-                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>{' '}
+                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>
                         <button className="btn btn-primary" onClick={this.setFullscreen}>Full Screen</button>
+                        <button id="tooltipButton" className="btn btn-secondary"
+                                onMouseOver={e => this.toggleTooltip()} onMouseOut={e => this.toggleTooltip()}>?</button>
+                        <Tooltip placement="bottom" isOpen={this.state.isTooltipOpen} target="tooltipButton">
+                            Add a highlight by drawing a rectangle.
+                            Highlights don't work with scrolling mockups.
+                        </Tooltip>
                     </span>
                 </nav>
                 <Row>
