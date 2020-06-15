@@ -13,6 +13,7 @@
     "bootstrap": "^4.4.1",
     "konva": "^6.0.0",
     "react": "^16.13.0",
+    "recharts": "^1.8.5",
     "react-dom": "^16.13.0",
     "react-full-screen": "^0.2.4",
     "react-konva": "^16.13.0-3",
