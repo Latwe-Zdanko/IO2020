@@ -81,7 +81,7 @@ class ViewProject extends Component {
                         <button className="btn btn-primary"
                                 onClick={this.togglePopup.bind(this)}>Change project name</button>
                         <button className="btn btn-primary"
-                                onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}>Add New Mockup</button>
+                                onClick={(e) => window.location.href = "/mockup/add/" + this.state.projectId}>Add new mockup</button>
                     </span>
                 </nav>
                 <div className="list-wrapper">

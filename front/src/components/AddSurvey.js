@@ -431,13 +431,13 @@ class AddSurvey extends Component {
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="container float-left navbar-breadcrumbs">
-                        <a href="/surveys">Surveys</a> &ensp; / &ensp; New Survey
+                        <a href="/surveys">Surveys</a> &ensp; / &ensp; New survey
                     </span>
                 </nav>
 
                 <div className="wrapper2">
                     <div>
-                        <input placeholder="Survey Name" className="form-control"
+                        <input placeholder="Survey name" className="form-control"
                                onChange={event => this.updateInputValue(event, "name", this.state.id)}/><br/>
                     </div>
                     <nav className="navbar navbar-dark bg-blue">
@@ -461,7 +461,7 @@ class AddSurvey extends Component {
                     </div>
                     <div>
                         <button type="button" className="btn btn-medium btn-success"
-                                onClick={this.submitSurvey}>Submit Survey
+                                onClick={this.submitSurvey}>Submit survey
                         </button>
                     </div>
                 </div>

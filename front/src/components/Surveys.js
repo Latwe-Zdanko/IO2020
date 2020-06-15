@@ -99,7 +99,7 @@ class Surveys extends Component {
                         Surveys
                     </span>
                     <span className="container float-right navbar-buttons">
-                        <button className="btn btn-primary" onClick={e => this.addSurvey(e)}> Add New Survey</button>
+                        <button className="btn btn-primary" onClick={e => this.addSurvey(e)}> Add new survey</button>
                     </span>
                 </nav>
                 <div className="auth-wrapper">

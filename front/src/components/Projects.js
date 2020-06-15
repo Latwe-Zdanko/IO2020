@@ -37,7 +37,7 @@ class Projects extends Component {
                         <a>Projects</a>
                     </span>
                     <span className="container float-right navbar-buttons">
-                        <button className="btn btn-primary" onClick={(e) => window.location.href = "/project/add"}>Add New Project</button>
+                        <button className="btn btn-primary" onClick={(e) => window.location.href = "/project/add"}>Add new project</button>
                     </span>
                 </nav>
                 <div className="list-wrapper">

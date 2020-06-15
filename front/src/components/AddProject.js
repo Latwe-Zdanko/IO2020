@@ -47,7 +47,7 @@ class AddProject extends Component {
                                    placeholder="Enter project name"
                             />
                         </FormGroup>
-                        <button className="btn btn-block btn-primary">Add Project</button>
+                        <button className="btn btn-block btn-primary">Add project</button>
                     </Form>
                 </div>
             </div>

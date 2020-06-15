@@ -288,7 +288,7 @@ class AddMockupSurvey extends Component {
                         <a href="/project">Projects</a> &ensp; / &ensp;
                         <a href={"/project/view/id/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         <a href={"/mockup/view/" + this.state.mockup.id}>{this.state.mockup.name}</a> &ensp; / &ensp;
-                        New Survey
+                        New survey
                     </span>
                     <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"

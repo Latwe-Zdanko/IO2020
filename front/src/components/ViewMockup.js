@@ -120,7 +120,7 @@ class ViewMockup extends Component {
                         <button className="btn btn-primary" hidden id="stopRecordingButton"
                                 onClick={this.stopScreenRecording}>Stop recording and download</button>
                         <button className="btn btn-primary"
-                                onClick={this.createSurvey}>Create Survey</button>
+                                onClick={this.createSurvey}>Create survey</button>
                     </span>
                 </nav>
                 <Container style={{overflowX: 'hidden'}}>
