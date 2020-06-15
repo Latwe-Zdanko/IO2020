@@ -208,7 +208,7 @@ body, html, .App, #root, .auth-wrapper {
     height: 0px;
     width: 0px;
     top: 23px;
-    right: -300px;
+    right: -270px;
     margin: auto;
     background: rgba(0,0,0,0);
     padding: 40px 55px 45px 55px;
@@ -216,19 +216,6 @@ body, html, .App, #root, .auth-wrapper {
     transition: all .3s;
 }
 
-/*.highlight_inner2{*/
-/*    text-align: center;*/
-/*    position: fixed;*/
-/*    height: 0px;*/
-/*    width: 0px;*/
-/*    top: -62px;*/
-/*    right: -610px;*/
-/*    margin: auto;*/
-/*    background: rgba(0,0,0,0);*/
-/*    padding: 40px 55px 45px 55px;*/
-/*    border-radius: 15px;*/
-/*    transition: all .3s;*/
-/*}*/
 
 .highlight_inner2{
     text-align: center;
@@ -236,7 +223,7 @@ body, html, .App, #root, .auth-wrapper {
     height: 0px;
     width: 0px;
     top: 23px;
-    right: -210px;
+    right: -192px;
     margin: auto;
     background: rgba(0,0,0,0);
     padding: 40px 55px 45px 55px;
@@ -337,4 +324,8 @@ body, html, .App, #root, .auth-wrapper {
 
 .answer-div {
     background-color: white;
+
+    margin-top: -30px;
+    padding-top: 40px;
 }
+
