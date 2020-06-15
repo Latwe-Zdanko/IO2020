@@ -164,7 +164,7 @@ class AddMockupSurvey extends Component {
 
     addHighlight(e,index) {
         this.setState({
-            questionNumber: index,
+            questionNumber: index+1,
             showPopup: !this.state.showPopup
         });
     }

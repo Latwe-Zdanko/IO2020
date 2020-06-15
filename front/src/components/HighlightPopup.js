@@ -2,7 +2,7 @@ import React, {Component} from "react";
 
 import AuthenticationService from "../service/AuthenticationService";
 import axios from "axios";
-import {Layer, Stage, Rect} from "react-konva";
+import {Layer, Stage, Rect, Group, Text} from "react-konva";
 
 
 
@@ -33,7 +33,6 @@ class HighlightPopup extends Component {
             .catch(response => {
                 console.log("Error: " + response);
             });
-
     }
 
 
@@ -45,6 +44,7 @@ class HighlightPopup extends Component {
                     <Layer>
                         {this.state.highlights.map(highlight => {
                             return (
+                            <Group>
                                 <Rect
                                     x={highlight.posX}
                                     y={highlight.posY}
@@ -54,6 +54,16 @@ class HighlightPopup extends Component {
                                     stroke={"lightblue"}
                                     strokeWidth={4}
                                 />
+                                <Text
+                                    x={highlight.posX}
+                                    y={highlight.posY}
+                                    width={highlight.width}
+                                    height={highlight.height}
+                                    text = {highlight.questionNumber}
+                                    fontSize = {20}
+                                    fill = "blue"
+                                />
+                            </Group>
                             );
                         })}
                     </Layer>
