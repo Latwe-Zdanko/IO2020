@@ -40,10 +40,6 @@ class HighlightPopup extends Component {
     render(){
         return (
             <div className='highlight'>
-                <div className='highlight_inner'>
-                    <button className="btn btn-secondary" onClick={this.props.closePopup}>Cancel</button>
-                </div>
-
                 <Stage width={window.innerWidth-480} height={window.innerHeight}  onClick={this.handleClick}
                        onContentMousemove={this.handleMouseMove}>
                     <Layer>

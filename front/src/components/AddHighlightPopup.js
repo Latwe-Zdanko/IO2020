@@ -104,7 +104,7 @@ class AddHighlightPopup extends Component {
         return (
             <div className='highlight'>
                 <div className='highlight_inner'>
-                    <button className="btn btn-secondary" onClick={this.handleClose}>Save</button>
+                    <button className="btn btn-secondary" onClick={this.handleClose}>Save Highlight</button>
                     <button className="btn btn-secondary" onClick={this.props.closePopup}>Cancel</button>
                 </div>
 

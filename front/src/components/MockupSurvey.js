@@ -173,7 +173,7 @@ class MockupSurvey extends Component {
                                 </div>
                                 <Button
                                     onClick={(event) => this.togglePopup()}
-                                    className="btn btn-primary btn-margin-top">Show Highlight
+                                    className="btn btn-primary btn-margin-top">Toggle Highlight
                                 </Button>
                             </CardBody>
                         </Card>
