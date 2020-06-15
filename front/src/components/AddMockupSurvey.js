@@ -9,6 +9,7 @@ import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as Survey from "survey-react";
+import AddHighlightPopup from "./AddHighlightPopup";
 
 class AddMockupSurvey extends Component {
     constructor(props) {
@@ -27,7 +28,9 @@ class AddMockupSurvey extends Component {
             isDropdownOpen: false,
             formDisplay: "block",
             previewDisplay: "none",
-            buttonName: "Show Preview"
+            buttonName: "Show Preview",
+            showPopup: false,
+            questionNumber: ""
         };
         this.iframe = React.createRef();
         this.setMockup();
@@ -159,6 +162,22 @@ class AddMockupSurvey extends Component {
         this.setState({questions: questions});
     };
 
+    addHighlight(e,index) {
+        this.setState({
+            questionNumber: index,
+            showPopup: !this.state.showPopup
+        });
+    }
+
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
+
+
+
     addOption = (e, index) => {
         const questions = this.state.questions;
         questions[index].choices.push("");
@@ -234,7 +253,10 @@ class AddMockupSurvey extends Component {
         const survey = new Survey.Model({questions: this.state.questions});
 
         return (
+
+
             <div className="bg-light">
+
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
@@ -306,6 +328,13 @@ class AddMockupSurvey extends Component {
                                                                 >
                                                                 </Input>
                                                             </Col>
+                                                            <Col>
+                                                                Highlight doesn't work with scrolling mockups
+                                                                <Button
+                                                                    onClick={(event) => this.addHighlight(event, index)}
+                                                                    className="btn btn-primary btn-margin-top">Add Highlight
+                                                                </Button>
+                                                            </Col>
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
                                                         <hr></hr>
@@ -337,6 +366,13 @@ class AddMockupSurvey extends Component {
                                                                 <Button
                                                                     onClick={(event) => this.addStatement(event, index)}
                                                                     className="btn btn-primary btn-margin-top">Add Statement
+                                                                </Button>
+                                                            </Col>
+                                                            <Col>
+                                                                Highlight doesn't work with scrolling mockups
+                                                                <Button
+                                                                    onClick={(event) => this.addHighlight(event, index)}
+                                                                    className="btn btn-primary btn-margin-top">Add Highlight
                                                                 </Button>
                                                             </Col>
                                                             {this.deleteQuestionButton(index)}
@@ -391,6 +427,13 @@ class AddMockupSurvey extends Component {
                                                                 >
                                                                 </Input>
                                                             </Col>
+                                                            <Col>
+                                                                Highlight doesn't work with scrolling mockups
+                                                                <Button
+                                                                    onClick={(event) => this.addHighlight(event, index)}
+                                                                    className="btn btn-primary btn-margin-top">Add Highlight
+                                                                </Button>
+                                                            </Col>
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
                                                         <hr/>
@@ -435,6 +478,13 @@ class AddMockupSurvey extends Component {
                                                             onClick={(event) => this.addOption(event, index)}
                                                             className="btn btn-primary btn-margin-top">Add Option
                                                         </Button></Col>
+                                                        <Col>
+                                                            Highlight doesn't work with scrolling mockups
+                                                            <Button
+                                                                onClick={(event) => this.addHighlight(event, index)}
+                                                                className="btn btn-primary btn-margin-top">Add Highlight
+                                                            </Button>
+                                                        </Col>
                                                     </Row>
                                                     {this.deleteQuestionButton(index)}
                                                     <hr/>
@@ -465,7 +515,16 @@ class AddMockupSurvey extends Component {
                         </Card>
                     </Col>
                 </Row>
+                {this.state.showPopup ?
+                    <AddHighlightPopup
+                        index = {this.state.questionNumber}
+                        mockupId = {this.state.mockupId}
+                        closePopup={this.togglePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
+
         );
     }
 }

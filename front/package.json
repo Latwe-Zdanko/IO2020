@@ -9,16 +9,18 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
+    "konva": "^6.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-full-screen": "^0.2.4",
+    "react-konva": "^16.13.0-3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "reactstrap": "^8.4.1",
-    "survey-react": "^1.7.3",
     "socket.io": "^2.3.0",
-    "bcryptjs": "^2.4.3"
+    "survey-react": "^1.7.3"
   },
   "scripts": {
     "start": "react-scripts start",

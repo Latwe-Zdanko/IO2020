@@ -182,6 +182,33 @@ body, html, .App, #root, .auth-wrapper {
     background-color: rgba(0,0,0,0.5);
 }
 
+.highlight{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 600px;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0,0);
+}
+
+.highlight_inner{
+    text-align: center;
+    position: fixed;
+    height: 0px;
+    width: 0px;
+    top: 600px;
+    right: 400px;
+    margin: auto;
+    background: rgba(0,0,0,0);
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+}
+
+
+
 .popup_inner{
     text-align: center;
     position: relative;

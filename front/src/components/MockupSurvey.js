@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Card, CardBody, Col, Row} from 'reactstrap';
+import {Button, Card, CardBody, Col, Row} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as Survey from "survey-react";
+import HighlightPopup from "./HighlightPopup";
 
 class MockupSurvey extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class MockupSurvey extends Component {
             answers: [],
             id: "",
             survey: {questions: {}},
-            redirect: false
+            redirect: false,
+            showPopup: false
         };
         this.iframe = React.createRef();
 
@@ -107,6 +109,13 @@ class MockupSurvey extends Component {
         if (!isFullscreen) this.setDefaultSize()
     };
 
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
+
 
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
@@ -162,10 +171,21 @@ class MockupSurvey extends Component {
                                         model={survey}
                                     />
                                 </div>
+                                <Button
+                                    onClick={(event) => this.togglePopup()}
+                                    className="btn btn-primary btn-margin-top">Show Highlight
+                                </Button>
                             </CardBody>
                         </Card>
                     </Col>
                 </Row>
+                {this.state.showPopup ?
+                    <HighlightPopup
+                        mockupId = {this.state.mockupId}
+                        closePopup={this.togglePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }
