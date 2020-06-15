@@ -9,6 +9,8 @@ import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as Survey from "survey-react";
+import AddHighlightPopup from "./AddHighlightPopup";
+import Tooltip from "reactstrap/es/Tooltip";
 
 class AddMockupSurvey extends Component {
     constructor(props) {
@@ -27,7 +29,11 @@ class AddMockupSurvey extends Component {
             isDropdownOpen: false,
             formDisplay: "block",
             previewDisplay: "none",
-            buttonName: "Show Preview"
+            buttonName: "Show Preview",
+            showPopup: false,
+            questionNumber: "",
+            highlightList: [],
+            isTooltipOpen: false
         };
         this.iframe = React.createRef();
         this.setMockup();
@@ -36,6 +42,11 @@ class AddMockupSurvey extends Component {
     toggle = () => {
         const oldValue = this.state.isDropdownOpen;
         this.setState({isDropdownOpen: !oldValue})
+    };
+
+    toggleTooltip = () => {
+        const oldValue = this.state.isTooltipOpen;
+        this.setState({isTooltipOpen: !oldValue});
     };
 
     setMockup = () => {
@@ -120,13 +131,20 @@ class AddMockupSurvey extends Component {
             mockupId: this.state.mockupId,
             body: {questions: this.state.questions}
         }, {headers: {authorization: AuthenticationService.getAuthToken()}})
-            .then(response => this.handleRedirect(response.data))
+            .then(response => {
+                const url = this.state.serverUrl + "/highlights/add";
+                this.state.highlightList.map(parameters => {
+                        parameters["surveyId"] = response.data;
+                        axios.post(url, null, {
+                            params: parameters,
+                            headers: {authorization: AuthenticationService.getAuthToken()}
+                        })
+                            .catch(r => alert(r));
+                    }
+                );
+                alert("Survey has been added successfully");
+            })
             .catch(error => alert("Error occurred: " + error.message + "\nSurvey could not be subbmited"));
-    };
-
-    handleRedirect = (id) => {
-        alert("Survey has been added successfully");
-        window.location.href = '/mockupsurvey/' + id;
     };
 
     addMatrixQuestion = (e) => {
@@ -158,6 +176,20 @@ class AddMockupSurvey extends Component {
         questions[index].rows.push({text: "", value: ""});
         this.setState({questions: questions});
     };
+
+    addHighlight(e, index) {
+        this.setState({
+            questionNumber: index + 1,
+            showPopup: !this.state.showPopup
+        });
+    }
+
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
 
     addOption = (e, index) => {
         const questions = this.state.questions;
@@ -227,6 +259,19 @@ class AddMockupSurvey extends Component {
         </Col>)
     };
 
+    getHighlightButtonComponent(index) {
+        return (
+            <Col>
+                Highlight doesn't work with scrolling mockups
+                <Button
+                    onClick={(event) => this.addHighlight(event, index)}
+                    className="btn btn-primary btn-margin-top">Add Highlight
+                </Button>
+            </Col>
+        )
+    }
+
+
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
             return <Redirect to={"/"}/>
@@ -234,7 +279,10 @@ class AddMockupSurvey extends Component {
         const survey = new Survey.Model({questions: this.state.questions});
 
         return (
+
+
             <div className="bg-light">
+
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="container float-left navbar-breadcrumbs">
                         <a href="/project">Projects</a> &ensp; / &ensp;
@@ -244,8 +292,14 @@ class AddMockupSurvey extends Component {
                     </span>
                     <span className="container float-right navbar-buttons">
                         <button className="btn btn-primary"
-                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>{' '}
+                                onClick={this.changePreviewVisibility}>{this.state.buttonName}</button>
                         <button className="btn btn-primary" onClick={this.setFullscreen}>Full Screen</button>
+                        <button id="tooltipButton" className="btn btn-secondary"
+                                onMouseOver={e => this.toggleTooltip()} onMouseOut={e => this.toggleTooltip()}>?</button>
+                        <Tooltip placement="bottom" isOpen={this.state.isTooltipOpen} target="tooltipButton">
+                            Add a highlight by drawing a rectangle.
+                            Highlights don't work with scrolling mockups.
+                        </Tooltip>
                     </span>
                 </nav>
                 <Row>
@@ -306,6 +360,7 @@ class AddMockupSurvey extends Component {
                                                                 >
                                                                 </Input>
                                                             </Col>
+                                                            {this.getHighlightButtonComponent(index)}
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
                                                         <hr></hr>
@@ -336,9 +391,11 @@ class AddMockupSurvey extends Component {
                                                             <Col xs="12">
                                                                 <Button
                                                                     onClick={(event) => this.addStatement(event, index)}
-                                                                    className="btn btn-primary btn-margin-top">Add Statement
+                                                                    className="btn btn-primary btn-margin-top">Add
+                                                                    Statement
                                                                 </Button>
                                                             </Col>
+                                                            {this.getHighlightButtonComponent(index)}
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
                                                         <hr></hr>
@@ -391,6 +448,7 @@ class AddMockupSurvey extends Component {
                                                                 >
                                                                 </Input>
                                                             </Col>
+                                                            {this.getHighlightButtonComponent(index)}
                                                             {this.deleteQuestionButton(index)}
                                                         </Row>
                                                         <hr/>
@@ -435,6 +493,7 @@ class AddMockupSurvey extends Component {
                                                             onClick={(event) => this.addOption(event, index)}
                                                             className="btn btn-primary btn-margin-top">Add Option
                                                         </Button></Col>
+                                                        {this.getHighlightButtonComponent(index)}
                                                     </Row>
                                                     {this.deleteQuestionButton(index)}
                                                     <hr/>
@@ -465,7 +524,17 @@ class AddMockupSurvey extends Component {
                         </Card>
                     </Col>
                 </Row>
+                {this.state.showPopup ?
+                    <AddHighlightPopup
+                        index={this.state.questionNumber}
+                        mockupId={this.state.mockupId}
+                        highlightList={this.state.highlightList}
+                        closePopup={this.togglePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
+
         );
     }
 }

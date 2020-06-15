@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Card, CardBody, Col, Row} from 'reactstrap';
+import {Button, Card, CardBody, Col, Row} from 'reactstrap';
 import Fullscreen from "react-full-screen";
 import "../App.css";
 import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as Survey from "survey-react";
+import HighlightPopup from "./HighlightPopup";
 
 class MockupSurvey extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class MockupSurvey extends Component {
             answers: [],
             id: "",
             survey: {questions: {}},
-            redirect: false
+            redirect: false,
+            showPopup: false
         };
         this.iframe = React.createRef();
 
@@ -107,6 +109,12 @@ class MockupSurvey extends Component {
         if (!isFullscreen) this.setDefaultSize()
     };
 
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
 
     render() {
         if (!AuthenticationService.isUserLoggedIn()) {
@@ -136,6 +144,10 @@ class MockupSurvey extends Component {
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="float-left container">{this.state.surveyName}</span>
                     <span className="navbar-buttons">
+                        <Button
+                            onClick={() => this.togglePopup()}
+                            className="btn btn-primary">Toggle Highlight
+                        </Button>
                         <button className="btn btn-primary"
                                 onClick={this.setFullscreen}>FullScreen
                         </button>
@@ -166,6 +178,13 @@ class MockupSurvey extends Component {
                         </Card>
                     </Col>
                 </Row>
+                {this.state.showPopup ?
+                    <HighlightPopup
+                        surveyId={this.state.id}
+                        closePopup={this.togglePopup.bind(this)}
+                    />
+                    : null
+                }
             </div>
         );
     }

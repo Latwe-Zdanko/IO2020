@@ -17,6 +17,7 @@ class Surveys extends Component {
             surveyName: "",
             redirect: false,
             serverUrl: process.env.REACT_APP_SERVER_URL
+
         };
     }
 
