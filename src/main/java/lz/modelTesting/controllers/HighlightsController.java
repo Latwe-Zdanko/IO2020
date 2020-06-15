@@ -23,12 +23,12 @@ public class HighlightsController {
     private final static String POS_X = "posX";
     private final static String POS_Y = "posY";
     private transient HighlightsRepository highlightsRepository;
-    private transient ObjectMapper objectMapper;
+
 
     @Autowired
-    public HighlightsController(HighlightsRepository highlightsRepository, ObjectMapper objectMapper) {
+    public HighlightsController(HighlightsRepository highlightsRepository) {
         this.highlightsRepository = highlightsRepository;
-        this.objectMapper = objectMapper;
+
     }
 
     @PostMapping(value = "/add")
