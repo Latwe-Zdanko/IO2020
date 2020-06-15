@@ -5,6 +5,21 @@ import AuthenticationService from "../service/AuthenticationService";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 
+function startRecording(stream) {
+    let recorder = new MediaRecorder(stream)
+    let data = []
+
+    recorder.ondataavailable = event => data.push(event.data)
+    recorder.start()
+
+    let stopped = new Promise((resolve, reject) => {
+        recorder.onstop = resolve
+        recorder.onerror = event => reject(event.name)
+    })
+
+    return stopped.then(() => data)
+}
+
 class ViewMockup extends Component {
     constructor(props) {
         super(props);
@@ -50,21 +65,6 @@ class ViewMockup extends Component {
     };
 
     startButton() {
-        function startRecording(stream) {
-            let recorder = new MediaRecorder(stream)
-            let data = []
-
-            recorder.ondataavailable = event => data.push(event.data)
-            recorder.start()
-
-            let stopped = new Promise((resolve, reject) => {
-                recorder.onstop = resolve
-                recorder.onerror = event => reject(event.name)
-            })
-
-            return stopped.then(() => data)
-        }
-
         let displayMediaOptions = {
             video: {
                 cursor: "always"
@@ -77,7 +77,13 @@ class ViewMockup extends Component {
                 video.srcObject = stream
                 return new Promise(resolve => video.onplaying = resolve)
             })
-            .then(() => startRecording(video.captureStream()))
+            .then(() => {
+                let startButton = document.getElementById("startButton")
+                let stopButton = document.getElementById("stopButton")
+                startButton.hidden = true;
+                stopButton.hidden = false;
+                return startRecording(video.captureStream())
+            })
             .then(recordedChunks => {
                 let a = document.createElement('a');
                 a.href = window.URL.createObjectURL(new Blob(recordedChunks, {type: "video/webm"}));
@@ -89,6 +95,10 @@ class ViewMockup extends Component {
     stopButton() {
         let video = document.getElementById("video")
         video.srcObject.getTracks().forEach(track => track.stop())
+        let startButton = document.getElementById("startButton")
+        let stopButton = document.getElementById("stopButton")
+        startButton.hidden = false;
+        stopButton.hidden = true;
     }
 
     render() {
@@ -100,14 +110,14 @@ class ViewMockup extends Component {
                 <video id="video" hidden autoPlay/>
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="container float-left navbar-breadcrumbs">
-                        <a href={"/project"}>Projects</a> &ensp; / &ensp;
+                        <a href="/project">Projects</a> &ensp; / &ensp;
                         <a href={"/project/view/" + this.state.mockup.projectId}>{this.state.projectName}</a> &ensp; / &ensp;
                         {this.state.mockup.name}
                     </span>
                     <span className="container float-right navbar-buttons">
-                        <button className="btn btn-primary"
+                        <button className="btn btn-primary" id="startButton"
                                 onClick={this.startButton}>Start recording</button>
-                        <button className="btn btn-primary"
+                        <button className="btn btn-primary" hidden id="stopButton"
                                 onClick={this.stopButton}>Stop recording and download</button>
                         <button className="btn btn-primary"
                                 onClick={this.createSurvey}>Create Survey</button>
