@@ -64,7 +64,7 @@ class ViewMockup extends Component {
         window.location.href = "/mockupsurvey/add/" + this.state.mockup.id
     };
 
-    startButton() {
+    startScreenRecording() {
         let displayMediaOptions = {
             video: {
                 cursor: "always"
@@ -78,10 +78,10 @@ class ViewMockup extends Component {
                 return new Promise(resolve => video.onplaying = resolve)
             })
             .then(() => {
-                let startButton = document.getElementById("startButton")
-                let stopButton = document.getElementById("stopButton")
-                startButton.hidden = true;
-                stopButton.hidden = false;
+                let startRecordingButton = document.getElementById("startRecordingButton")
+                let stopRecordingButton = document.getElementById("stopRecordingButton")
+                startRecordingButton.hidden = true;
+                stopRecordingButton.hidden = false;
                 return startRecording(video.captureStream())
             })
             .then(recordedChunks => {
@@ -92,13 +92,13 @@ class ViewMockup extends Component {
             })
     }
 
-    stopButton() {
+    stopScreenRecording() {
         let video = document.getElementById("video")
         video.srcObject.getTracks().forEach(track => track.stop())
-        let startButton = document.getElementById("startButton")
-        let stopButton = document.getElementById("stopButton")
-        startButton.hidden = false;
-        stopButton.hidden = true;
+        let startRecordingButton = document.getElementById("startRecordingButton")
+        let stopRecordingButton = document.getElementById("stopRecordingButton")
+        startRecordingButton.hidden = false;
+        stopRecordingButton.hidden = true;
     }
 
     render() {
@@ -115,10 +115,10 @@ class ViewMockup extends Component {
                         {this.state.mockup.name}
                     </span>
                     <span className="container float-right navbar-buttons">
-                        <button className="btn btn-primary" id="startButton"
-                                onClick={this.startButton}>Start recording</button>
-                        <button className="btn btn-primary" hidden id="stopButton"
-                                onClick={this.stopButton}>Stop recording and download</button>
+                        <button className="btn btn-primary" id="startRecordingButton"
+                                onClick={this.startScreenRecording}>Start recording</button>
+                        <button className="btn btn-primary" hidden id="stopRecordingButton"
+                                onClick={this.stopScreenRecording}>Stop recording and download</button>
                         <button className="btn btn-primary"
                                 onClick={this.createSurvey}>Create Survey</button>
                     </span>
