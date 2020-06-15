@@ -44,7 +44,7 @@ class HighlightPopup extends Component {
                                         width={highlight.width}
                                         height={highlight.height}
                                         fill={"rgba(0,0,0,0)"}
-                                        stroke={"lightblue"}
+                                        stroke={"rgba(116,207,230,0.7)"}
                                         strokeWidth={4}
                                     />
                                     <Text
@@ -54,7 +54,7 @@ class HighlightPopup extends Component {
                                         height={highlight.height}
                                         text={highlight.questionNumber}
                                         fontSize={20}
-                                        fill="blue"
+                                        fill={"rgb(131,201,85)"}
                                     />
                                 </Group>
                             );

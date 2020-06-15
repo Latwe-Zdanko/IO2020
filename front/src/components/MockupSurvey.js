@@ -143,11 +143,11 @@ class MockupSurvey extends Component {
             <div className="bg-light">
                 <nav className="navbar navbar-expand-lg navbar-light navbar-secondary">
                     <span className="float-left container">{this.state.surveyName}</span>
-                    <span className="navbar-buttons">
-                        <Button
+                    <span className="container float-right navbar-buttons ">
+                        <button
                             onClick={() => this.togglePopup()}
                             className="btn btn-primary">Toggle Highlight
-                        </Button>
+                        </button> {" "}
                         <button className="btn btn-primary"
                                 onClick={this.setFullscreen}>FullScreen
                         </button>
