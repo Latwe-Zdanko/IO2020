@@ -86,7 +86,7 @@ class AddHighlightPopup extends Component {
                             width={this.state.width}
                             height={this.state.height}
                             fill={"rgba(0,0,0,0)"}
-                            stroke={"lightblue"}
+                            stroke={"rgba(116,207,230,0.7)"}
                             strokeWidth={4}
                         />
                     </Layer>

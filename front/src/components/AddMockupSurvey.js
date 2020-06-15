@@ -140,9 +140,10 @@ class AddMockupSurvey extends Component {
                             headers: {authorization: AuthenticationService.getAuthToken()}
                         })
                             .catch(r => alert(r));
+                        alert("Survey has been added successfully");
+                        window.location.href = "/mockupsurvey/" + response.data;
                     }
                 );
-                alert("Survey has been added successfully");
             })
             .catch(error => alert("Error occurred: " + error.message + "\nSurvey could not be subbmited"));
     };
@@ -262,10 +263,9 @@ class AddMockupSurvey extends Component {
     getHighlightButtonComponent(index) {
         return (
             <Col>
-                Highlight doesn't work with scrolling mockups
                 <Button
                     onClick={(event) => this.addHighlight(event, index)}
-                    className="btn btn-primary btn-margin-top">Add Highlight
+                    className="btn btn-survey btn-margin-top">Add Highlight
                 </Button>
             </Col>
         )
@@ -297,7 +297,7 @@ class AddMockupSurvey extends Component {
                         <button id="tooltipButton" className="btn btn-secondary"
                                 onMouseOver={e => this.toggleTooltip()} onMouseOut={e => this.toggleTooltip()}>?</button>
                         <Tooltip placement="bottom" isOpen={this.state.isTooltipOpen} target="tooltipButton">
-                            Add a highlight by drawing a rectangle.
+                            Add a highlight by marking two vertices of a rectangle and click 'Save'.
                             Highlights don't work with scrolling mockups.
                         </Tooltip>
                     </span>
