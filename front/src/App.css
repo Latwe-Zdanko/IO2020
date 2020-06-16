@@ -2,3 +2,13 @@
 {
   text-align: center;
 }
+
+.btn-archive {
+  margin: 10px;
+  width: 80px;
+  position: absolute;
+  left: 55%;
+  height: 25px;
+  padding-top: 0px;
+}
+
