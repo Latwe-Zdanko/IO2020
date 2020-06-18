@@ -2,33 +2,20 @@
 # IO2020
 Demo: https://lz-model-testing.herokuapp.com/
 ## Wymagania:
-* [MongoDb](https://docs.mongodb.com/manual/installation/)
-* Java 13
-* Node.js
-* (Opcjonalnie) wtyczka `Lombok` do IntelliJ [link](https://plugins.jetbrains.com/plugin/6317-lombok) 
+* MongoDb instalacja [standardowa](https://docs.mongodb.com/manual/installation/) lub z wykorzystaniem dockera: `sudo docker run -d -p 27017:27017  mongo`
+* Java 13 [Windows](https://java.tutorials24x7.com/blog/how-to-install-java-13-on-windows) [Linux](https://www.linuxuprising.com/2019/09/install-oracle-java-13-on-ubuntu-linux.html)
+* [Node.js](https://nodejs.org/en/download/)
 
-## Uruchomienie servera: 
-* Z konsoli:
-    * `./gradlew bootRun`
-* Z Intellij:
-    * zakładka gradle po prawej stronie -> `Tasks -> application -> bootRun` 
-
-Server jest dostępny pod adresem: `localhost:8080` (przykładowe zapytanie: `http://localhost:8080/users/all/`).
-
-## Uruchomienie checkstyle:
-* W katalogu projektu: `./gradlew check`
-
-## Uruchomienie Reacta: 
-### Instalacja:
-* `cd front`
-* `npm install`
-### Uruchomienie:
-* `npm start`
-### Serwer (potrzebuje go tylko chat):
-* `cd front/src/server`
-* `node Server.js`
-
-Frontend jest dostępny pod adresem: `localhost:3000`
+## Uruchomienie lokalne aplikacji: 
+* Pobranie aplikacji: `git clone https://github.com/Latwe-Zdanko/IO2020`
+* wejście do folderu: `cd IO2020`
+### Server
+* serwer mongodb powinien być uruchomiony
+* włączenie serwera aplikacji: `./gradlew bootRun`
+### Frontend
+* wejście do folderu: `cd front`
+* instalacja zależności: `npm install`
+* włączenie aplikacji: `npm start`, aplikacja powinna się otworzyć w przeglądarce pod pod adresem `localhost:3000`
 
 ## Przeglądanie bazy danych
 Dobrym narzędziem jest Robo 3T: [link](https://robomongo.org/download)
